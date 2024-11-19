@@ -1,5 +1,3 @@
-<!-- templates/base.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,92 +18,114 @@
     <link rel="stylesheet" href="{{ url_for('static', path='css/website_navigation.css') }}">
 </head>
 <body>
-    <div class="container">
-        <!-- Main Title -->
-        <h1>🤖 Cool AI Tools - Simple AI for Everyone 🚀</h1>
-        <div class="description">Explore Simple, Ad-Free AI Tools to Make Your Life Easier.</div>
+    <div class="wrapper">
+        <div class="container">
+            <!-- Main Title -->
+            <h1>🤖 Cool AI Tools - Simple AI for Everyone 🚀</h1>
+            <div class="description">Explore Simple, Ad-Free AI Tools to Make Your Life Easier.</div>
 
-        <!-- Tabs for Different Functionalities -->
-        <div class="tabs">
-            <div class="tab active" id="fact_check_tab">🧐 Fact Checking</div>
-            <div class="tab" id="topic_research_tab">📚 Topic Research</div>
-            <div class="tab" id="website_navigation_tab">🧙 Website Navigation</div>
+            <!-- Tabs for Different Functionalities -->
+            <div class="tabs">
+                <div class="tab active" id="fact_check_tab">🧐 Fact Checking</div>
+                <div class="tab" id="topic_research_tab">📚 Topic Research</div>
+                <div class="tab" id="website_navigation_tab">🧙 Website Navigation</div>
+            </div>
+
+            <!-- Content Areas -->
+            <!-- Fact Checking Content -->
+            <div class="content-area" id="fact_check_content">
+                <h2 class="section-header">Fact Checking</h2>
+
+                <!-- Example Suggestion Buttons -->
+                <div class="example-grid">
+                    <div class="example-button" onclick="populateInput('fact_check_input', 'Are COVID-19 vaccines effective?')">Example 1: Are COVID-19 vaccines effective?</div>
+                    <div class="example-button" onclick="populateInput('fact_check_input', 'Is global temperature rising?')">Example 2: Is global temperature rising?</div>
+                    <div class="example-button" onclick="populateInput('fact_check_input', 'Do face masks reduce virus spread?')">Example 3: Do face masks reduce virus spread?</div>
+                    <div class="example-button" onclick="populateInput('fact_check_input', 'Does exercise improve mental health?')">Example 4: Does exercise improve mental health?</div>
+                </div>
+
+                <!-- Input Group -->
+                <div class="input-group">
+                    <input type="text" id="fact_check_input" placeholder="🖊 Enter a claim you need to verify" required>
+                    <button type="button" id="fact_run_button" class="toggle-button">
+                        🚀 Run Specialized AI Team 🚀
+                    </button>
+                </div>
+
+                <!-- Output Container -->
+                <div id="fact_output_container"></div>
+            </div>
+
+            <!-- Topic Research Content -->
+            <div class="content-area" id="topic_research_content" style="display: none;">
+                <h2 class="section-header">Topic Research</h2>
+
+                <!-- Example Suggestion Buttons -->
+                <div class="example-grid">
+                    <div class="example-button" onclick="populateInput('topic_research_input', 'Artificial Intelligence advancements')">Example 1: AI advancements</div>
+                    <div class="example-button" onclick="populateInput('topic_research_input', 'Climate change impacts')">Example 2: Climate change impacts</div>
+                    <div class="example-button" onclick="populateInput('topic_research_input', 'Renewable energy sources')">Example 3: Renewable energy sources</div>
+                    <div class="example-button" onclick="populateInput('topic_research_input', 'Mental health awareness')">Example 4: Mental health awareness</div>
+                </div>
+
+                <!-- Input Group -->
+                <div class="input-group">
+                    <input type="text" id="topic_research_input" placeholder="📚 Enter your topic of research" required>
+                    <input type="text" id="topic_research_focus" placeholder="🎯 Focus Area (Optional)" style="margin-top: 10px;">
+                    <button type="button" id="topic_run_button" class="toggle-button">
+                        🚀 Run Specialized AI Team 🚀
+                    </button>
+                </div>
+
+                <!-- Output Container -->
+                <div id="topic_output_container"></div>
+            </div>
+
+            <!-- Website Navigation Content -->
+            <div class="content-area" id="website_navigation_content" style="display: none;">
+                <h2 class="section-header">Website Navigation</h2>
+
+                <!-- Example Suggestion Buttons -->
+                <div class="example-grid">
+                    <div class="example-button" onclick="populateInput('website_navigation_url', 'https://www.wikipedia.org')">Example 1: https://www.wikipedia.org</div>
+                    <div class="example-button" onclick="populateInput('website_navigation_url', 'https://www.openai.com')">Example 2: https://www.openai.com</div>
+                    <div class="example-button" onclick="populateInput('website_navigation_url', 'https://www.nasa.gov')">Example 3: https://www.nasa.gov</div>
+                    <div class="example-button" onclick="populateInput('website_navigation_url', 'https://www.who.int')">Example 4: https://www.who.int</div>
+                </div>
+
+                <!-- Input Group -->
+                <div class="input-group">
+                    <input type="text" id="website_navigation_url" placeholder="🌐 URL or Domain to Navigate" required>
+                    <input type="text" id="website_navigation_focus" placeholder="🎯 Topic of Focus (Optional)" style="margin-top: 10px;">
+                    <button type="button" id="website_run_button" class="toggle-button">
+                        🚀 Run Specialized AI Team 🚀
+                    </button>
+                </div>
+
+                <!-- Output Container -->
+                <div id="website_output_container"></div>
+            </div>
         </div>
 
-        <!-- Content Areas -->
-        <!-- Fact Checking Content -->
-        <div class="content-area" id="fact_check_content">
-            <h2 class="section-header">Fact Checking</h2>
-
-            <!-- Example Suggestion Buttons -->
-            <div class="example-grid">
-                <div class="example-button" onclick="populateInput('fact_check_input', 'Are COVID-19 vaccines effective?')">Example 1: Are COVID-19 vaccines effective?</div>
-                <div class="example-button" onclick="populateInput('fact_check_input', 'Is global temperature rising?')">Example 2: Is global temperature rising?</div>
-                <div class="example-button" onclick="populateInput('fact_check_input', 'Do face masks reduce virus spread?')">Example 3: Do face masks reduce virus spread?</div>
-                <div class="example-button" onclick="populateInput('fact_check_input', 'Does exercise improve mental health?')">Example 4: Does exercise improve mental health?</div>
-            </div>
-
-            <!-- Input Group -->
-            <div class="input-group">
-                <input type="text" id="fact_check_input" placeholder="🖊 Enter a claim you need to verify" required>
-                <button type="button" id="fact_run_button" class="toggle-button">
-                    🚀 Run Specialized AI Team 🚀
-                </button>
-            </div>
-
-            <!-- Output Container -->
-            <div id="fact_output_container"></div>
-        </div>
-
-        <!-- Topic Research Content -->
-        <div class="content-area" id="topic_research_content" style="display: none;">
-            <h2 class="section-header">Topic Research</h2>
-
-            <!-- Example Suggestion Buttons -->
-            <div class="example-grid">
-                <div class="example-button" onclick="populateInput('topic_research_input', 'Artificial Intelligence advancements')">Example 1: AI advancements</div>
-                <div class="example-button" onclick="populateInput('topic_research_input', 'Climate change impacts')">Example 2: Climate change impacts</div>
-                <div class="example-button" onclick="populateInput('topic_research_input', 'Renewable energy sources')">Example 3: Renewable energy sources</div>
-                <div class="example-button" onclick="populateInput('topic_research_input', 'Mental health awareness')">Example 4: Mental health awareness</div>
-            </div>
-
-            <!-- Input Group -->
-            <div class="input-group">
-                <input type="text" id="topic_research_input" placeholder="📚 Enter your topic of research" required>
-                <input type="text" id="topic_research_focus" placeholder="🎯 Focus Area (Optional)" style="margin-top: 10px;">
-                <button type="button" id="topic_run_button" class="toggle-button">
-                    🚀 Run Specialized AI Team 🚀
-                </button>
-            </div>
-
-            <!-- Output Container -->
-            <div id="topic_output_container"></div>
-        </div>
-
-        <!-- Website Navigation Content -->
-        <div class="content-area" id="website_navigation_content" style="display: none;">
-            <h2 class="section-header">Website Navigation</h2>
-
-            <!-- Example Suggestion Buttons -->
-            <div class="example-grid">
-                <div class="example-button" onclick="populateInput('website_navigation_url', 'https://www.wikipedia.org')">Example 1: https://www.wikipedia.org</div>
-                <div class="example-button" onclick="populateInput('website_navigation_url', 'https://www.openai.com')">Example 2: https://www.openai.com</div>
-                <div class="example-button" onclick="populateInput('website_navigation_url', 'https://www.nasa.gov')">Example 3: https://www.nasa.gov</div>
-                <div class="example-button" onclick="populateInput('website_navigation_url', 'https://www.who.int')">Example 4: https://www.who.int</div>
-            </div>
-
-            <!-- Input Group -->
-            <div class="input-group">
-                <input type="text" id="website_navigation_url" placeholder="🌐 URL or Domain to Navigate" required>
-                <input type="text" id="website_navigation_focus" placeholder="🎯 Topic of Focus (Optional)" style="margin-top: 10px;">
-                <button type="button" id="website_run_button" class="toggle-button">
-                    🚀 Run Specialized AI Team 🚀
-                </button>
-            </div>
-
-            <!-- Output Container -->
-            <div id="website_output_container"></div>
-        </div>
+        <!-- Footer Section -->
+        <footer class="footer">
+            <a href="https://github.com/crewAIInc/crewAI" class="footer-item" target="_blank" rel="noopener noreferrer">
+                <span>Built With:</span>
+                <img src="{{ url_for('static', path='logos/crewai_logo.png') }}" alt="CrewAI Logo">
+            </a>
+            <a href="https://github.com/jina-ai" class="footer-item" target="_blank" rel="noopener noreferrer">
+                <span>Powered By:</span>
+                <img src="{{ url_for('static', path='logos/jina_ai_logo.png') }}" alt="JinaAI Logo">
+            </a>
+            <a href="https://github.com/LucaCGN/CoolAITools" class="footer-item" target="_blank" rel="noopener noreferrer">
+                <span>See the source code on:</span>
+                <img src="{{ url_for('static', path='logos/github_logo.png') }}" alt="GitHub Logo">
+            </a>
+            <a href="https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=luca-nonino-72196893" class="footer-item" target="_blank" rel="noopener noreferrer">
+                <span>Follow me on Linkedin</span>
+                <img src="{{ url_for('static', path='logos/linkedin_logo.png') }}" alt="LinkedIn Logo">
+            </a>
+        </footer>
     </div>
 
     <!-- Include external JavaScript -->

@@ -366,3 +366,56 @@ h1 {
 }
 
 
+
+        /* CSS for Sticky Footer */
+
+        html, body {
+            height: 100%; /* Full height for both html and body elements */
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif; /* Set global font */
+        }
+
+        .wrapper {
+            min-height: 100vh; /* Full viewport height */
+            display: flex;
+            flex-direction: column; /* Layout in a vertical column */
+        }
+
+        .container {
+            flex: 1; /* Allow the main content to take up all available space */
+            padding: 20px; /* Add some padding for content */
+        }
+
+        .footer {
+            background-color: #f8f9fa; /* Light gray background */
+            padding: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            font-family: 'Poppins', sans-serif; /* Set Poppins font for footer */
+            color: #707ff5; /* Cornflower Blue text color */
+        }
+
+        .footer-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 20px;
+            text-decoration: none;
+            color: #707ff5; /* Cornflower Blue text color */
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-item:hover {
+            color: #0056b3; /* Darker blue on hover for better contrast */
+        }
+
+        .footer-item img {
+            width: auto;       /* Maintain aspect ratio */
+            height: 32px;      /* Set a consistent height for logos */
+            max-width: 100%;   /* Prevent the image from being too large */
+            margin-left: 8px;  /* Add space between text and logo */
+        }
