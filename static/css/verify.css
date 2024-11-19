@@ -1,0 +1,558 @@
+/* ============================
+   verify.css
+   Updated with Improved UI/UX and Color/Font Palette
+============================ */
+
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Raleway:wght@400;500;700&family=Avenir+Next:wght@700&display=swap');
+
+/* ============================
+   General Styles
+============================ */
+
+/* Apply Fonts Globally */
+body {
+    font-family: 'Raleway', sans-serif;
+    background-color: #f1f5f8; /* Catskill White */
+    color: #1e1e76; /* Lucky Point */
+    margin: 0;
+    padding: 0;
+}
+
+h1, .report-title {
+    font-family: 'Avenir Next', sans-serif; /* Substitute for Agrandir */
+    font-size: 32px;
+    color: #1e1e76; /* Lucky Point */
+}
+
+h2, .section-header {
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    color: #4b4bc3; /* Indigo */
+    margin-bottom: 10px;
+}
+
+h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    color: #5cb2d1; /* Shakespeare */
+    margin-bottom: 8px;
+}
+
+p, .reason-text, .conclusion-text {
+    font-family: 'Raleway', sans-serif;
+    font-size: 16px;
+    color: #333;
+    line-height: 1.6;
+}
+
+a {
+    color: #4b4bc3; /* Indigo */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* ============================
+   Spinner Styles
+============================ */
+.spinner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 40px 0;
+}
+
+.spinner {
+    border: 8px solid #e0e0e0;
+    border-top: 8px solid #5cb2d1; /* Shakespeare spinner */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+.spinner-text {
+    font-size: 18px;
+    color: #2c3e50;
+    font-weight: 500;
+    text-align: center;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ============================
+   Report Card Styles
+============================ */
+.report-card {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #ffffff; /* White */
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Raleway', sans-serif;
+}
+
+.report-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.report-header .report-title {
+    display: flex;
+    align-items: center;
+    font-size: 28px;
+    color: #1e1e76; /* Lucky Point */
+    font-weight: 700;
+}
+
+.report-header .report-title .claim-icon {
+    margin-right: 10px;
+    font-size: 32px;
+    color: #4b4bc3; /* Indigo */
+}
+
+.report-header .badge {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    padding: 5px 10px;
+    border-radius: 12px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+}
+
+.badge.true {
+    background-color: #1e1e76; /* Lucky Point */
+}
+
+.badge.false {
+    background-color: #e74c3c; /* Red for false */
+}
+
+.badge.true::before {
+    content: "✔️";
+    margin-right: 5px;
+}
+
+.badge.false::before {
+    content: "❌";
+    margin-right: 5px;
+}
+
+.download-button {
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #4b4bc3; /* Indigo */
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+    font-family: 'Poppins', sans-serif;
+}
+
+.download-button:hover {
+    background-color: #3a3aa1;
+}
+
+.summary-card {
+    background-color: #f1f5f8; /* Catskill White */
+    padding: 15px 20px;
+    border-radius: 8px;
+    border-left: 5px solid #1e1e76; /* Lucky Point */
+    margin-bottom: 20px;
+    font-family: 'Raleway', sans-serif;
+}
+
+.summary-card h3 {
+    margin: 0 0 5px 0;
+    font-family: 'Poppins', sans-serif;
+    color: #5cb2d1; /* Shakespeare */
+}
+
+.summary-card p {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+/* ============================
+   Claim Section
+============================ */
+.claim-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.claim-section .claim-text {
+    font-size: 20px;
+    font-weight: 500;
+    color: #1e1e76; /* Lucky Point */
+    flex: 1;
+}
+
+.claim-section .claim-icon {
+    font-size: 24px;
+    color: #4b4bc3; /* Indigo */
+    margin-right: 10px;
+}
+
+/* ============================
+   Factuality Score Styles
+============================ */
+.factuality-score {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.factuality-score .score-label {
+    margin-left: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+.progress-bar-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 20px;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: #1e1e76; /* Lucky Point */
+    transition: width 1s ease-in-out, background-color 0.5s;
+}
+
+/* Dynamic Colors Based on Score */
+.score-strongly-supported {
+    background-color: #1e1e76; /* Lucky Point */
+}
+
+.score-supported {
+    background-color: #5cb2d1; /* Shakespeare */
+}
+
+.score-neutral {
+    background-color: #707ff5; /* Cornflower Blue */
+}
+
+.score-not-supported {
+    background-color: #e74c3c; /* Red */
+}
+
+/* ============================
+   Verification Result Badge
+============================ */
+.verification-result {
+    font-size: 18px;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 12px;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+}
+
+.verification-result.true {
+    background-color: #1e1e76; /* Lucky Point */
+}
+
+.verification-result.false {
+    background-color: #e74c3c; /* Red */
+}
+
+.verification-result.true::before {
+    content: "✔️";
+    margin-right: 5px;
+}
+
+.verification-result.false::before {
+    content: "❌";
+    margin-right: 5px;
+}
+
+/* ============================
+   Reason and Conclusion Sections
+============================ */
+.collapsible-section {
+    margin-bottom: 20px;
+}
+
+.collapsible-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f1f5f8; /* Catskill White */
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid #e0e0e0;
+}
+
+.collapsible-header:hover {
+    background-color: #e0e0e0;
+}
+
+.collapsible-header h3 {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    color: #4b4bc3; /* Indigo */
+}
+
+.collapsible-header .toggle-icon {
+    font-size: 18px;
+    color: #4b4bc3; /* Indigo */
+}
+
+.collapsible-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    background-color: #ffffff;
+    padding: 0 15px;
+    border-left: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    border-radius: 0 0 8px 8px;
+}
+
+.collapsible-content p {
+    padding: 15px 0;
+}
+
+.collapsible-content .highlight {
+    background-color: #fff9c4; /* Light Highlight */
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
+/* ============================
+   References Section
+============================ */
+.references-section {
+    margin-top: 20px;
+}
+
+.references-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.references-header h2 {
+    font-family: 'Poppins', sans-serif;
+    color: #1e1e76; /* Lucky Point */
+    font-size: 22px;
+    border-bottom: 2px solid #1e1e76; /* Lucky Point */
+    padding-bottom: 5px;
+}
+
+.filter-options {
+    display: flex;
+    gap: 10px;
+}
+
+.filter-button {
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #4b4bc3; /* Indigo */
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+    font-family: 'Poppins', sans-serif;
+}
+
+.filter-button.active, .filter-button:hover {
+    background-color: #3a3aa1;
+}
+
+.references-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.reference-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-left: 5px solid #5cb2d1; /* Shakespeare */
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.reference-card.non-supportive {
+    border-left-color: #e74c3c; /* Red */
+}
+
+.reference-card .reference-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    color: #1e1e76; /* Lucky Point */
+    margin-bottom: 5px;
+}
+
+.reference-card .key-quote {
+    font-style: italic;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.reference-card .reference-actions {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.reference-card .support-icon {
+    font-size: 18px;
+}
+
+.reference-card.supportive .support-icon {
+    color: #1e1e76; /* Lucky Point */
+}
+
+.reference-card.non-supportive .support-icon {
+    color: #e74c3c; /* Red */
+}
+
+.reference-card .read-source-button {
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #5cb2d1; /* Shakespeare */
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+}
+
+.reference-card .read-source-button:hover {
+    background-color: #4a90c9;
+}
+
+/* ============================
+   Summary Card at the Top
+============================ */
+#fact_output_container .summary-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#fact_output_container .summary-card h3 {
+    font-family: 'Poppins', sans-serif;
+}
+
+#fact_output_container .summary-card p {
+    font-size: 16px;
+}
+
+/* ============================
+   Mobile Responsiveness
+============================ */
+@media (max-width: 768px) {
+    .report-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .report-header .download-button {
+        margin-top: 10px;
+    }
+
+    .factuality-score {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .progress-bar-container {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .references-container {
+        flex-direction: column;
+    }
+
+    .reference-card {
+        flex-direction: column;
+    }
+
+    .collapsible-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .collapsible-header .toggle-icon {
+        align-self: flex-end;
+    }
+}
+
+/* ============================
+   Tooltip Styles
+============================ */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: help;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 220px;
+    background-color: #555;
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 8px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Position above the element */
+    left: 50%;
+    margin-left: -110px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 14px;
+    font-family: 'Raleway', sans-serif;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%; /* At the bottom of tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}

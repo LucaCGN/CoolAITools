@@ -1,0 +1,103 @@
+/* ============================
+   loading.css
+============================ */
+
+/* Spinner Styles */
+.spinner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 40px 0;
+}
+
+.spinner {
+    border: 8px solid #e0e0ff; /* Light Indigo */
+    border-top: 8px solid #1e1e76; /* Lucky Point spinner */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+.spinner-text {
+    font-family: 'Raleway', sans-serif;
+    font-size: 18px;
+    color: #1e1e76; /* Lucky Point */
+    font-weight: 500;
+    text-align: center;
+}
+
+/* Keyframes for Spinner Animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Loading Cards Container */
+.loading-cards-container {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: stretch;
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+/* Loading Card Styles */
+.loading-card {
+    width: 100%;
+    margin: 10px 0;
+    padding: 20px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 18px;
+    font-family: 'Raleway', sans-serif;
+    color: #ffffff;
+}
+
+.loading-card.stacked {
+    background-color: #4b4bc3; /* Indigo */
+}
+
+/* Current Step Card Animations */
+@keyframes backgroundPurpleToBlue {
+    0% {
+        background-color: #5cb2d1; /* Lucky Point */
+    }
+    50% {
+        background-color: #1e1e76; /* Indigo */
+    }
+    100% {
+        background-color: #5cb2d1; /* Lucky Point */
+    }
+}
+
+@keyframes textPulse {
+    0% {
+        color: #f1f5f8; /* Catskill White */
+    }
+    50% {
+        color: #ffffff; /* White text */
+    }
+    100% {
+        color: #f1f5f8; /* Catskill White */
+    }
+}
+
+.loading-card.current-step {
+    animation: backgroundPurpleToBlue 2s infinite;
+}
+
+.loading-card.current-step .card-content {
+    animation: textPulse 2s infinite;
+}
+
+/* Card Content */
+.loading-card .card-content {
+    position: relative;
+    z-index: 2;
+    font-size: 18px;
+    font-family: 'Raleway', sans-serif;
+}
