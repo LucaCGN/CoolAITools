@@ -164,3 +164,139 @@ a:hover {
         padding: 15px;
     }
 }
+
+/* ============================
+   New Styles for Related Topics, Extracted Links, and Fetched Links Content
+============================ */
+
+/* Related Topics (Tags/Chips) */
+.related-topics {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 10px 0 20px 0;
+}
+
+.tag {
+    background-color: #e0e0e0; /* Light Gray */
+    color: #1e1e76; /* Lucky Point */
+    border-radius: 16px;
+    padding: 6px 12px;
+    margin: 4px;
+    font-size: 14px;
+    display: inline-block;
+}
+
+/* Tabs Container */
+.tabs-container {
+    margin-top: 30px;
+    border-top: 2px solid #e0e0e0;
+}
+
+.tabs-header {
+    display: flex;
+    border-bottom: 1px solid #e0e0e0;
+    cursor: pointer;
+}
+
+.tab {
+    padding: 10px 20px;
+    margin-right: 5px;
+    background-color: #f9f9f9;
+    color: #1e1e76;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.tab.active {
+    background-color: #4b4bc3; /* Indigo */
+    color: #ffffff;
+}
+
+.tab:hover {
+    background-color: #dcdcdc;
+}
+
+.tab-content {
+    display: none;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-top: none;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Extracted Links List */
+.extracted-links-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.extracted-links-list li {
+    margin-bottom: 10px;
+}
+
+.extracted-links-list a {
+    color: #4b4bc3;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.extracted-links-list a:hover {
+    text-decoration: underline;
+}
+
+.extracted-links-description {
+    margin-left: 20px;
+    color: #555;
+    font-size: 14px;
+}
+
+/* Fetched Links Content */
+.fetched-links-content {
+    margin-top: 20px;
+}
+
+.fetched-link-item {
+    margin-bottom: 20px;
+}
+
+.fetched-link-item h4 {
+    font-size: 18px;
+    color: #5cb2d1; /* Shakespeare */
+    margin-bottom: 5px;
+}
+
+.fetched-link-item p {
+    font-size: 14px;
+    color: #333;
+    margin: 5px 0;
+}
+
+.key-insights-list {
+    list-style-type: disc;
+    padding-left: 20px;
+    color: #333;
+}
+
+.key-insights-list li {
+    margin-bottom: 5px;
+}
+
+/* Responsive Adjustments for Tabs */
+@media (max-width: 768px) {
+    .tabs-header {
+        flex-direction: column;
+    }
+
+    .tab {
+        margin-right: 0;
+        margin-bottom: 5px;
+    }
+}

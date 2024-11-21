@@ -184,6 +184,21 @@ const WebsiteNavigationModule = (function() {
         headerSection.appendChild(topicTitle);
         headerSection.appendChild(reportUrl);
 
+        // Render Related Topics as Tags/Chips
+        if (data.related_topics && Array.isArray(data.related_topics) && data.related_topics.length > 0) {
+            const tagsContainer = document.createElement('div');
+            tagsContainer.classList.add('related-topics');
+
+            data.related_topics.forEach(topic => {
+                const tag = document.createElement('span');
+                tag.classList.add('tag');
+                tag.textContent = topic;
+                tagsContainer.appendChild(tag);
+            });
+
+            headerSection.appendChild(tagsContainer);
+        }
+
         if (data.report_summary) {
             const summaryOverview = document.createElement('p');
             summaryOverview.classList.add('summary-overview');
@@ -232,6 +247,128 @@ const WebsiteNavigationModule = (function() {
 
                 mainContent.appendChild(sectionElement);
             }
+        }
+
+        // Render Extracted Links and Fetched Links Content as Tabs
+        if ((data.extracted_links && data.extracted_links.length > 0) || 
+            (data.fetched_links_content && data.fetched_links_content.length > 0)) {
+            const tabsContainer = document.createElement('div');
+            tabsContainer.classList.add('tabs-container');
+
+            // Create Tabs Header
+            const tabsHeader = document.createElement('div');
+            tabsHeader.classList.add('tabs-header');
+
+            const extractedLinksTab = document.createElement('div');
+            extractedLinksTab.classList.add('tab');
+            extractedLinksTab.textContent = 'Extracted Links';
+            extractedLinksTab.dataset.tab = 'extracted-links';
+            tabsHeader.appendChild(extractedLinksTab);
+
+            if (data.fetched_links_content && data.fetched_links_content.length > 0) {
+                const fetchedLinksTab = document.createElement('div');
+                fetchedLinksTab.classList.add('tab');
+                fetchedLinksTab.textContent = 'Fetched Links Content';
+                fetchedLinksTab.dataset.tab = 'fetched-links-content';
+                tabsHeader.appendChild(fetchedLinksTab);
+            }
+
+            tabsContainer.appendChild(tabsHeader);
+
+            // Create Tabs Content
+            const tabsContent = document.createElement('div');
+            tabsContent.classList.add('tabs-content');
+
+            // Extracted Links Content
+            if (data.extracted_links && data.extracted_links.length > 0) {
+                const extractedLinksContent = document.createElement('div');
+                extractedLinksContent.classList.add('tab-content');
+                extractedLinksContent.id = 'extracted-links';
+
+                const extractedLinksList = document.createElement('ul');
+                extractedLinksList.classList.add('extracted-links-list');
+
+                data.extracted_links.forEach(link => {
+                    const listItem = document.createElement('li');
+
+                    const linkAnchor = document.createElement('a');
+                    linkAnchor.href = link.url;
+                    linkAnchor.target = '_blank';
+                    linkAnchor.textContent = link.url;
+
+                    const descriptionPara = document.createElement('p');
+                    descriptionPara.classList.add('extracted-links-description');
+                    descriptionPara.textContent = link.description;
+
+                    listItem.appendChild(linkAnchor);
+                    listItem.appendChild(descriptionPara);
+                    extractedLinksList.appendChild(listItem);
+                });
+
+                extractedLinksContent.appendChild(extractedLinksList);
+                tabsContent.appendChild(extractedLinksContent);
+            }
+
+            // Fetched Links Content
+            if (data.fetched_links_content && data.fetched_links_content.length > 0) {
+                const fetchedLinksContent = document.createElement('div');
+                fetchedLinksContent.classList.add('tab-content');
+                fetchedLinksContent.id = 'fetched-links-content';
+
+                data.fetched_links_content.forEach(linkContent => {
+                    const fetchedLinkItem = document.createElement('div');
+                    fetchedLinkItem.classList.add('fetched-link-item');
+
+                    const linkTitle = document.createElement('h4');
+                    linkTitle.textContent = linkContent.url;
+                    linkTitle.style.cursor = 'pointer';
+                    linkTitle.addEventListener('click', () => {
+                        // Toggle visibility of content summary and key insights
+                        const details = fetchedLinkItem.querySelector('.fetched-link-details');
+                        if (details.style.display === 'none' || details.style.display === '') {
+                            details.style.display = 'block';
+                        } else {
+                            details.style.display = 'none';
+                        }
+                    });
+
+                    const detailsDiv = document.createElement('div');
+                    detailsDiv.classList.add('fetched-link-details');
+                    detailsDiv.style.display = 'none';
+
+                    const contentSummaryPara = document.createElement('p');
+                    contentSummaryPara.textContent = `Summary: ${linkContent.content_summary}`;
+
+                    const keyInsightsHeader = document.createElement('p');
+                    keyInsightsHeader.textContent = 'Key Insights:';
+
+                    const keyInsightsList = document.createElement('ul');
+                    keyInsightsList.classList.add('key-insights-list');
+
+                    linkContent.key_insights.forEach(insight => {
+                        const insightItem = document.createElement('li');
+                        insightItem.textContent = insight;
+                        keyInsightsList.appendChild(insightItem);
+                    });
+
+                    detailsDiv.appendChild(contentSummaryPara);
+                    detailsDiv.appendChild(keyInsightsHeader);
+                    detailsDiv.appendChild(keyInsightsList);
+
+                    fetchedLinkItem.appendChild(linkTitle);
+                    fetchedLinkItem.appendChild(detailsDiv);
+
+                    fetchedLinksContent.appendChild(fetchedLinkItem);
+                });
+
+                tabsContent.appendChild(fetchedLinksContent);
+            }
+
+            tabsContainer.appendChild(tabsContent);
+            mainContent.appendChild(tabsContainer);
+
+            // Initialize Tabs Functionality
+            initializeTabs(tabsContainer);
         }
 
         // Append the report wrapper to the output container
@@ -341,7 +478,7 @@ const WebsiteNavigationModule = (function() {
             content += `
                 <div class="reference-item">
                     <p><a href="${ref.url}" target="_blank">${ref.url}</a></p>
-                    <p>${ref.keyQuote}</p>
+                    <p>${ref.description}</p>
                 </div>
             `;
         });
@@ -445,6 +582,41 @@ const WebsiteNavigationModule = (function() {
             .catch(err => {
                 console.error('Could not copy text: ', err);
             });
+    }
+
+    // Function to initialize tabs functionality
+    function initializeTabs(tabsContainer) {
+        const tabsHeader = tabsContainer.querySelector('.tabs-header');
+        const tabs = tabsHeader.querySelectorAll('.tab');
+        const tabContents = tabsContainer.querySelectorAll('.tab-content');
+
+        if (tabs.length === 0) return;
+
+        // Activate the first tab by default
+        tabs[0].classList.add('active');
+        const firstTabContent = tabsContainer.querySelector(`#${tabs[0].dataset.tab}`);
+        if (firstTabContent) {
+            firstTabContent.classList.add('active');
+        }
+
+        // Add click event listeners to tabs
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                tabs.forEach(t => t.classList.remove('active'));
+                // Add active class to the clicked tab
+                tab.classList.add('active');
+
+                // Hide all tab contents
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                // Show the content corresponding to the clicked tab
+                const activeContent = tabsContainer.querySelector(`#${tab.dataset.tab}`);
+                if (activeContent) {
+                    activeContent.classList.add('active');
+                }
+            });
+        });
     }
 
     return {};
