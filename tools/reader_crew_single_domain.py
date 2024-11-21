@@ -85,35 +85,15 @@ class DetailedContentSummary(BaseModel):
 class ExtractedLink(BaseModel):
     url: str = Field(..., description="The URL of the extracted link.")
     description: str = Field(..., description="A description of the extracted link's content.")
-    relevance_score: Optional[float] = Field(
-        None, description="A score indicating the link's relevance to the topic."
-    )
 
-    @validator('relevance_score')
-    def check_relevance_score(cls, v):
-        if v is not None and not 0.0 <= v <= 1.0:
-            raise ValueError('relevance_score must be between 0.0 and 1.0')
-        return v
+
 
 class FetchedLinkContent(BaseModel):
     url: str = Field(..., description="The URL of the fetched link.")
     content_summary: str = Field(..., description="A detailed summary of the fetched link's content.")
-    relevance_score: Optional[float] = Field(
-        None, description="A score indicating the fetched link's relevance to the topic."
-    )
     key_insights: List[str] = Field(..., description="Key insights derived from the fetched link.")
 
-    @validator('relevance_score')
-    def check_relevance_score(cls, v):
-        if v is not None and not 0.0 <= v <= 1.0:
-            raise ValueError('relevance_score must be between 0.0 and 1.0')
-        return v
 
-class Statistics(BaseModel):
-    word_count: int = Field(..., description="Total number of words in the content.")
-    unique_words: int = Field(..., description="Number of unique words in the content.")
-    sentiment_score: float = Field(..., description="Sentiment analysis score of the content.")
-    readability_score: float = Field(..., description="Readability score of the content.")
 
 class DetailedAnalysis(BaseModel):
     thematic_analysis: Optional[str] = Field(None, description="In-depth thematic analysis of the content.")
@@ -134,12 +114,6 @@ class WebScrapingReportOutput(BaseModel):
     detailed_content_summary: DetailedContentSummary = Field(
         ..., description="A comprehensive summary of the scraped content, including sections and key points."
     )
-    relevance_score: Optional[float] = Field(
-        None, description="A score indicating relevance to the topic."
-    )
-    statistics: Optional[Statistics] = Field(
-        None, description="Statistical data related to the content."
-    )
     extracted_links: Optional[List[ExtractedLink]] = Field(
         None,
         description="List of extracted links deemed relevant.",
@@ -147,7 +121,6 @@ class WebScrapingReportOutput(BaseModel):
             {
                 "url": "https://example.com/related-page",
                 "description": "Description of the related page.",
-                "relevance_score": 0.8
             }
         ]
     )
@@ -158,7 +131,6 @@ class WebScrapingReportOutput(BaseModel):
             {
                 "url": "https://example.com/related-page",
                 "content_summary": "Detailed summary of the related page's content.",
-                "relevance_score": 0.8,
                 "key_insights": ["Insight 1", "Insight 2"]
             }
         ]
@@ -186,39 +158,35 @@ class WebScrapingReportOutput(BaseModel):
                     "main_sections": {
                         "section1": "Overview of the first aspect.",
                         "section2": "Discussion of the second aspect.",
-                        "section3": "Insights into the third aspect."
+                        "section3": "Insights into the third aspect.",
+                        "section4": "Insights into the fourth aspect.",
+                        "section5": "Insights into the fifth aspect."
                     },
-                    "key_points": ["Point A", "Point B", "Point C"]
-                },
-                "relevance_score": 0.85,
-                "statistics": {
-                    "word_count": 2000,
-                    "unique_words": 1200,
-                    "sentiment_score": 0.6,
-                    "readability_score": 70.2
+                    "key_points": ["Point A", "Point B", "Point C", "Point D", "Point E"]
                 },
                 "extracted_links": [
                     {
                         "url": "https://example.com/related-page",
                         "description": "Description of the related page.",
-                        "relevance_score": 0.75
                     }
                 ],
                 "fetched_links_content": [
                     {
                         "url": "https://example.com/related-page",
                         "content_summary": "Comprehensive summary of the related page's content.",
-                        "relevance_score": 0.75,
-                        "key_insights": ["Insight 1: Detail about insight.", "Insight 2: Another detail."]
+                        "key_insights": ["Insight 1: Detail about insight.", "Insight 2: Another detail.","Insight N: Another detail., as Much as need to fully capture main concepts"]
                     }
                 ],
                 "detailed_analysis": {
                     "thematic_analysis": "In-depth analysis of key themes related to the topic.",
                     "trend_analysis": "Identification and analysis of emerging trends.",
                     "comparative_analysis": "Comparison with related topics or previous data.",
-                    "actionable_insights": ["Actionable Insight 1.", "Actionable Insight 2."]
+                    "data_sources": "List and description of data sources utilized in the analysis.",
+                    "data_quality_assessment": "Evaluation of the quality, reliability, and validity of the data sources.",
+                    "main_findings": "Summary of key findings derived from the analysis.",
+                    "actionable_insights": ["Actionable Insight 1.", "Actionable Insight 2.", "Actionable Insight 3.", "Actionable Insight 4."]
                 },
-                "related_topics": ["Related Topic 1", "Related Topic 2"],
+                "related_topics": ["Related Topic 1", "Related Topic 2","Related Topic 3","Related Topic 4","Related Topic 5"],
                 "metadata": {
                     "scraped_at": "2024-04-27T12:00:00Z",
                     "source_language": "en",
@@ -239,12 +207,16 @@ Subsection.update_forward_refs()
 web_scraper_agent = Agent(
     role='Web Content Scraper',
     goal=(
-        "Analyze content from specified URLs and decide whether to fetch and process related links found in the content."
-    ),
+        "Thoroughly analyze academic content from specified URLs, extracting detailed information and evaluating the relevance of related links. "
+        "Decide judiciously whether to fetch and process these related links to build a comprehensive and well-structured report that meets scholarly standards."
+    ),  # Enhanced Goal
     backstory=(
-        "You are skilled at gathering and analyzing web content. If additional links are relevant, "
-        "you should decide to query them for further content analysis."
-    ),
+        "You are an AI agent specialized in gathering and analyzing academic web content with precision and depth. "
+        "Your expertise lies in discerning the quality and relevance of information from diverse scholarly sources. "
+        "When encountering additional links, you must critically evaluate their pertinence and decide whether to fetch and analyze them to enrich the overall report. "
+        "Ensure that all findings are well-supported by credible references and contribute meaningfully to the topic under analysis."
+    ),  # Enhanced Backstory
+
     tools=[jina_reader_tool],
     verbose=True,
     memory=True
@@ -255,9 +227,14 @@ web_scraper_agent = Agent(
 # ==========================
 scraping_task = Task(
     description=(
-        "Analyze the content from the provided URL: {url}. Focus on content relevance to the topic '{topic}'. "
-        "If relevant links are found in the main content, decide whether to follow and analyze them as well, but stay within the domain provided."
-        "Absolutely do not enclose the final answer JSON in ´´´json and ´´´"
+        "Thoroughly analyze the content from the provided URL: {url} with a focus on the academic topic: '{topic}'. "
+        "Develop a comprehensive and detailed report that includes an introduction, main sections, key points, and a conclusion. "
+        "Ensure that the report covers all relevant aspects, such as methodology, data sources, and potential biases. "
+        "Identify and evaluate any related links within the main content for their relevance and credibility. "
+        "If deemed pertinent, follow and analyze these links to incorporate additional insights into the report, ensuring they remain within the original domain. "
+        "The final output should be a well-structured JSON report containing 'topic', 'url', 'detailed_content_summary', 'extracted_links', 'fetched_links_content', 'detailed_analysis', 'related_topics', 'metadata', and 'conclusion'. "
+        "detailed_content_summary -> this section in the json should be a summary in terms of concept, but several paragraphs long, data driven when the topic ('{topic}') requests. "
+        "Ensure that the JSON is properly formatted without enclosing it in any code blocks."
     ),
     expected_output = (
         "{{\n"
@@ -269,28 +246,21 @@ scraping_task = Task(
         '      "section1": "string",\n'
         '      "section2": "string",\n'
         '      "section3": "string"\n'
+        '      "section4": "string"\n'
+        '      "section5": "string"\n'
         "    }},\n"
         '    "key_points": ["string"]\n'
-        "  }},\n"
-        '  "relevance_score": 0.0,\n'
-        '  "statistics": {{\n'
-        '    "word_count": 0,\n'
-        '    "unique_words": 0,\n'
-        '    "sentiment_score": 0.0,\n'
-        '    "readability_score": 0.0\n'
         "  }},\n"
         '  "extracted_links": [\n'
         "    {{\n"
         '      "url": "string",\n'
         '      "description": "string",\n'
-        '      "relevance_score": 0.0\n'
         "    }}\n"
         "  ],\n"
         '  "fetched_links_content": [\n'
         "    {{\n"
         '      "url": "string",\n'
         '      "content_summary": "string",\n'
-        '      "relevance_score": 0.0,\n'
         '      "key_insights": ["string"]\n'
         "    }}\n"
         "  ],\n"
@@ -298,7 +268,10 @@ scraping_task = Task(
         '    "thematic_analysis": "string",\n'
         '    "trend_analysis": "string",\n'
         '    "comparative_analysis": "string",\n'
+        '    "data_sources": "string",\n'
+        '    "data_quality_assessment": "string",\n'        
         '    "actionable_insights": ["string"]\n'
+        '    "main_findings": ["string"]\n'
         "  }},\n"
         '  "related_topics": ["string"],\n'
         '  "metadata": {\n'

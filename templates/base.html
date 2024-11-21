@@ -16,8 +16,36 @@
     <link rel="stylesheet" href="{{ url_for('static', path='css/verify.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', path='css/topic_research.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', path='css/website_navigation.css') }}">
+
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        .wrapper {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
 </head>
 <body>
+    <!-- Background Video -->
+    <video class="video-background" autoplay loop muted playsinline>
+        <source src="{{ url_for('static', path='videoplayback.mp4') }}" type="video/webm">
+        Your browser does not support the video tag.
+    </video>
+
     <div class="wrapper">
         <div class="container">
             <!-- Main Title -->

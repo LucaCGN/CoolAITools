@@ -27,7 +27,7 @@ class JinaGroundingToolArgs(BaseModel):
 # Define the Jina Grounding Tool
 class JinaGroundingTool(BaseTool):
     name: str = "jina_grounding_tool"
-    description: str = "Validates and verifies claims using the Jina AI Grounding API."
+    description: str = "Validates and verifies academic claims across various disciplines using the versatile Jina AI Grounding API."
     args_schema = JinaGroundingToolArgs
 
     def _run(self, claim: str) -> dict:
@@ -84,13 +84,11 @@ def main():
     # Define the claim verifier agent
     claim_verifier = Agent(
         role="Claim Verifier",
-        goal="Verify the accuracy of claims by leveraging the Jina AI Grounding API.",
+        goal="Thoroughly verify the accuracy of diverse academic claims by leveraging the Jina AI Grounding API, ensuring comprehensive fact-checking across various scholarly disciplines.",
         backstory=(
-            "You are an AI agent specialized in verifying claims using logical analysis and structured tool usage. "
-            "Each '## Thought' block must also contain, in this exact format:\n"
-            "Plan: [State your plan]\n"
-            "Reasoning: [Explain the reasoning]\n"
-            "Next Actions: [Outline Next Actions]\n"
+            "You are an AI agent specialized in verifying claims across all academic fields using logical analysis and structured tool usage. "
+            "Your verification process must be thorough, encompassing multiple dimensions such as methodology, data sources, and potential biases. "
+            "Ensure that your analysis is detailed and well-supported by credible references."
         ),
         tools=[jina_grounding_tool],
         model="gpt-4-mini",
@@ -100,8 +98,11 @@ def main():
     # Define the task with explicit `expected_output` and `output_json`
     grounding_task = Task(
         description=(
-            "Verify the provided claim: {claim} using the Jina AI Grounding Tool. "
-            "Include a tool usage step when verifying the claim and conclude with a JSON report containing 'summary', 'details', 'conclusion', and 'references'."
+            "Verify the provided academic claim: {claim} using the Jina AI Grounding Tool. "
+            "Your verification should be as detailed and comprehensive as possible, covering all relevant aspects such as methodology, data sources, and potential biases. "
+            "Include all main references you consult that are pertinent to the claim. "
+            "Incorporate a tool usage step when verifying the claim and conclude with a JSON report containing 'summary', 'details', 'conclusion', and 'references'. "
+            "Ensure the report is thorough to meet the expectations of users from any academic field. Include as many references as you can find that are relevant."
         ),
         expected_output=(
             "{{\n"

@@ -161,16 +161,16 @@ def create_search_agent(jina_search_tool: JinaSearchTool) -> Agent:
     return Agent(
         name="Search Agent",
         role="Performs searches on a given topic using the Jina Search Tool.",
-        goal="Provide comprehensive search results related to the specified topic.",
+        goal=(
+            "Conduct in-depth academic searches on the specified topic using the Jina Search API, and compile detailed, structured reports that include 10 to 30 sections per category, along with at least 10 references, quotes, main sources, and report content items to ensure thorough coverage and analysis."
+        ),  # Enhanced Goal
         backstory=(
-            "You are an AI agent specialized in performing topic-based searches using the Jina Search API. "
-            "You generate a structured JSON report based on the search results. "
-            "Ensure that the final report adheres to the predefined JSON schema, including fields like report title, content, summary, main sources, and quotes. "
-            "Unless when using tools. Each '## Thought' block must also contain, in this exact format:\n"
-            "Plan: [State your plan]\n"
-            "Reasoning: [Explain the reasoning]\n"
-            "Next Actions: [Outline Next Actions]\n"
-        ),
+            "You are an AI agent specialized in conducting comprehensive academic searches using the Jina Search API. "
+            "Your primary responsibility is to generate detailed and structured JSON reports that adhere strictly to the predefined schema. "
+            "Each report must include between 10 and 30 sections for each category, ensuring extensive coverage of the topic. "
+            "In addition, each report should incorporate at least 10 references, quotes, main sources, and report content items to provide a robust and well-supported analysis. "
+            "Ensure that all information is accurate, well-organized, and presented in a scholarly manner without adhering to a rigid internal format."
+        ),  # Enhanced Backstory
         tools=[jina_search_tool],
         model="gpt-4-mini",  # Adjust the model as needed
         verbose=True,
@@ -189,9 +189,11 @@ def create_search_task(search_agent: Agent, SearchReportOutput: BaseModel) -> Ta
     return Task(
         name="Search Task",
         description=(
-            "Perform a search on the topic: {topic} using the Jina Search Tool. "
-            "Generate a comprehensive JSON report that includes report title, report content, report summary, main sources, quotes, and references."
-            "Absolutely do not enclose the final answer JSON in ´´´json and ´´´"
+            "Conduct a thorough search on the topic: {topic} using the Jina Search Tool. "
+            "Generate an exhaustive JSON report that includes the following components: report title, detailed report content, comprehensive report summary, main sources, relevant quotes, and thorough references. "
+            "EXTREMELY IMPORTANT: Ensure that the report content is divided into 10 to 30 well-defined sections for each category (e.g., Introduction, Methodology, Findings, Conclusion, etc.). "
+            "Each category must include at least 10 items, such as references, quotes, main sources, and content items, to provide a robust and detailed analysis. "
+            "EXTREMELY IMPORTANT: Absolutely do not enclose the final answer JSON in ´´´json and ´´´"
         ),
         expected_output=(
             "{{\n"
