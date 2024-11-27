@@ -1,6 +1,6 @@
-// static/js/verify.js
+// static/js/verify_display.js
 
-const VerifyModule = (function() {
+const VerifyDisplayModule = (function() {
     // Define States
     const STATES = {
         IDLE: 'idle',
@@ -12,8 +12,11 @@ const VerifyModule = (function() {
     };
 
     let currentState = STATES.IDLE;
-    let factRunButton = document.getElementById('fact_run_button');
-    let outputContainer = document.getElementById('fact_output_container');
+    const factRunButton = document.getElementById('fact_run_button');
+    const outputContainer = document.getElementById('fact_output_container');
+
+    // State variable to store JSON data
+    window.verifyReportData = null;
 
     factRunButton.addEventListener('click', handleRunButtonClick);
 
@@ -143,6 +146,8 @@ const VerifyModule = (function() {
                 transitionState(STATES.ERROR, data.error);
                 return;
             }
+            // Store the JSON data in the state variable
+            window.verifyReportData = data;
             transitionState(STATES.REPORT_READY);
             hideSpinner();
             displayReport(data);
@@ -272,14 +277,22 @@ const VerifyModule = (function() {
         downloadButton.classList.add('download-button');
         downloadButton.textContent = 'Download Report';
         downloadButton.addEventListener('click', () => {
-            downloadReportAsMarkdown(reportWrapper, 'Fact_Check_Report.md');
+            if (typeof downloadVerifyReport === 'function') {
+                downloadVerifyReport();
+            } else {
+                console.error('Download function not found.');
+            }
         });
 
         const copyButton = document.createElement('button');
         copyButton.classList.add('copy-button');
         copyButton.textContent = 'Copy to Clipboard';
         copyButton.addEventListener('click', () => {
-            copyReportToClipboard(reportWrapper);
+            if (typeof copyVerifyReport === 'function') {
+                copyVerifyReport();
+            } else {
+                console.error('Copy function not found.');
+            }
         });
 
         actionButtonsContainer.appendChild(downloadButton);
@@ -314,29 +327,7 @@ const VerifyModule = (function() {
         return section;
     }
 
-    function initializeCollapsibleSections() {
-        const headers = outputContainer.querySelectorAll('.collapsible-header');
-        headers.forEach(header => {
-            header.addEventListener('click', () => {
-                const content = header.nextElementSibling;
-                const toggleIcon = header.querySelector('.toggle-icon');
-
-                if (content.style.maxHeight) {
-                    // Collapse
-                    content.style.maxHeight = null;
-                    toggleIcon.textContent = "➕";
-                } else {
-                    // Expand
-                    content.style.maxHeight = content.scrollHeight + "px";
-                    toggleIcon.textContent = "➖";
-                }
-            });
-        });
-    }
-
     function createReferencesSection(references) {
-        // Existing code to create the references section
-
         // Group references by supportiveness
         const supportiveRefs = references.filter(ref => ref.isSupportive);
         const nonSupportiveRefs = references.filter(ref => !ref.isSupportive);
@@ -472,87 +463,27 @@ const VerifyModule = (function() {
         outputContainer.innerHTML = `<div class="error-message">${message}</div>`;
     }
 
-    // Function to convert report to Markdown
-    function convertReportToMarkdown(reportElement) {
-        let markdown = '';
+    function initializeCollapsibleSections() {
+        const headers = outputContainer.querySelectorAll('.collapsible-header');
+        headers.forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                const toggleIcon = header.querySelector('.toggle-icon');
 
-        function parseElement(element) {
-            element.childNodes.forEach(node => {
-                if (node.nodeType === Node.TEXT_NODE) {
-                    markdown += node.textContent;
-                } else if (node.nodeType === Node.ELEMENT_NODE) {
-                    switch (node.tagName.toLowerCase()) {
-                        case 'h1':
-                            markdown += `# ${node.textContent}\n\n`;
-                            break;
-                        case 'h2':
-                            markdown += `## ${node.textContent}\n\n`;
-                            break;
-                        case 'h3':
-                            markdown += `### ${node.textContent}\n\n`;
-                            break;
-                        case 'h4':
-                            markdown += `#### ${node.textContent}\n\n`;
-                            break;
-                        case 'p':
-                            markdown += `${node.textContent}\n\n`;
-                            break;
-                        case 'ul':
-                            node.childNodes.forEach(li => {
-                                if (li.tagName && li.tagName.toLowerCase() === 'li') {
-                                    markdown += `- ${li.textContent}\n`;
-                                }
-                            });
-                            markdown += `\n`;
-                            break;
-                        case 'div':
-                            parseElement(node);
-                            break;
-                        default:
-                            parseElement(node);
-                            break;
-                    }
+                if (content.style.maxHeight) {
+                    // Collapse
+                    content.style.maxHeight = null;
+                    toggleIcon.textContent = "➕";
+                } else {
+                    // Expand
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    toggleIcon.textContent = "➖";
                 }
             });
-        }
-
-        parseElement(reportElement);
-
-        return markdown;
+        });
     }
 
-    // Function to download report as Markdown file
-    function downloadReportAsMarkdown(reportElement, filename) {
-        const markdownContent = convertReportToMarkdown(reportElement);
-        const blob = new Blob([markdownContent], { type: 'text/markdown;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
-
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        a.style.display = 'none';
-
-        document.body.appendChild(a);
-        a.click();
-
-        setTimeout(() => {
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        }, 100);
-    }
-
-    // Function to copy report to clipboard
-    function copyReportToClipboard(reportElement) {
-        const markdownContent = convertReportToMarkdown(reportElement);
-
-        navigator.clipboard.writeText(markdownContent)
-            .then(() => {
-                alert('Report copied to clipboard!');
-            })
-            .catch(err => {
-                console.error('Could not copy text: ', err);
-            });
-    }
-
-    return {};
+    return {
+        // Expose functions or variables if needed
+    };
 })();

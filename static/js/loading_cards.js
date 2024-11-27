@@ -48,7 +48,7 @@ const LoadingCards = (function() {
                 if (loadedCount === totalCount && onComplete) {
                     onComplete();
                 }
-            }, i * 3000); // Delay each card by i * 3000 milliseconds
+            }, i * 5000); // Delay each card by i * 3000 milliseconds
         }
     }
 

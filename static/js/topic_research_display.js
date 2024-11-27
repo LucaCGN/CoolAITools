@@ -1,6 +1,6 @@
-// static/js/topic_research.js
+// static/js/topic_research_display.js
 
-const TopicResearchModule = (function() {
+const TopicResearchDisplayModule = (function() {
     // Define States
     const STATES = {
         IDLE: 'idle',
@@ -14,6 +14,9 @@ const TopicResearchModule = (function() {
     let currentState = STATES.IDLE;
     const runButton = document.getElementById('topic_run_button');
     const outputContainer = document.getElementById('topic_output_container');
+
+    // State variable to store JSON data
+    window.topicResearchReportData = null;
 
     runButton.addEventListener('click', handleRunButtonClick);
 
@@ -146,6 +149,8 @@ const TopicResearchModule = (function() {
                 transitionState(STATES.ERROR, data.error);
                 return;
             }
+            // Store JSON data in state variable
+            window.topicResearchReportData = data;
             transitionState(STATES.REPORT_READY);
             hideSpinner();
             displayReport(data);
@@ -174,7 +179,7 @@ const TopicResearchModule = (function() {
 
         const reportTitle = document.createElement('div');
         reportTitle.classList.add('report-title');
-        reportTitle.innerHTML = `<span class="claim-icon">📚</span>${data.report_title || 'Topic Research Report'}`;
+        reportTitle.innerHTML = `<span class="claim-icon">📚</span> ${data.report_title || 'Topic Research Report'}`;
 
         headerLeft.appendChild(reportTitle);
 
@@ -187,7 +192,11 @@ const TopicResearchModule = (function() {
         downloadButton.classList.add('download-button');
         downloadButton.textContent = 'Download';
         downloadButton.addEventListener('click', () => {
-            downloadReport(data);
+            if (typeof downloadReport === 'function') {
+                downloadReport();
+            } else {
+                console.error('Download function not found.');
+            }
         });
 
         // Create Copy Button
@@ -195,7 +204,11 @@ const TopicResearchModule = (function() {
         copyButton.classList.add('copy-button');
         copyButton.textContent = 'Copy';
         copyButton.addEventListener('click', () => {
-            copyReportToClipboard(data);
+            if (typeof copyReportToClipboard === 'function') {
+                copyReportToClipboard();
+            } else {
+                console.error('Copy function not found.');
+            }
         });
 
         actionButtons.appendChild(downloadButton);
@@ -269,7 +282,7 @@ const TopicResearchModule = (function() {
         // Initialize Tab Navigation
         initializeTabNavigation();
 
-        // Initialize Collapsible Sections within Tabs (Only if collapsible sections exist)
+        // Initialize Collapsible Sections
         initializeCollapsibleSections();
     }
 
@@ -454,6 +467,11 @@ const TopicResearchModule = (function() {
         outputContainer.innerHTML = `<div class="error-message">${message}</div>`;
     }
 
+    /**
+     * Utility function to get favicon URL from a website URL.
+     * @param {string} url - The website URL.
+     * @returns {string} - The favicon URL or a placeholder image.
+     */
     function getFaviconUrl(url) {
         try {
             const urlObj = new URL(url);
@@ -463,31 +481,7 @@ const TopicResearchModule = (function() {
         }
     }
 
-    // Button Functionality Functions
-    function downloadReport(data) {
-        const reportData = JSON.stringify(data, null, 2);
-        const blob = new Blob([reportData], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${data.report_title || 'Topic_Research_Report'}.json`;
-        a.click();
-        
-        URL.revokeObjectURL(url);
-    }
-
-    function copyReportToClipboard(data) {
-        const summary = data.report_summary || 'No summary available.';
-        navigator.clipboard.writeText(summary)
-            .then(() => {
-                alert('Report summary copied to clipboard!');
-            })
-            .catch(err => {
-                console.error('Failed to copy: ', err);
-                alert('Failed to copy the report summary.');
-            });
-    }
-
-    return {};
+    return {
+        // Expose functions or variables if needed
+    };
 })();

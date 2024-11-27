@@ -1,6 +1,6 @@
-// static/js/website_navigation.js
+// static/js/website_navigation_display.js
 
-const WebsiteNavigationModule = (function() {
+const WebsiteNavigationDisplayModule = (function() {
     // Define States
     const STATES = {
         IDLE: 'idle',
@@ -14,6 +14,9 @@ const WebsiteNavigationModule = (function() {
     let currentState = STATES.IDLE;
     const runButton = document.getElementById('website_run_button');
     const outputContainer = document.getElementById('website_output_container');
+
+    // State variable to store JSON data
+    window.websiteNavigationReportData = null;
 
     runButton.addEventListener('click', handleRunButtonClick);
 
@@ -146,9 +149,12 @@ const WebsiteNavigationModule = (function() {
                 transitionState(STATES.ERROR, data.error);
                 return;
             }
+            // Assign the JSON object directly without parsing
+            window.websiteNavigationReportData = data;
+
             transitionState(STATES.REPORT_READY);
             hideSpinner();
-            displayReport(data);
+            displayReport(window.websiteNavigationReportData);
         })
         .catch(error => {
             console.error('Error:', error);
@@ -164,16 +170,13 @@ const WebsiteNavigationModule = (function() {
         const reportWrapper = document.createElement('div');
         reportWrapper.id = 'report-wrapper';
 
-        // Ensure we use the topic from the JSON data
-        const reportTopic = data.topic || 'Report';
-
         // Render header with topic and URL
         const headerSection = document.createElement('header');
         headerSection.classList.add('header-section');
 
         const topicTitle = document.createElement('h1');
         topicTitle.classList.add('topic-title');
-        topicTitle.textContent = reportTopic;
+        topicTitle.textContent = data.topic || 'Report';
 
         const reportUrl = document.createElement('a');
         reportUrl.href = data.url;
@@ -382,14 +385,22 @@ const WebsiteNavigationModule = (function() {
         downloadButton.classList.add('download-button');
         downloadButton.textContent = 'Download Report';
         downloadButton.addEventListener('click', () => {
-            downloadReportAsMarkdown(reportWrapper, 'Website_Navigation_Report.md');
+            if (typeof downloadWebsiteNavigationReport === 'function') {
+                downloadWebsiteNavigationReport();
+            } else {
+                console.error('Download function not found.');
+            }
         });
 
         const copyButton = document.createElement('button');
         copyButton.classList.add('copy-button');
         copyButton.textContent = 'Copy to Clipboard';
         copyButton.addEventListener('click', () => {
-            copyReportToClipboard(reportWrapper);
+            if (typeof copyWebsiteNavigationReport === 'function') {
+                copyWebsiteNavigationReport();
+            } else {
+                console.error('Copy function not found.');
+            }
         });
 
         actionButtonsContainer.appendChild(downloadButton);
@@ -398,6 +409,8 @@ const WebsiteNavigationModule = (function() {
         // Append action buttons to the output container
         outputContainer.appendChild(actionButtonsContainer);
     }
+
+    // Function definitions outside of displayReport
 
     function generateContentSummary(contentData) {
         let content = '';
@@ -489,102 +502,6 @@ const WebsiteNavigationModule = (function() {
         return `<ul>${items.map(item => `<li>${item}</li>`).join('')}</ul>`;
     }
 
-    function showError(message) {
-        outputContainer.innerHTML = `<div class="error-message">${message}</div>`;
-    }
-
-    // Function to convert report to Markdown
-    function convertReportToMarkdown(reportElement) {
-        let markdown = '';
-
-        function parseElement(element) {
-            element.childNodes.forEach(node => {
-                if (node.nodeType === Node.TEXT_NODE) {
-                    markdown += node.textContent;
-                } else if (node.nodeType === Node.ELEMENT_NODE) {
-                    switch (node.tagName.toLowerCase()) {
-                        case 'h1':
-                            markdown += `# ${node.textContent}\n\n`;
-                            break;
-                        case 'h2':
-                            markdown += `## ${node.textContent}\n\n`;
-                            break;
-                        case 'h3':
-                            markdown += `### ${node.textContent}\n\n`;
-                            break;
-                        case 'h4':
-                            markdown += `#### ${node.textContent}\n\n`;
-                            break;
-                        case 'p':
-                            markdown += `${node.textContent}\n\n`;
-                            break;
-                        case 'ul':
-                            node.childNodes.forEach(li => {
-                                if (li.tagName && li.tagName.toLowerCase() === 'li') {
-                                    markdown += `- ${li.textContent}\n`;
-                                }
-                            });
-                            markdown += `\n`;
-                            break;
-                        case 'div':
-                            parseElement(node);
-                            break;
-                        case 'span':
-                            parseElement(node);
-                            break;
-                        case 'a':
-                            markdown += `[${node.textContent}](${node.href})`;
-                            break;
-                        default:
-                            parseElement(node);
-                            break;
-                    }
-                }
-            });
-        }
-
-        parseElement(reportElement);
-
-        // Clean up extra spaces and blank lines
-        markdown = markdown.replace(/\n{2,}/g, '\n\n').trim();
-
-        return markdown;
-    }
-
-    // Function to download report as Markdown file
-    function downloadReportAsMarkdown(reportElement, filename) {
-        const markdownContent = convertReportToMarkdown(reportElement);
-        const blob = new Blob([markdownContent], { type: 'text/markdown;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
-
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        a.style.display = 'none';
-
-        document.body.appendChild(a);
-        a.click();
-
-        setTimeout(() => {
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        }, 100);
-    }
-
-    // Function to copy report to clipboard
-    function copyReportToClipboard(reportElement) {
-        const markdownContent = convertReportToMarkdown(reportElement);
-
-        navigator.clipboard.writeText(markdownContent)
-            .then(() => {
-                alert('Report copied to clipboard!');
-            })
-            .catch(err => {
-                console.error('Could not copy text: ', err);
-            });
-    }
-
-    // Function to initialize tabs functionality
     function initializeTabs(tabsContainer) {
         const tabsHeader = tabsContainer.querySelector('.tabs-header');
         const tabs = tabsHeader.querySelectorAll('.tab');
@@ -604,13 +521,12 @@ const WebsiteNavigationModule = (function() {
             tab.addEventListener('click', () => {
                 // Remove active class from all tabs
                 tabs.forEach(t => t.classList.remove('active'));
-                // Add active class to the clicked tab
-                tab.classList.add('active');
-
                 // Hide all tab contents
                 tabContents.forEach(content => content.classList.remove('active'));
 
-                // Show the content corresponding to the clicked tab
+                // Add active class to the clicked tab
+                tab.classList.add('active');
+                // Show the corresponding tab content
                 const activeContent = tabsContainer.querySelector(`#${tab.dataset.tab}`);
                 if (activeContent) {
                     activeContent.classList.add('active');
@@ -619,5 +535,11 @@ const WebsiteNavigationModule = (function() {
         });
     }
 
-    return {};
+    function showError(message) {
+        outputContainer.innerHTML = `<div class="error-message">${message}</div>`;
+    }
+
+    return {
+        // Expose functions or variables if needed
+    };
 })();
