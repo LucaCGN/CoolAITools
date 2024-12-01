@@ -1,0 +1,92 @@
+/* ============================
+   shared_header.css
+============================ */
+
+/* Importing Fonts (if needed) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Raleway:wght@400;500;700&family=Montserrat:wght@700&display=swap');
+
+/* Animation for Spinning Logo */
+@keyframes spinCounterclockwise {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(-360deg);
+    }
+}
+
+/* Shared Header Styles */
+.header {
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    transition: all 0.3s ease; /* Smooth transitions */
+}
+
+/* Logo Animation */
+.logo {
+    animation: spinCounterclockwise 12s linear infinite; /* Spinning animation */
+    transition: height 0.3s ease, transform 0.3s ease; /* Smooth resizing */
+}
+
+/* Universal Button Styling */
+button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: background-color 0.3s, transform 0.2s; /* Shared hover effects */
+    font-family: 'Poppins', sans-serif;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+button:focus {
+    outline: 2px solid #1e1e76;
+}
+
+/* Badge Styling for Credits */
+.badge {
+    background-color: #e74c3c;
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 12px;
+    font-size: 12px;
+    position: relative;
+}
+
+/* Header Visibility Control */
+
+/* Hide both headers by default */
+.mobile-header,
+.desktop-header {
+    display: none;
+}
+
+/* Show Mobile Header */
+@media (max-width: 768px) {
+    .mobile-header {
+        display: block;
+        font-size: 14px;
+    }
+}
+
+/* Show Desktop Header */
+@media (min-width: 769px) {
+    .desktop-header {
+        display: block;
+    }
+}
+
+
+/* Animation for Spinning Logo */
+@keyframes spinCounterclockwise {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(-360deg);
+    }
+}

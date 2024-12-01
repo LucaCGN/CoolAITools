@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="{{ request.state.get_locale() }}">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ _('🤖 Cool AI Tools - Simple AI for Everyone 🚀') }}</title>
+
+    <!-- Include Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Raleway:wght@400;500;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Modular CSS Files -->
+    <link rel="stylesheet" href="{{ url_for('static', path='css/general.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/header_web.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/header_mobile.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/header_shared.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/container.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/footer.css') }}">
+
+    <!-- Loading Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', path='css/loading.css') }}">
+    <!-- Page-Specific Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', path='css/verify.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/topic_research.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/website_navigation.css') }}">
+</head>
+<body>
+    <!-- Background Video -->
+    <video class="video-background" autoplay loop muted playsinline>
+        <source src="{{ url_for('static', path='videoplayback.mp4') }}" type="video/mp4">
+        {{ _('Your browser does not support the video tag.') }}
+    </video>
+
+<!-- Mobile Header -->
+<header class="header mobile-header">
+    <div class="header-container">
+        <!-- Single Row: Logo + Title + Buttons -->
+        <div class="row header-row">
+            <!-- Logo -->
+            <div class="logo-container">
+                <img src="{{ url_for('static', path='logos/cait_logo.png') }}" alt="{{ _('Logo') }}" class="logo">
+            </div>
+
+            <!-- Title -->
+            <div class="title-container">
+                <h1 class="title">{{ _('Cool AI Tools') }}</h1>
+            </div>
+
+            <!-- Buttons -->
+            <div class="button-container">
+                <!-- Language Toggle -->
+                <form action="/set_language" method="post" class="language-form">
+                    <input type="hidden" name="language" value="{% if request.cookies.get('language', 'en') == 'en' %}pt_BR{% else %}en{% endif %}">
+                    <button type="submit" class="button-language">
+                        {% if request.cookies.get('language', 'en') == 'en' %}
+                            PT
+                        {% else %}
+                            EN
+                        {% endif %}
+                    </button>
+                </form>
+
+                <!-- Theme Toggle -->
+                <button class="button-theme-toggle" id="toggle-day-night">☀️</button>
+
+                <!-- Credits -->
+                <button class="button-credits">
+                    {{ _('Credits') }}: <span class="badge">0</span>
+                </button>
+
+                <!-- Learn More -->
+                <button class="button-learn-more">{{ _('Learn More') }}</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+    <!-- Desktop Header -->
+    <header class="header desktop-header">
+        <div class="container header-container">
+            <!-- Logo Container -->
+            <div class="logo-container">
+                <img src="{{ url_for('static', path='logos/cait_logo.png') }}" alt="{{ _('Logo') }}" class="logo">
+            </div>
+
+            <!-- Info Container -->
+            <div class="info-container">
+                <div class="title">{{ _('Cool AI Tools') }}</div>
+                <p class="message">{{ _('Simple AI Tools for everyone.') }}</p>
+                <p class="message">{{ _('A step in the open-sourcing mission.') }}</p>
+            </div>
+
+            <!-- Menu Container -->
+            <div class="menu-container">
+                <div class="menu-buttons">
+                    <div class="top-buttons">
+                        <form action="/set_language" method="post">
+                            <input type="hidden" name="language" value="{% if request.cookies.get('language', 'en') == 'en' %}pt_BR{% else %}en{% endif %}">
+                            <button type="submit" class="button-language">
+                                {% if request.cookies.get('language', 'en') == 'en' %}
+                                    PT
+                                {% else %}
+                                    EN
+                                {% endif %}
+                            </button>
+                        </form>
+                        <button class="button-theme-toggle" id="toggle-day-night">☀️</button>
+                    </div>
+                    <button class="button-credits">
+                        {{ _('Credits') }}: <span class="badge">0</span>
+                    </button>
+                    <button class="button-learn-more">{{ _('Learn More') }}</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Wrapper -->
+    <div class="wrapper">
+        <div class="container">
+            <!-- Tabs for Different Functionalities -->
+            <div class="tabs">
+                <div class="tab active" id="fact_check_tab" data-page="fact_check_content">
+                    🧐 {{ _('Fact Checking') }}
+                </div>
+                <div class="tab" id="topic_research_tab" data-page="topic_research_content">
+                    📚 {{ _('Topic Research') }}
+                </div>
+                <div class="tab" id="website_navigation_tab" data-page="website_navigation_content">
+                    🧙 {{ _('Website Navigation') }}
+                </div>
+            </div>
+
+            <!-- Content Areas -->
+            <!-- Fact Checking Content -->
+            <div class="content-area" id="fact_check_content">
+                <!-- ... (Unchanged content) ... -->
+            </div>
+
+            <!-- Topic Research Content -->
+            <div class="content-area" id="topic_research_content" style="display: none;">
+                <!-- ... (Unchanged content) ... -->
+            </div>
+
+            <!-- Website Navigation Content -->
+            <div class="content-area" id="website_navigation_content" style="display: none;">
+                <!-- ... (Unchanged content) ... -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-container">
+                <!-- Logos Section -->
+                <div class="footer-section logos">
+                    <!-- Five logos with links -->
+                    <a href="https://github.com/crewAIInc/crewAI" target="_blank" rel="noopener noreferrer" aria-label="{{ _('CrewAI') }}">
+                        <img src="{{ url_for('static', path='logos/crewai_logo.png') }}" alt="{{ _('CrewAI Logo') }}">
+                    </a>
+                    <a href="https://jina.ai" target="_blank" rel="noopener noreferrer" aria-label="{{ _('Jina AI') }}">
+                        <img src="{{ url_for('static', path='logos/jina_ai_logo.png') }}" alt="{{ _('Jina AI Logo') }}">
+                    </a>
+                    <a href="mailto:your_email@example.com" aria-label="{{ _('Send us an Email') }}">
+                        <img src="{{ url_for('static', path='logos/email_logo.png') }}" alt="{{ _('Email Logo') }}">
+                    </a>
+                    <a href="https://www.linkedin.com/in/luca-nonino-72196893" target="_blank" rel="noopener noreferrer" aria-label="{{ _('Follow us on LinkedIn') }}">
+                        <img src="{{ url_for('static', path='logos/linkedin_logo.png') }}" alt="{{ _('LinkedIn Logo') }}">
+                    </a>
+                    <a href="https://github.com/LucaCGN/CoolAITools" target="_blank" rel="noopener noreferrer" aria-label="{{ _('GitHub') }}">
+                        <img src="{{ url_for('static', path='logos/github_logo.png') }}" alt="{{ _('GitHub Logo') }}">
+                    </a>
+                </div>
+
+                <!-- Branding Section -->
+                <div class="footer-section branding">
+                    <p>{{ _('© 2024 Cool AI Tools. All rights reserved.') }}</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Include External JavaScript -->
+    <script src="{{ url_for('static', path='js/loading_cards.js') }}"></script>
+    <script src="{{ url_for('static', path='js/scripts.js') }}"></script>
+
+    <!-- Functionality Scripts -->
+    <!-- Fact Checking Scripts -->
+    <script src="{{ url_for('static', path='js/verify_display.js') }}"></script>
+    <script src="{{ url_for('static', path='js/verify_download.js') }}"></script>
+
+    <!-- Topic Research Scripts -->
+    <script src="{{ url_for('static', path='js/topic_research_display.js') }}"></script>
+    <script src="{{ url_for('static', path='js/topic_research_download.js') }}"></script>
+
+    <!-- Website Navigation Scripts -->
+    <script src="{{ url_for('static', path='js/website_navigation_display.js') }}"></script>
+    <script src="{{ url_for('static', path='js/website_navigation_download.js') }}"></script>
+</body>
+</html>

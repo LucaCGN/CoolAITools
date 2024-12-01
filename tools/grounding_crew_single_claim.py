@@ -131,7 +131,8 @@ def main():
         agents=[claim_verifier],
         tasks=[grounding_task],
         verbose=True,
-        output_log_file="output_log.txt"
+        output_log_file="output_log.txt",
+        language="Português"
     )
 
     # Execute the task with the specific claim and process the output

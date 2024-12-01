@@ -1,18 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ request.state.get_locale() }}">
 <head>
     <meta charset="UTF-8">
-    <title>🤖 Cool AI Tools - Simple AI for Everyone 🚀</title>
-    
-    <!-- Include Google Fonts for specified typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Raleway:wght@400;500;700&family=Avenir+Next:wght@700&display=swap" rel="stylesheet">
-    
-    <!-- Link to external CSS -->
-    <!-- General Styles -->
+    <title>{{ _('🤖 Cool AI Tools - Simple AI for Everyone 🚀') }}</title>
+
+    <!-- Include Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Raleway:wght@400;500;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Modular CSS Files -->
     <link rel="stylesheet" href="{{ url_for('static', path='css/general.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/header_web.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/header_mobile.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/header_shared.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/container.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/footer.css') }}">
+
     <!-- Loading Styles -->
     <link rel="stylesheet" href="{{ url_for('static', path='css/loading.css') }}">
-    <!-- Page Specific Styles -->
+    <!-- Page-Specific Styles -->
     <link rel="stylesheet" href="{{ url_for('static', path='css/verify.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', path='css/topic_research.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', path='css/website_navigation.css') }}">
@@ -21,40 +26,134 @@
     <!-- Background Video -->
     <video class="video-background" autoplay loop muted playsinline>
         <source src="{{ url_for('static', path='videoplayback.mp4') }}" type="video/mp4">
-        Your browser does not support the video tag.
+        {{ _('Your browser does not support the video tag.') }}
     </video>
 
+    <!-- Mobile Header -->
+    <header class="header mobile-header">
+        <div class="header-container">
+            <!-- Single Row: Logo + Title + Buttons -->
+            <div class="row header-row">
+                <!-- Logo -->
+                <div class="logo-container">
+                    <img src="{{ url_for('static', path='logos/cait_logo.png') }}" alt="{{ _('Logo') }}" class="logo"><h1 class="title">{{ _('Cool AI Tools') }}</h1>
+                </div>
+
+                <!-- Buttons -->
+                <div class="button-container">
+                    <!-- Language Toggle -->
+                    <form action="/set_language" method="post" class="language-form">
+                        <input type="hidden" name="language" value="{% if request.cookies.get('language', 'en') == 'en' %}pt_BR{% else %}en{% endif %}">
+                        <button type="submit" class="button-language">
+                            {% if request.cookies.get('language', 'en') == 'en' %}
+                                PT
+                            {% else %}
+                                EN
+                            {% endif %}
+                        </button>
+                    </form>
+
+                    <!-- Theme Toggle -->
+                    <button class="button-theme-toggle" id="toggle-day-night">☀️</button>
+
+                    <!-- Credits -->
+                    <button class="button-credits">
+                        {{ _('Credits') }}: <span class="badge">0</span>
+                    </button>
+
+                    <!-- Learn More -->
+                    <button class="button-learn-more">{{ _('Learn More') }}</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Desktop Header -->
+    <header class="header desktop-header">
+        <div class="container header-container">
+            <!-- Logo Container -->
+            <div class="logo-container">
+                <img src="{{ url_for('static', path='logos/cait_logo.png') }}" alt="{{ _('Logo') }}" class="logo">
+            </div>
+
+            <!-- Info Container -->
+            <div class="info-container">
+                <div class="title">{{ _('Cool AI Tools') }}</div>
+                <p class="message">{{ _('Simple AI Tools for everyone.') }}</p>
+                <p class="message">{{ _('A step in the open-sourcing mission.') }}</p>
+            </div>
+
+            <!-- Menu Container -->
+            <div class="menu-container">
+                <div class="menu-buttons">
+                    <div class="top-buttons">
+                        <form action="/set_language" method="post">
+                            <input type="hidden" name="language" value="{% if request.cookies.get('language', 'en') == 'en' %}pt_BR{% else %}en{% endif %}">
+                            <button type="submit" class="button-language">
+                                {% if request.cookies.get('language', 'en') == 'en' %}
+                                    PT
+                                {% else %}
+                                    EN
+                                {% endif %}
+                            </button>
+                        </form>
+                        <button class="button-theme-toggle" id="toggle-day-night">☀️</button>
+                    </div>
+                    <button class="button-credits">
+                        {{ _('Credits') }}: <span class="badge">0</span>
+                    </button>
+                    <button class="button-learn-more">{{ _('Learn More') }}</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Wrapper -->
     <div class="wrapper">
         <div class="container">
-            <!-- Main Title -->
-            <h1>🤖 Cool AI Tools - Simple AI for Everyone 🚀</h1>
-            <div class="description">Explore Simple, Ad-Free AI Tools to Make Your Life Easier.</div>
-
             <!-- Tabs for Different Functionalities -->
             <div class="tabs">
-                <div class="tab active" id="fact_check_tab">🧐 Fact Checking</div>
-                <div class="tab" id="topic_research_tab">📚 Topic Research</div>
-                <div class="tab" id="website_navigation_tab">🧙 Website Navigation</div>
+                <div class="tab active" id="fact_check_tab" data-page="fact_check_content">
+                    🧐 {{ _('Fact Checking') }}
+                </div>
+                <div class="tab" id="topic_research_tab" data-page="topic_research_content">
+                    📚 {{ _('Topic Research') }}
+                </div>
+                <div class="tab" id="website_navigation_tab" data-page="website_navigation_content">
+                    🧙 {{ _('Website Navigation') }}
+                </div>
             </div>
 
             <!-- Content Areas -->
             <!-- Fact Checking Content -->
             <div class="content-area" id="fact_check_content">
-                <h2 class="section-header">Fact Checking</h2>
+                <h2 class="section-header">{{ _('Fact Checking') }}</h2>
 
-                <!-- Example Suggestion Buttons -->
+                <!-- Example Buttons -->
                 <div class="example-grid">
-                    <div class="example-button" onclick="populateInput('fact_check_input', 'Are COVID-19 vaccines effective?')">Example 1: Are COVID-19 vaccines effective?</div>
-                    <div class="example-button" onclick="populateInput('fact_check_input', 'Is global temperature rising?')">Example 2: Is global temperature rising?</div>
-                    <div class="example-button" onclick="populateInput('fact_check_input', 'Do face masks reduce virus spread?')">Example 3: Do face masks reduce virus spread?</div>
-                    <div class="example-button" onclick="populateInput('fact_check_input', 'Does exercise improve mental health?')">Example 4: Does exercise improve mental health?</div>
+                    <div id="example1_fact_check" class="example-button" 
+                         data-fact_check_input="{{ _('Health benefits of intermittent fasting') | tojson }}">
+                        {{ _('Health benefits of intermittent fasting') }}
+                    </div>
+                    <div id="example2_fact_check" class="example-button" 
+                         data-fact_check_input="{{ _('Impact of social media on mental health') | tojson }}">
+                        {{ _('Impact of social media on mental health') }}
+                    </div>
+                    <div id="example3_fact_check" class="example-button" 
+                         data-fact_check_input="{{ _('Is electric car adoption growing rapidly?') | tojson }}">
+                        {{ _('Is electric car adoption growing rapidly?') }}
+                    </div>
+                    <div id="example4_fact_check" class="example-button" 
+                         data-fact_check_input="{{ _('Do video games improve cognitive skills?') | tojson }}">
+                        {{ _('Do video games improve cognitive skills?') }}
+                    </div>
                 </div>
 
                 <!-- Input Group -->
                 <div class="input-group">
-                    <input type="text" id="fact_check_input" placeholder="🖊 Enter a claim you need to verify" required>
+                    <input type="text" id="fact_check_input" placeholder="{{ _('🖊 Enter a claim you need to verify') }}" required>
                     <button type="button" id="fact_run_button" class="toggle-button">
-                        🚀 Run Specialized AI Team 🚀
+                        {{ _('🚀 Run Specialized AI Team 🚀') }}
                     </button>
                 </div>
 
@@ -64,22 +163,38 @@
 
             <!-- Topic Research Content -->
             <div class="content-area" id="topic_research_content" style="display: none;">
-                <h2 class="section-header">Topic Research</h2>
+                <h2 class="section-header">{{ _('Topic Research') }}</h2>
 
-                <!-- Example Suggestion Buttons -->
+                <!-- Example Buttons -->
                 <div class="example-grid">
-                    <div class="example-button" onclick="populateInput('topic_research_input', 'Artificial Intelligence advancements')">Example 1: AI advancements</div>
-                    <div class="example-button" onclick="populateInput('topic_research_input', 'Climate change impacts')">Example 2: Climate change impacts</div>
-                    <div class="example-button" onclick="populateInput('topic_research_input', 'Renewable energy sources')">Example 3: Renewable energy sources</div>
-                    <div class="example-button" onclick="populateInput('topic_research_input', 'Mental health awareness')">Example 4: Mental health awareness</div>
+                    <div id="example1_topic_research" class="example-button" 
+                         data-topic_research_input="{{ _('Machine Learning') | tojson }}" 
+                         data-topic_research_focus="">
+                        {{ _('Learn about Machine Learning') }}
+                    </div>
+                    <div id="example2_topic_research" class="example-button" 
+                         data-topic_research_input="{{ _('Renewable Energy') | tojson }}" 
+                         data-topic_research_focus="{{ _('Latest trends') | tojson }}">
+                        {{ _('Latest trends in Renewable Energy') }}
+                    </div>
+                    <div id="example3_topic_research" class="example-button" 
+                         data-topic_research_input="{{ _('Meditation') | tojson }}" 
+                         data-topic_research_focus="{{ _('Beginner\'s guide') | tojson }}">
+                        {{ _("Beginner's guide to Meditation") }}
+                    </div>
+                    <div id="example4_topic_research" class="example-button" 
+                         data-topic_research_input="{{ _('Space Exploration') | tojson }}" 
+                         data-topic_research_focus="{{ _('Advancements') | tojson }}">
+                        {{ _('Advancements in Space Exploration') }}
+                    </div>
                 </div>
 
                 <!-- Input Group -->
                 <div class="input-group">
-                    <input type="text" id="topic_research_input" placeholder="📚 Enter your topic of research" required>
-                    <input type="text" id="topic_research_focus" placeholder="🎯 Focus Area (Optional)" style="margin-top: 10px;">
+                    <input type="text" id="topic_research_input" placeholder="{{ _('📚 Enter your topic of research') }}" required>
+                    <input type="text" id="topic_research_focus" placeholder="{{ _('🎯 Focus Area (Optional)') }}" style="margin-top: 10px;">
                     <button type="button" id="topic_run_button" class="toggle-button">
-                        🚀 Run Specialized AI Team 🚀
+                        {{ _('🚀 Run Specialized AI Team 🚀') }}
                     </button>
                 </div>
 
@@ -89,22 +204,38 @@
 
             <!-- Website Navigation Content -->
             <div class="content-area" id="website_navigation_content" style="display: none;">
-                <h2 class="section-header">Website Navigation</h2>
+                <h2 class="section-header">{{ _('Website Navigation') }}</h2>
 
-                <!-- Example Suggestion Buttons -->
+                <!-- Example Buttons -->
                 <div class="example-grid">
-                    <div class="example-button" onclick="populateInput('website_navigation_url', 'https://www.wikipedia.org')">Example 1: https://www.wikipedia.org</div>
-                    <div class="example-button" onclick="populateInput('website_navigation_url', 'https://www.openai.com')">Example 2: https://www.openai.com</div>
-                    <div class="example-button" onclick="populateInput('website_navigation_url', 'https://www.nasa.gov')">Example 3: https://www.nasa.gov</div>
-                    <div class="example-button" onclick="populateInput('website_navigation_url', 'https://www.who.int')">Example 4: https://www.who.int</div>
+                    <div id="example1_website_navigation" class="example-button" 
+                         data-website_navigation_url="https://www.theverge.com" 
+                         data-website_navigation_focus="{{ _('Latest Tech News') | tojson }}">
+                        {{ _('Latest Tech News on The Verge') }}
+                    </div>
+                    <div id="example2_website_navigation" class="example-button" 
+                         data-website_navigation_url="https://www.foodnetwork.com" 
+                         data-website_navigation_focus="{{ _('Healthy Recipes') | tojson }}">
+                        {{ _('Healthy Recipes on Food Network') }}
+                    </div>
+                    <div id="example3_website_navigation" class="example-button" 
+                         data-website_navigation_url="https://www.lonelyplanet.com" 
+                         data-website_navigation_focus="{{ _('Travel Guides') | tojson }}">
+                        {{ _('Travel Guides on Lonely Planet') }}
+                    </div>
+                    <div id="example4_website_navigation" class="example-button" 
+                         data-website_navigation_url="https://www.investopedia.com" 
+                         data-website_navigation_focus="{{ _('Investment Tips') | tojson }}">
+                        {{ _('Investment Tips on Investopedia') }}
+                    </div>
                 </div>
 
                 <!-- Input Group -->
                 <div class="input-group">
-                    <input type="text" id="website_navigation_url" placeholder="🌐 URL or Domain to Navigate" required>
-                    <input type="text" id="website_navigation_focus" placeholder="🎯 Topic of Focus (Optional)" style="margin-top: 10px;">
+                    <input type="text" id="website_navigation_url" placeholder="{{ _('🌐 URL or Domain to Navigate') }}" required>
+                    <input type="text" id="website_navigation_focus" placeholder="{{ _('🎯 Topic of Focus (Optional)') }}" style="margin-top: 10px;">
                     <button type="button" id="website_run_button" class="toggle-button">
-                        🚀 Run Specialized AI Team 🚀
+                        {{ _('🚀 Run Specialized AI Team 🚀') }}
                     </button>
                 </div>
 
@@ -112,43 +243,55 @@
                 <div id="website_output_container"></div>
             </div>
         </div>
-
-        <!-- Footer Section -->
-        <footer class="footer">
-            <a href="https://github.com/crewAIInc/crewAI" class="footer-item" target="_blank" rel="noopener noreferrer">
-                <span>Built With:</span>
-                <img src="{{ url_for('static', path='logos/crewai_logo.png') }}" alt="CrewAI Logo">
-            </a>
-            <a href="https://github.com/jina-ai" class="footer-item" target="_blank" rel="noopener noreferrer">
-                <span>Powered By:</span>
-                <img src="{{ url_for('static', path='logos/jina_ai_logo.png') }}" alt="JinaAI Logo">
-            </a>
-            <a href="https://github.com/LucaCGN/CoolAITools" class="footer-item" target="_blank" rel="noopener noreferrer">
-                <span>See the source code on:</span>
-                <img src="{{ url_for('static', path='logos/github_logo.png') }}" alt="GitHub Logo">
-            </a>
-            <a href="https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=luca-nonino-72196893" class="footer-item" target="_blank" rel="noopener noreferrer">
-                <span>Follow me on Linkedin</span>
-                <img src="{{ url_for('static', path='logos/linkedin_logo.png') }}" alt="LinkedIn Logo">
-            </a>
-        </footer>
     </div>
 
-    <!-- Include external JavaScript -->
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-container">
+                <!-- Logos Section -->
+                <div class="footer-section logos">
+                    <!-- Five logos with links -->
+                    <a href="https://github.com/crewAIInc/crewAI" target="_blank" rel="noopener noreferrer" aria-label="{{ _('CrewAI') }}">
+                        <img src="{{ url_for('static', path='logos/crewai_logo.png') }}" alt="{{ _('CrewAI Logo') }}">
+                    </a>
+                    <a href="https://jina.ai" target="_blank" rel="noopener noreferrer" aria-label="{{ _('Jina AI') }}">
+                        <img src="{{ url_for('static', path='logos/jina_ai_logo.png') }}" alt="{{ _('Jina AI Logo') }}">
+                    </a>
+                    <a href="mailto:your_email@example.com" aria-label="{{ _('Send us an Email') }}">
+                        <img src="{{ url_for('static', path='logos/email_logo.png') }}" alt="{{ _('Email Logo') }}">
+                    </a>
+                    <a href="https://www.linkedin.com/in/luca-nonino-72196893" target="_blank" rel="noopener noreferrer" aria-label="{{ _('Follow us on LinkedIn') }}">
+                        <img src="{{ url_for('static', path='logos/linkedin_logo.png') }}" alt="{{ _('LinkedIn Logo') }}">
+                    </a>
+                    <a href="https://github.com/LucaCGN/CoolAITools" target="_blank" rel="noopener noreferrer" aria-label="{{ _('GitHub') }}">
+                        <img src="{{ url_for('static', path='logos/github_logo.png') }}" alt="{{ _('GitHub Logo') }}">
+                    </a>
+                </div>
+
+                <!-- Branding Section -->
+                <div class="footer-section branding">
+                    <p>{{ _('© 2024 Cool AI Tools. All rights reserved.') }}</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Include External JavaScript -->
     <script src="{{ url_for('static', path='js/loading_cards.js') }}"></script>
     <script src="{{ url_for('static', path='js/scripts.js') }}"></script>
 
-    <!-- Fact Checking Feature Scripts -->
+    <!-- Functionality Scripts -->
+    <!-- Fact Checking Scripts -->
     <script src="{{ url_for('static', path='js/verify_display.js') }}"></script>
     <script src="{{ url_for('static', path='js/verify_download.js') }}"></script>
 
-    <!-- Topic Research Feature Scripts -->
+    <!-- Topic Research Scripts -->
     <script src="{{ url_for('static', path='js/topic_research_display.js') }}"></script>
     <script src="{{ url_for('static', path='js/topic_research_download.js') }}"></script>
 
-    <!-- Website Navigation Feature Scripts -->
+    <!-- Website Navigation Scripts -->
     <script src="{{ url_for('static', path='js/website_navigation_display.js') }}"></script>
     <script src="{{ url_for('static', path='js/website_navigation_download.js') }}"></script>
-
 </body>
 </html>

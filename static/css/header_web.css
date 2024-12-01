@@ -1,0 +1,94 @@
+/* ============================
+   Desktop Header Styles
+============================ */
+
+@media (min-width: 769px) {
+    /* Desktop Header Container */
+    .desktop-header .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: stretch;
+        padding: 20px 0;
+        flex-wrap: wrap; /* Allow wrapping for overflow */
+    }
+
+    /* Logo Container */
+    .desktop-header .logo-container {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+    }
+
+    .desktop-header .logo {
+        height: 120px; /* Larger logo for desktop */
+    }
+
+    /* Info Container */
+    .desktop-header .info-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-left: 16px;
+    }
+
+    .desktop-header .title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 36px;
+        font-weight: bold;
+        color: #1e1e76;
+        margin-bottom: 8px;
+    }
+
+    .desktop-header .message {
+        font-family: 'Raleway', sans-serif;
+        font-size: 16px;
+        color: #1e1e76;
+        margin-bottom: 4px;
+    }
+
+    /* Menu Container */
+    .desktop-header .menu-container {
+        flex: 0 0 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-end;
+    }
+
+    .desktop-header .menu-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .desktop-header .top-buttons {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+    }
+
+    .desktop-header .button-language,
+    .desktop-header .button-theme-toggle,
+    .desktop-header .button-credits,
+    .desktop-header .button-learn-more {
+        padding: 8px 16px;
+        font-size: 14px;
+        background-color: #1e1e76;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+    }
+
+    .desktop-header .button-credits .badge {
+        top: -0px;
+        right: -6px;
+    }
+
+    .desktop-header .button-language:hover,
+    .desktop-header .button-theme-toggle:hover,
+    .desktop-header .button-credits:hover,
+    .desktop-header .button-learn-more:hover {
+        background-color: #14145e; /* Darker blue on hover */
+    }
+}

@@ -1,0 +1,103 @@
+/* ============================
+   Mobile Header Styles
+============================ */
+
+/* General Styles for Mobile Header */
+.mobile-header {
+    padding: 12px 20px;
+    border-radius: 6px; /* Rounded corners */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.mobile-header .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+/* Row Layout */
+.mobile-header .header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Space between the logo/title and buttons */
+    width: 100%;
+}
+
+/* Logo and Title Container */
+.mobile-header .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Spacing between logo and title */
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+.mobile-header .logo {
+    height: 40px; /* Adjust logo height for mobile */
+    width: auto;
+}
+
+.mobile-header .title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    color: #1e1e76;
+    margin: 0;
+    white-space: nowrap; /* Prevent wrapping */
+}
+
+/* Button Container */
+.mobile-header .button-container {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-left: auto; /* Push buttons to the right */
+}
+
+.mobile-header .button-language,
+.mobile-header .button-theme-toggle,
+.mobile-header .button-credits,
+.mobile-header .button-learn-more {
+    font-size: 14px;
+    padding: 6px 8px;
+    background-color: #1e1e76;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.mobile-header .button-credits .badge {
+    position: relative;
+    background-color: #ff0000;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+    color: #ffffff;
+}
+
+.mobile-header .button-language:hover,
+.mobile-header .button-theme-toggle:hover,
+.mobile-header .button-credits:hover,
+.mobile-header .button-learn-more:hover {
+    background-color: #14145e;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .mobile-header .title {
+        font-size: 16px; /* Slightly smaller for small screens */
+    }
+
+    .mobile-header .logo {
+        height: 36px; /* Adjust logo size for smaller screens */
+    }
+
+    .mobile-header .logo-container {
+        gap: 8px; /* Reduce spacing for smaller screens */
+    }
+}

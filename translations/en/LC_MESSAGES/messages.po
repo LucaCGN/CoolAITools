@@ -1,0 +1,235 @@
+# English translations for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-11-29 23:28-0300\n"
+"PO-Revision-Date: 2024-11-29 23:28-0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: templates/base.html:5
+msgid "🤖 Cool AI Tools - Simple AI for Everyone 🚀"
+msgstr "🤖 Cool AI Tools - Simple AI for Everyone 🚀"
+
+#: templates/base.html:24
+msgid "Your browser does not support the video tag."
+msgstr "Your browser does not support the video tag."
+
+#: templates/base.html:32
+msgid "Logo"
+msgstr "Logo"
+
+#: templates/base.html:35
+msgid "Cool AI Tools"
+msgstr "Cool AI Tools"
+
+#: templates/base.html:37
+msgid "Simple AI Tools for everyone."
+msgstr "Simple AI Tools for everyone."
+
+#: templates/base.html:38
+msgid "A step in the open-sourcing mission."
+msgstr "A step in the open-sourcing mission."
+
+#: templates/base.html:50
+msgid "Credits:"
+msgstr "Credits:"
+
+#: templates/base.html:51
+msgid "Learn More"
+msgstr "Learn More"
+
+#: templates/base.html:57
+msgid "🧐 Fact Checking"
+msgstr "🧐 Fact Checking"
+
+#: templates/base.html:58
+msgid "📚 Topic Research"
+msgstr "📚 Topic Research"
+
+#: templates/base.html:59
+msgid "🧙 Website Navigation"
+msgstr "🧙 Website Navigation"
+
+#: templates/base.html:65
+msgid "Fact Checking"
+msgstr "Fact Checking"
+
+#: templates/base.html:70 templates/base.html:71
+msgid "Health benefits of intermittent fasting"
+msgstr "Health benefits of intermittent fasting"
+
+#: templates/base.html:74 templates/base.html:75
+msgid "Impact of social media on mental health"
+msgstr "Impact of social media on mental health"
+
+#: templates/base.html:78 templates/base.html:79
+msgid "Is electric car adoption growing rapidly?"
+msgstr "Is electric car adoption growing rapidly?"
+
+#: templates/base.html:82 templates/base.html:83
+msgid "Do video games improve cognitive skills?"
+msgstr "Do video games improve cognitive skills?"
+
+#: templates/base.html:89
+msgid "🖊 Enter a claim you need to verify"
+msgstr "🖊 Enter a claim you need to verify"
+
+#: templates/base.html:91 templates/base.html:132 templates/base.html:173
+msgid "🚀 Run Specialized AI Team 🚀"
+msgstr "🚀 Run Specialized AI Team 🚀"
+
+#: templates/base.html:101
+msgid "Topic Research"
+msgstr "Topic Research"
+
+#: templates/base.html:106
+msgid "Machine Learning"
+msgstr "Machine Learning"
+
+#: templates/base.html:108
+msgid "Learn about Machine Learning"
+msgstr "Learn about Machine Learning"
+
+#: templates/base.html:111
+msgid "Renewable Energy"
+msgstr "Renewable Energy"
+
+#: templates/base.html:112
+msgid "Latest trends"
+msgstr "Latest trends"
+
+#: templates/base.html:113
+msgid "Latest trends in Renewable Energy"
+msgstr "Latest trends in Renewable Energy"
+
+#: templates/base.html:116
+msgid "Meditation"
+msgstr "Meditation"
+
+#: templates/base.html:117
+msgid "Beginner's guide"
+msgstr "Beginner's guide"
+
+#: templates/base.html:118
+msgid "Beginner's guide to Meditation"
+msgstr "Beginner's guide to Meditation"
+
+#: templates/base.html:121
+msgid "Space Exploration"
+msgstr "Space Exploration"
+
+#: templates/base.html:122
+msgid "Advancements"
+msgstr "Advancements"
+
+#: templates/base.html:123
+msgid "Advancements in Space Exploration"
+msgstr "Advancements in Space Exploration"
+
+#: templates/base.html:129
+msgid "📚 Enter your topic of research"
+msgstr "📚 Enter your topic of research"
+
+#: templates/base.html:130
+msgid "🎯 Focus Area (Optional)"
+msgstr "🎯 Focus Area (Optional)"
+
+#: templates/base.html:142
+msgid "Website Navigation"
+msgstr "Website Navigation"
+
+#: templates/base.html:148
+msgid "Latest Tech News"
+msgstr "Latest Tech News"
+
+#: templates/base.html:149
+msgid "Latest Tech News on The Verge"
+msgstr "Latest Tech News on The Verge"
+
+#: templates/base.html:153
+msgid "Healthy Recipes"
+msgstr "Healthy Recipes"
+
+#: templates/base.html:154
+msgid "Healthy Recipes on Food Network"
+msgstr "Healthy Recipes on Food Network"
+
+#: templates/base.html:158
+msgid "Travel Guides"
+msgstr "Travel Guides"
+
+#: templates/base.html:159
+msgid "Travel Guides on Lonely Planet"
+msgstr "Travel Guides on Lonely Planet"
+
+#: templates/base.html:163
+msgid "Investment Tips"
+msgstr "Investment Tips"
+
+#: templates/base.html:164
+msgid "Investment Tips on Investopedia"
+msgstr "Investment Tips on Investopedia"
+
+#: templates/base.html:170
+msgid "🌐 URL or Domain to Navigate"
+msgstr "🌐 URL or Domain to Navigate"
+
+#: templates/base.html:171
+msgid "🎯 Topic of Focus (Optional)"
+msgstr "🎯 Topic of Focus (Optional)"
+
+#: templates/base.html:188
+msgid "CrewAI"
+msgstr "CrewAI"
+
+#: templates/base.html:189
+msgid "CrewAI Logo"
+msgstr "CrewAI Logo"
+
+#: templates/base.html:191
+msgid "Jina AI"
+msgstr "Jina AI"
+
+#: templates/base.html:192
+msgid "Jina AI Logo"
+msgstr "Jina AI Logo"
+
+#: templates/base.html:194
+msgid "Send us an Email"
+msgstr "Send us an Email"
+
+#: templates/base.html:195
+msgid "Email Logo"
+msgstr "Email Logo"
+
+#: templates/base.html:197
+msgid "Follow us on LinkedIn"
+msgstr "Follow us on LinkedIn"
+
+#: templates/base.html:198
+msgid "LinkedIn Logo"
+msgstr "LinkedIn Logo"
+
+#: templates/base.html:200
+msgid "GitHub"
+msgstr "GitHub"
+
+#: templates/base.html:201
+msgid "GitHub Logo"
+msgstr "GitHub Logo"
+
+#: templates/base.html:207
+msgid "© 2024 Cool AI Tools. All rights reserved."
+msgstr "© 2024 Cool AI Tools. All rights reserved."

@@ -1,19 +1,9 @@
 /* ============================
-   general.css
+   Updated general.css
 ============================ */
 
 /* Importing Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Raleway:wght@400;500;700&display=swap');
-
-/* Import Agrandir Font */
-@font-face {
-    font-family: 'Agrandir';
-    src: url('fonts/Agrandir-Regular.woff2') format('woff2'),
-         url('fonts/Agrandir-Regular.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Raleway:wght@400;500;700&family=Montserrat:wght@700&display=swap');
 
 /* Reset and Base Styles */
 * {
@@ -23,368 +13,22 @@
 }
 
 body, html {
-    /* Removed overflow: hidden to enable scrolling */
     overflow: auto;
     height: 100%;
 }
 
 body {
-    font-family: 'Poppins', sans-serif; /* Subtitles and secondary text */
+    font-family: 'Poppins', sans-serif;
     background-color: #f1f5f8; /* Catskill White */
     color: #1e1e76; /* Lucky Point */
     line-height: 1.6;
-}
-
-a {
-    color: #4b4bc3; /* Indigo */
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-.wrapper {
-    display: flex; /* Enable flex layout */
-    flex-direction: column; /* Stack children vertically */
-    min-height: 100vh; /* Ensure wrapper takes full viewport height */
-    position: relative;
-    z-index: 1;
-}
-
-.container {
-    flex: 1; /* Allow container to grow and fill available space */
-    width: 90%;
-    max-width: 1200px;
-    margin: 40px auto;
-    padding-bottom: 20px; /* Add some padding to prevent content from hiding behind the footer */
-}
-
-h1 {
-    font-family: 'Agrandir', sans-serif; /* Primary title */
-    text-align: center;
-    color: #1e1e76; /* Lucky Point */
-    font-weight: 700;
-    margin-bottom: 20px;
-}
-
-.description {
-    font-family: 'Poppins', sans-serif; /* Subtitles and secondary text */
-    text-align: center;
-    color: #5cb2d1; /* Shakespeare */
-    margin-bottom: 40px;
-    font-size: 18px;
-    line-height: 1.5;
-}
-
-/* Tabs Styling */
-.tabs {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-.tab {
-    padding: 10px 20px;
-    margin: 0 5px;
-    background-color: #f1f5f8; /* Catskill White */
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.3s, box-shadow 0.3s;
-    user-select: none;
-    color: #1e1e76; /* Lucky Point */
-    font-family: 'Poppins', sans-serif;
-}
-
-.tab.active {
-    background-color: #ffffff;
-    border: 2px solid #1e1e76; /* Lucky Point border for active tab */
-    box-shadow: 0px 4px 8px rgba(30, 30, 118, 0.15); /* Lucky Point shadow */
-}
-
-.tab:hover {
-    background-color: #e0e0ff; /* Light Indigo */
-}
-
-/* Content Area Styling */
-.content-area {
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    border: 1px solid #e0e0ff; /* Light Indigo border */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    font-family: 'Raleway', sans-serif; /* System text and descriptions */
-}
-
-/* Input Group Styles */
-.input-group {
     display: flex;
     flex-direction: column;
-    margin-top: 20px;
-}
-
-.input-group input[type="text"] {
-    width: 80%;
-    padding: 10px;
-    margin-top: 10px;
-    border: 1px solid #4b4bc3; /* Indigo border */
-    border-radius: 8px;
+    min-height: 100vh;
     font-size: 16px;
-    align-self: center;
-    font-family: 'Raleway', sans-serif;
 }
 
-.input-group button {
-    width: 50%;
-    align-self: center;
-    margin-top: 15px;
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #1e1e76; /* Lucky Point */
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-family: 'Raleway', sans-serif;
-}
-
-.input-group button:hover {
-    background-color: #14145e; /* Darker Lucky Point */
-}
-
-/* Example Suggestion Buttons */
-.example-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 10px;
-    margin-bottom: 20px;
-}
-
-.example-button {
-    background-color: #707ff5; /* Cornflower Blue background */
-    padding: 20px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 500;
-    text-align: center;
-    border: 1px solid #5cb2d1; /* Shakespeare border */
-    cursor: pointer;
-    transition: background-color 0.3s, border 0.3s;
-    color: #ffffff;
-    font-family: 'Raleway', sans-serif;
-}
-
-.example-button:hover {
-    background-color: #5cb2d1; /* Shakespeare */
-    border-color: #4b4bc3; /* Indigo */
-}
-
-/* Error Message Styling */
-.error {
-    color: #e74c3c; /* Retain error color for visibility */
-    font-weight: bold;
-    margin-top: 20px;
-    text-align: center;
-    font-size: 16px;
-    font-family: 'Raleway', sans-serif;
-}
-
-/* Output Area Styling */
-.output-area {
-    margin-top: 40px;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    border: 1px solid #e0e0ff; /* Light Indigo border */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    font-family: 'Raleway', sans-serif;
-}
-
-/* ============================
-   Adjustments for Action Buttons
-============================ */
-
-/* Action Buttons Container */
-.action-buttons {
-    display: flex;
-    justify-content: center; /* Default alignment for buttons at bottom */
-    margin-top: 10px;
-    gap: 10px;
-}
-
-/* Download and Copy Buttons Styling */
-.download-button,
-.copy-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #4b4bc3; /* Indigo */
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-family: 'Raleway', sans-serif;
-    width: 120px; /* Fixed width for consistency */
-    box-sizing: border-box; /* Ensure padding is included in width */
-}
-
-.download-button:hover,
-.copy-button:hover {
-    background-color: #3a3ab3; /* Darker Indigo */
-}
-
-/* Specific Styles for Topic Research Report Page */
-#topic_output_container .report-header .action-buttons {
-    justify-content: flex-end; /* Align buttons to the right of the title */
-    margin-top: 0; /* Remove top margin to align with the title */
-}
-
-/* Specific Styles for Other Report Pages (Fact Check & Website Navigation) */
-#fact_output_container .action-buttons,
-#website_output_container .action-buttons {
-    justify-content: center; /* Center the buttons at the bottom */
-    margin-top: 20px; /* Space above the buttons */
-}
-
-/* Ensure Consistent Button Widths in All Contexts */
-#fact_output_container .download-button,
-#fact_output_container .copy-button,
-#website_output_container .download-button,
-#website_output_container .copy-button {
-    width: 120px; /* Consistent width */
-}
-
-/* ============================
-   Responsive Design Enhancements
-============================ */
-
-@media (max-width: 768px) {
-    .example-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .tabs {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .tab {
-        width: 100%;
-        text-align: center;
-        margin-bottom: 10px;
-    }
-
-    .input-group {
-        width: 100%;
-        align-items: center;
-    }
-
-    .input-group input[type="text"] {
-        width: 100%;
-    }
-
-    .input-group button {
-        width: 100%;
-    }
-
-    /* Adjust Report Header for Smaller Screens */
-    #topic_output_container .report-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    #topic_output_container .action-buttons {
-        justify-content: flex-start;
-        width: 100%;
-        margin-top: 10px;
-    }
-
-    /* Make Buttons Full Width on Smaller Screens in Topic Research Report */
-    #topic_output_container .download-button,
-    #topic_output_container .copy-button {
-        width: 100%; /* Full width buttons on smaller screens */
-    }
-
-    /* Ensure Buttons in Other Report Pages Remain Centered and Fixed Width */
-    #fact_output_container .download-button,
-    #fact_output_container .copy-button,
-    #website_output_container .download-button,
-    #website_output_container .copy-button {
-        width: 120px; /* Maintain consistent width */
-    }
-}
-
-/* ============================
-   Collapsible Sections
-============================ */
-
-.collapsible-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #f1f1f1;
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-top: 10px;
-}
-
-.collapsible-header:hover {
-    background-color: #e2e2e2;
-}
-
-.toggle-icon {
-    font-size: 18px;
-}
-
-.collapsible-content {
-    overflow: hidden;
-    transition: max-height 0.3s ease-out;
-    background-color: #fafafa;
-    padding: 0 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}
-
-/* Reference Card Styling */
-.reference-card {
-    padding: 15px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-}
-
-.reference-card-supportive {
-    background-color: #f9f9f9;
-}
-
-.source-icon {
-    width: 20px;
-    height: 20px;
-    margin-bottom: 10px;
-}
-
-/* Error Message Styling */
-.error-message {
-    color: red;
-    font-weight: bold;
-    padding: 20px;
-    background-color: #ffe6e6;
-    border: 1px solid red;
-    border-radius: 5px;
-    text-align: center;
-}
-
-/* ============================
-   Video Background Styles
-============================ */
-
+/* Video Background Styles */
 .video-background {
     position: fixed;
     top: 0;
@@ -395,38 +39,59 @@ h1 {
     z-index: -1;
 }
 
-/* ============================
-   Sticky Footer
-============================ */
-
-.footer {
-    background-color: #f8f9fa; /* Light gray background */
-    padding: 20px 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    font-family: 'Poppins', sans-serif; /* Set Poppins font for footer */
-    color: #707ff5; /* Cornflower Blue text color */
+/* Styles for Day/Night Mode */
+body.night-mode {
+    background-color: #1e1e76;
+    color: #f1f5f8;
 }
 
-.footer-item {
-    display: flex;
-    align-items: center;
-    margin: 10px 20px;
+body.night-mode a {
+    color: #ffffff;
+}
+
+/* Utilities */
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.mt-1 {
+    margin-top: 8px;
+}
+
+.mt-2 {
+    margin-top: 16px;
+}
+
+.mb-1 {
+    margin-bottom: 8px;
+}
+
+.mb-2 {
+    margin-bottom: 16px;
+}
+
+/* Shared Container Styles */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Accessibility */
+a {
+    color: #1e1e76;
     text-decoration: none;
-    color: #707ff5; /* Cornflower Blue text color */
-    font-size: 16px;
-    transition: color 0.3s ease;
 }
 
-.footer-item:hover {
-    color: #0056b3; /* Darker blue on hover for better contrast */
-}
-
-.footer-item img {
-    width: auto;       /* Maintain aspect ratio */
-    height: 32px;      /* Set a consistent height for logos */
-    max-width: 100%;   /* Prevent the image from being too large */
-    margin-left: 8px;  /* Add space between text and logo */
+a:hover,
+a:focus {
+    text-decoration: underline;
 }

@@ -1,0 +1,235 @@
+# Portuguese (Brazil) translations for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-11-29 23:28-0300\n"
+"PO-Revision-Date: 2024-11-29 23:28-0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: pt_BR\n"
+"Language-Team: pt_BR <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: templates/base.html:5
+msgid "🤖 Cool AI Tools - Simple AI for Everyone 🚀"
+msgstr "🤖 Cool AI Tools - IA Simples para Todos 🚀"
+
+#: templates/base.html:24
+msgid "Your browser does not support the video tag."
+msgstr "Seu navegador não suporta a tag de vídeo."
+
+#: templates/base.html:32
+msgid "Logo"
+msgstr "Logo"
+
+#: templates/base.html:35
+msgid "Cool AI Tools"
+msgstr "Cool AI Tools"
+
+#: templates/base.html:37
+msgid "Democratizando o Acesso a Inteligência Artificial."
+msgstr "Ferramentas de IA simples para todos."
+
+#: templates/base.html:38
+msgid "A step in the open-sourcing mission."
+msgstr ""Morte ao Conceito Falho de Propriedade Intelectual""
+
+#: templates/base.html:50
+msgid "Credits:"
+msgstr "Créditos:"
+
+#: templates/base.html:51
+msgid "Learn More"
+msgstr "Saiba Mais"
+
+#: templates/base.html:57
+msgid "🧐 Fact Checking"
+msgstr "🧐 Verificação de Fatos"
+
+#: templates/base.html:58
+msgid "📚 Topic Research"
+msgstr "📚 Pesquisa de Tópicos"
+
+#: templates/base.html:59
+msgid "🧙 Website Navigation"
+msgstr "🧙 Navegação no Site"
+
+#: templates/base.html:65
+msgid "Fact Checking"
+msgstr "Verificação de Fatos"
+
+#: templates/base.html:70 templates/base.html:71
+msgid "Health benefits of intermittent fasting"
+msgstr "Benefícios para a saúde do jejum intermitente"
+
+#: templates/base.html:74 templates/base.html:75
+msgid "Impact of social media on mental health"
+msgstr "Impacto das redes sociais na saúde mental"
+
+#: templates/base.html:78 templates/base.html:79
+msgid "Is electric car adoption growing rapidly?"
+msgstr "A adoção de carros elétricos está crescendo rapidamente?"
+
+#: templates/base.html:82 templates/base.html:83
+msgid "Do video games improve cognitive skills?"
+msgstr "Os videogames melhoram as habilidades cognitivas?"
+
+#: templates/base.html:89
+msgid "🖊 Enter a claim you need to verify"
+msgstr "🖊 Insira uma afirmação que você precisa verificar"
+
+#: templates/base.html:91 templates/base.html:132 templates/base.html:173
+msgid "🚀 Run Specialized AI Team 🚀"
+msgstr "🚀 Executar Agente Autônomo Especializado 🚀"
+
+#: templates/base.html:101
+msgid "Topic Research"
+msgstr "Pesquisa de Tópicos"
+
+#: templates/base.html:106
+msgid "Machine Learning"
+msgstr "Aprendizado de Máquina"
+
+#: templates/base.html:108
+msgid "Learn about Machine Learning"
+msgstr "Aprenda sobre Aprendizado de Máquina"
+
+#: templates/base.html:111
+msgid "Renewable Energy"
+msgstr "Energia Renovável"
+
+#: templates/base.html:112
+msgid "Latest trends"
+msgstr "Últimas tendências"
+
+#: templates/base.html:113
+msgid "Latest trends in Renewable Energy"
+msgstr "Últimas tendências em Energia Renovável"
+
+#: templates/base.html:116
+msgid "Meditation"
+msgstr "Meditação"
+
+#: templates/base.html:117
+msgid "Beginner's guide"
+msgstr "Guia para iniciantes"
+
+#: templates/base.html:118
+msgid "Beginner's guide to Meditation"
+msgstr "Guia para iniciantes em Meditação"
+
+#: templates/base.html:121
+msgid "Space Exploration"
+msgstr "Exploração Espacial"
+
+#: templates/base.html:122
+msgid "Advancements"
+msgstr "Avanços"
+
+#: templates/base.html:123
+msgid "Advancements in Space Exploration"
+msgstr "Avanços na Exploração Espacial"
+
+#: templates/base.html:129
+msgid "📚 Enter your topic of research"
+msgstr "📚 Insira seu tópico de pesquisa"
+
+#: templates/base.html:130
+msgid "🎯 Focus Area (Optional)"
+msgstr "🎯 Área de Foco (Opcional)"
+
+#: templates/base.html:142
+msgid "Website Navigation"
+msgstr "Navegação no Site"
+
+#: templates/base.html:148
+msgid "Latest Tech News"
+msgstr "Últimas Notícias de Tecnologia"
+
+#: templates/base.html:149
+msgid "Latest Tech News on The Verge"
+msgstr "Últimas Notícias de Tecnologia no The Verge"
+
+#: templates/base.html:153
+msgid "Healthy Recipes"
+msgstr "Receitas Saudáveis"
+
+#: templates/base.html:154
+msgid "Healthy Recipes on Food Network"
+msgstr "Receitas Saudáveis no Food Network"
+
+#: templates/base.html:158
+msgid "Travel Guides"
+msgstr "Guias de Viagem"
+
+#: templates/base.html:159
+msgid "Travel Guides on Lonely Planet"
+msgstr "Guias de Viagem no Lonely Planet"
+
+#: templates/base.html:163
+msgid "Investment Tips"
+msgstr "Dicas de Investimento"
+
+#: templates/base.html:164
+msgid "Investment Tips on Investopedia"
+msgstr "Dicas de Investimento no Investopedia"
+
+#: templates/base.html:170
+msgid "🌐 URL or Domain to Navigate"
+msgstr "🌐 URL ou Domínio para Navegar"
+
+#: templates/base.html:171
+msgid "🎯 Topic of Focus (Optional)"
+msgstr "🎯 Tópico de Foco (Opcional)"
+
+#: templates/base.html:188
+msgid "CrewAI"
+msgstr "CrewAI"
+
+#: templates/base.html:189
+msgid "CrewAI Logo"
+msgstr "Logotipo da CrewAI"
+
+#: templates/base.html:191
+msgid "Jina AI"
+msgstr "Jina AI"
+
+#: templates/base.html:192
+msgid "Jina AI Logo"
+msgstr "Logotipo da Jina AI"
+
+#: templates/base.html:194
+msgid "Send us an Email"
+msgstr "Envie-nos um Email"
+
+#: templates/base.html:195
+msgid "Email Logo"
+msgstr "Logotipo do Email"
+
+#: templates/base.html:197
+msgid "Follow us on LinkedIn"
+msgstr "Siga-nos no LinkedIn"
+
+#: templates/base.html:198
+msgid "LinkedIn Logo"
+msgstr "Logotipo do LinkedIn"
+
+#: templates/base.html:200
+msgid "GitHub"
+msgstr "GitHub"
+
+#: templates/base.html:201
+msgid "GitHub Logo"
+msgstr "Logotipo do GitHub"
+
+#: templates/base.html:207
+msgid "© 2024 Cool AI Tools. All rights reserved."
+msgstr "© 2024 Cool AI Tools. Todos os direitos reservados."

@@ -1,0 +1,68 @@
+/* ============================
+   footer.css
+============================ */
+
+/* Footer Styles */
+footer {
+    width: 100%;
+    margin-top: auto;
+}
+
+.footer {
+    background-color: transparent;
+    padding: 40px 5%;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #0056D2;
+    text-align: center;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-section.logos {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.footer-section.logos a {
+    display: inline-block;
+    transition: transform 0.3s;
+}
+
+.footer-section.logos a img {
+    width: 40px;
+    height: 40px;
+}
+
+.footer-section.logos a:hover {
+    transform: scale(1.1);
+}
+
+.branding p {
+    margin: 0;
+    font-size: 14px;
+    color: #0056D2;
+}
+
+/* Responsive Design for Footer */
+@media (max-width: 768px) {
+    .footer-container {
+        padding: 20px;
+    }
+
+    .footer-section.logos {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .footer-section.logos a img {
+        width: 36px;
+        height: 36px;
+    }
+}
