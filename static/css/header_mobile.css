@@ -1,53 +1,82 @@
 /* ============================
-   Mobile Header Styles
+   header_mobile.css - Updated
 ============================ */
 
 /* General Styles for Mobile Header */
 .mobile-header {
-    padding: 12px 20px;
-    border-radius: 6px; /* Rounded corners */
+    padding: 8px 22px;
+    border-radius: 12px;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+body.night-mode .mobile-header {
+    background-color: #1e1e76;
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+}
+
+/* Header Container */
 .mobile-header .header-container {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     width: 100%;
 }
 
-/* Row Layout */
+/* Header Row */
 .mobile-header .header-row {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Space between the logo/title and buttons */
     width: 100%;
+    justify-content: space-between;
 }
 
-/* Logo and Title Container */
+/* Logo Container */
 .mobile-header .logo-container {
-    display: flex;
-    align-items: center;
-    gap: 12px; /* Spacing between logo and title */
-    flex-shrink: 0; /* Prevent shrinking */
+    position: relative;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
 }
 
-.mobile-header .logo {
-    height: 40px; /* Adjust logo height for mobile */
-    width: auto;
+.mobile-header .outer-logo,
+.mobile-header .inner-logo {
+    width: 100%;
+    height: 100%;
 }
 
+.mobile-header .outer-logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: spinCounterclockwise 12s linear infinite;
+}
+
+.mobile-header .inner-logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: spinClockwise 12s linear infinite;
+}
+
+/* Title */
 .mobile-header .title {
+    align-items: left;
     font-family: 'Montserrat', sans-serif;
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: bold;
     color: #1e1e76;
     margin: 0;
-    white-space: nowrap; /* Prevent wrapping */
+    white-space: nowrap;
+}
+
+body.night-mode .mobile-header .title {
+    color: #f1f5f8;
 }
 
 /* Button Container */
@@ -55,49 +84,97 @@
     display: flex;
     gap: 8px;
     align-items: center;
-    margin-left: auto; /* Push buttons to the right */
+    margin-left: auto;
 }
 
+/* Button Styles */
 .mobile-header .button-language,
-.mobile-header .button-theme-toggle,
-.mobile-header .button-credits,
-.mobile-header .button-learn-more {
-    font-size: 14px;
-    padding: 6px 8px;
+.mobile-header .button-theme-toggle {
+    font-size: 0.75rem;
     background-color: #1e1e76;
     color: #ffffff;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px; /* More square-like */
     cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: 'Raleway', sans-serif;
+    width: 36px; /* Smaller width for square-like appearance */
+    height: 36px; /* Same height for square-like appearance */
+    text-align: center;
+    padding: 0;
 }
 
-.mobile-header .button-credits .badge {
-    position: relative;
-    background-color: #ff0000;
-    border-radius: 50%;
-    padding: 2px 6px;
-    font-size: 12px;
-    color: #ffffff;
-}
-
-.mobile-header .button-language:hover,
-.mobile-header .button-theme-toggle:hover,
-.mobile-header .button-credits:hover,
-.mobile-header .button-learn-more:hover {
+body.night-mode .mobile-header .button-language,
+body.night-mode .mobile-header .button-theme-toggle {
     background-color: #14145e;
 }
 
-/* Responsive Design */
+.mobile-header .button-credits,
+.mobile-header .button-learn-more {
+    font-size: 0.875rem;
+    background-color: #1e1e76;
+    color: #ffffff;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: 'Raleway', sans-serif;
+    padding: 5px 15px; /* Adjusted padding for rectangular appearance */
+    text-align: center;
+    height: 36px; /* Set consistent height for "Credits" and "Learn More" buttons */
+}
+
+body.night-mode .mobile-header .button-credits,
+body.night-mode .mobile-header .button-learn-more {
+    background-color: #14145e;
+}
+
+/* Hover and Focus States for Buttons */
+.mobile-header .button-language:hover,
+.mobile-header .button-theme-toggle:hover,
+.mobile-header .button-credits:hover,
+.mobile-header .button-learn-more:hover,
+.mobile-header .button-language:focus,
+.mobile-header .button-theme-toggle:focus,
+.mobile-header .button-credits:focus,
+.mobile-header .button-learn-more:focus {
+    background-color: #14145e;
+    outline: none;
+}
+
+body.night-mode .mobile-header .button-language:hover,
+body.night-mode .mobile-header .button-theme-toggle:hover,
+body.night-mode .mobile-header .button-credits:hover,
+body.night-mode .mobile-header .button-learn-more:hover,
+body.night-mode .mobile-header .button-language:focus,
+body.night-mode .mobile-header .button-theme-toggle:focus,
+body.night-mode .mobile-header .button-credits:focus,
+body.night-mode .mobile-header .button-learn-more:focus {
+    background-color: #0f0f5a;
+}
+
+/* Responsive Adjustments */
 @media (max-width: 768px) {
     .mobile-header .title {
-        font-size: 16px; /* Slightly smaller for small screens */
-    }
-
-    .mobile-header .logo {
-        height: 36px; /* Adjust logo size for smaller screens */
+        font-size: 1rem;
     }
 
     .mobile-header .logo-container {
-        gap: 8px; /* Reduce spacing for smaller screens */
+        width: 36px;
+        height: 36px;
+    }
+
+    .mobile-header .button-language,
+    .mobile-header .button-theme-toggle {
+        font-size: 0.65rem;
+        width: 32px; /* Reduced size for smaller screens */
+        height: 32px; /* Same height for square-like appearance */
+    }
+
+    .mobile-header .button-credits,
+    .mobile-header .button-learn-more {
+        font-size: 0.75rem;
+        height: 34px; /* Slightly reduced height for smaller screens */
+        padding: 4px 12px;
     }
 }

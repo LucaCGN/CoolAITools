@@ -1,11 +1,27 @@
 /* ============================
-   shared_header.css
+   shared_header.css - Updated
 ============================ */
 
-/* Importing Fonts (if needed) */
+/* CSS Variables for Consistency */
+:root {
+    --primary-color: #1e1e76; /* Lucky Point */
+    --secondary-color: #f1f5f8; /* Catskill White */
+    --accent-color: #707ff5;
+    --error-color: #e74c3c;
+    --font-primary: 'Poppins', sans-serif;
+    --font-secondary: 'Raleway', sans-serif;
+    --font-montserrat: 'Montserrat', sans-serif;
+    --border-radius: 4px;
+    --transition-speed: 0.3s;
+    --badge-background: #e74c3c;
+    --badge-color: #ffffff;
+    --outline-color: var(--primary-color);
+}
+
+/* Importing Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Raleway:wght@400;500;700&family=Montserrat:wght@700&display=swap');
 
-/* Animation for Spinning Logo */
+/* Keyframes for Spinning Logos */
 @keyframes spinCounterclockwise {
     from {
         transform: rotate(0deg);
@@ -15,19 +31,49 @@
     }
 }
 
+@keyframes spinClockwise {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 /* Shared Header Styles */
 .header {
     width: 100%;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    transition: all 0.3s ease; /* Smooth transitions */
+    z-index: 1000;
+    transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
 }
 
-/* Logo Animation */
-.logo {
-    animation: spinCounterclockwise 12s linear infinite; /* Spinning animation */
-    transition: height 0.3s ease, transform 0.3s ease; /* Smooth resizing */
+/* Logo Container Styles */
+.logo-container {
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+}
+
+.outer-logo,
+.inner-logo {
+    width: 100%;
+    height: 100%;
+}
+
+.outer-logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: spinCounterclockwise 12s linear infinite;
+}
+
+.inner-logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: spinClockwise 12s linear infinite;
 }
 
 /* Universal Button Styling */
@@ -35,31 +81,37 @@ button {
     cursor: pointer;
     border: none;
     outline: none;
-    transition: background-color 0.3s, transform 0.2s; /* Shared hover effects */
-    font-family: 'Poppins', sans-serif;
+    transition: background-color 0.3s, transform 0.2s;
+    font-family: var(--font-primary);
+    background-color: transparent;
+    color: inherit;
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
 }
 
-button:hover {
+button:hover,
+button:focus {
     transform: scale(1.05);
 }
 
 button:focus {
-    outline: 2px solid #1e1e76;
+    outline: 2px solid var(--outline-color);
+    outline-offset: 2px;
 }
 
 /* Badge Styling for Credits */
 .badge {
-    background-color: #e74c3c;
-    color: #fff;
+    background-color: var(--badge-background);
+    color: var(--badge-color);
     padding: 2px 6px;
     border-radius: 12px;
     font-size: 12px;
     position: relative;
+    display: inline-block;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 /* Header Visibility Control */
-
-/* Hide both headers by default */
 .mobile-header,
 .desktop-header {
     display: none;
@@ -80,13 +132,166 @@ button:focus {
     }
 }
 
+/* Accessibility Enhancements */
+button:focus-visible {
+    outline: 2px solid var(--outline-color);
+    outline-offset: 2px;
+}
+/* ============================
+   shared_header.css - Updated
+============================ */
 
-/* Animation for Spinning Logo */
-@keyframes spinCounterclockwise {
-    from {
-        transform: rotate(0deg);
+/* CSS Variables for Consistency */
+:root {
+    --primary-color: #1e1e76; /* Lucky Point */
+    --secondary-color: #f1f5f8; /* Catskill White */
+    --accent-color: #707ff5;
+    --error-color: #e74c3c;
+    --font-primary: 'Poppins', sans-serif;
+    --font-secondary: 'Raleway', sans-serif;
+    --font-montserrat: 'Montserrat', sans-serif;
+    --border-radius: 4px;
+    --transition-speed: 0.3s;
+    --badge-background: #e74c3c;
+    --badge-color: #ffffff;
+    --outline-color: var(--primary-color);
+}
+
+/* Importing Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Raleway:wght@400;500;700&family=Montserrat:wght@700&display=swap');
+
+/* Keyframes for Spinning Logos */
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
     }
-    to {
-        transform: rotate(-360deg);
+}
+
+/* Counterclockwise Animation */
+.spin-counterclockwise {
+    animation: spin 10s linear infinite reverse; /* Added 'reverse' for counterclockwise */
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    display: inline-block;
+    margin: 10px;
+    will-change: transform; /* Enables hardware acceleration */
+}
+
+/* Clockwise Animation */
+.spin-clockwise {
+    animation: spin 20s ease-in-out infinite; /* Different timing function for distinction */
+    width: 100px;
+    height: 100px;
+    background-color: blue;
+    display: inline-block;
+    margin: 10px;
+    will-change: transform; /* Enables hardware acceleration */
+}
+
+.outer-logo {
+    animation: spinCounterclockwise 30s linear infinite !important;
+}
+
+.inner-logo {
+    animation: spinClockwise 15s linear infinite !important;
+}
+
+
+/* Shared Header Styles */
+.header {
+    width: 100%;
+    z-index: 1000;
+    transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+/* Logo Container Styles */
+.logo-container {
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+}
+
+.outer-logo,
+.inner-logo {
+    width: 100%;
+    height: 100%;
+}
+
+.outer-logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: spinCounterclockwise 12s linear infinite;
+}
+
+.inner-logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: spinClockwise 12s linear infinite;
+}
+
+/* Universal Button Styling */
+button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: background-color 0.3s, transform 0.2s;
+    font-family: var(--font-primary);
+    background-color: transparent;
+    color: inherit;
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
+}
+
+button:hover,
+button:focus {
+    transform: scale(1.05);
+}
+
+button:focus {
+    outline: 2px solid var(--outline-color);
+    outline-offset: 2px;
+}
+
+/* Badge Styling for Credits */
+.badge {
+    background-color: var(--badge-background);
+    color: var(--badge-color);
+    padding: 2px 6px;
+    border-radius: 12px;
+    font-size: 12px;
+    position: relative;
+    display: inline-block;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Visibility Control */
+.mobile-header,
+.desktop-header {
+    display: none;
+}
+
+/* Show Mobile Header */
+@media (max-width: 768px) {
+    .mobile-header {
+        display: block;
+        font-size: 14px;
     }
+}
+
+/* Show Desktop Header */
+@media (min-width: 769px) {
+    .desktop-header {
+        display: block;
+    }
+}
+
+/* Accessibility Enhancements */
+button:focus-visible {
+    outline: 2px solid var(--outline-color);
+    outline-offset: 2px;
 }

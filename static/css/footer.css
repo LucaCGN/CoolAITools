@@ -1,33 +1,43 @@
 /* ============================
-   footer.css
+   footer.css - Updated
 ============================ */
 
 /* Footer Styles */
 footer {
     width: 100%;
-    margin-top: auto;
-}
-
-.footer {
-    background-color: transparent;
-    padding: 40px 5%;
     font-family: 'Poppins', sans-serif;
-    font-size: 14px;
-    color: #0056D2;
+    font-size: 0.875rem;
+    color: #0056D2;  /* Accent color */
     text-align: center;
+    padding: 20px 0;
+    margin-top: auto; /* Push the footer to the bottom if the main content doesn't take enough space */
 }
 
 .footer-container {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
+    width: 100%;
+    max-width: 1200px; /* Limit the width to keep it aligned with the main content */
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
+/* Branding Section (Left-aligned) */
+.branding {
+    text-align: left;
+}
+
+.branding p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #0056D2; /* Accent color */
+}
+
+/* Logos/Buttons Section (Right-aligned) */
 .footer-section.logos {
     display: flex;
-    gap: 30px;
-    justify-content: center;
-    margin-bottom: 20px;
+    gap: 20px; /* Spacing between logos */
 }
 
 .footer-section.logos a {
@@ -36,29 +46,31 @@ footer {
 }
 
 .footer-section.logos a img {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
+    border-radius: 12px; /* Increased border-radius for more rounded edges */
 }
 
-.footer-section.logos a:hover {
+.footer-section.logos a:hover,
+.footer-section.logos a:focus {
     transform: scale(1.1);
-}
-
-.branding p {
-    margin: 0;
-    font-size: 14px;
-    color: #0056D2;
+    outline: none;
 }
 
 /* Responsive Design for Footer */
 @media (max-width: 768px) {
     .footer-container {
-        padding: 20px;
+        flex-direction: column;
+        text-align: center;
+        gap: 15px; /* Space between elements in a column */
+    }
+
+    .branding {
+        text-align: center;
     }
 
     .footer-section.logos {
-        flex-wrap: wrap;
-        gap: 15px;
+        gap: 10px;
     }
 
     .footer-section.logos a img {

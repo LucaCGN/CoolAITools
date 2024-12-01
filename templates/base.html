@@ -23,9 +23,10 @@
     <link rel="stylesheet" href="{{ url_for('static', path='css/website_navigation.css') }}">
 </head>
 <body>
+
     <!-- Background Video -->
-    <video class="video-background" autoplay loop muted playsinline>
-        <source src="{{ url_for('static', path='videoplayback.mp4') }}" type="video/mp4">
+    <video id="background-video" class="video-background" autoplay loop muted playsinline>
+        <source src="{{ url_for('static', path='background_light.mp4') }}" type="video/mp4">
         {{ _('Your browser does not support the video tag.') }}
     </video>
 
@@ -33,12 +34,19 @@
     <header class="header mobile-header">
         <div class="header-container">
             <!-- Single Row: Logo + Title + Buttons -->
-            <div class="row header-row">
-                <!-- Logo -->
+            <div class="header-row">
+                <!-- Logo Container -->
                 <div class="logo-container">
-                    <img src="{{ url_for('static', path='logos/cait_logo.png') }}" alt="{{ _('Logo') }}" class="logo"><h1 class="title">{{ _('Cool AI Tools') }}</h1>
+                    <!-- Outer Gear (Spins Anticlockwise) -->
+                    <img src="{{ url_for('static', path='logos/cait_logo_outer.png') }}" alt="{{ _('Outer Gear Logo') }}" class="logo outer-logo">
+                    
+                    <!-- Inner Gear (Spins Clockwise) -->
+                    <img src="{{ url_for('static', path='logos/cait_logo_inner.png') }}" alt="{{ _('Inner Gear Logo') }}" class="logo inner-logo">
                 </div>
-
+                <!-- Title Container -->
+                <div class="title-container">
+                    <h1 class="title">{{ _('Cool AI Tools') }}</h1>
+                </div>
                 <!-- Buttons -->
                 <div class="button-container">
                     <!-- Language Toggle -->
@@ -73,7 +81,11 @@
         <div class="container header-container">
             <!-- Logo Container -->
             <div class="logo-container">
-                <img src="{{ url_for('static', path='logos/cait_logo.png') }}" alt="{{ _('Logo') }}" class="logo">
+                <!-- Outer Gear (Spins Anticlockwise) -->
+                <img src="{{ url_for('static', path='logos/cait_logo_outer.png') }}" alt="{{ _('Outer Gear Logo') }}" class="logo outer-logo">
+                
+                <!-- Inner Gear (Spins Clockwise) -->
+                <img src="{{ url_for('static', path='logos/cait_logo_inner.png') }}" alt="{{ _('Inner Gear Logo') }}" class="logo inner-logo">
             </div>
 
             <!-- Info Container -->
@@ -249,6 +261,10 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-container">
+                 <!-- Branding Section -->
+                 <div class="footer-section branding">
+                    <p>{{ _('© 2024 Cool AI Tools. All rights reserved.') }}</p>
+                </div>               
                 <!-- Logos Section -->
                 <div class="footer-section logos">
                     <!-- Five logos with links -->
@@ -269,10 +285,7 @@
                     </a>
                 </div>
 
-                <!-- Branding Section -->
-                <div class="footer-section branding">
-                    <p>{{ _('© 2024 Cool AI Tools. All rights reserved.') }}</p>
-                </div>
+
             </div>
         </div>
     </footer>

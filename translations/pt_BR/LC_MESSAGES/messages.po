@@ -35,8 +35,8 @@ msgid "Cool AI Tools"
 msgstr "Cool AI Tools"
 
 #: templates/base.html:37
-msgid "Democratizando o Acesso a Inteligência Artificial."
-msgstr "Ferramentas de IA simples para todos."
+msgid "Simple AI Tools for everyone."
+msgstr "Democratizando o Acesso a Inteligência Artificial."
 
 #: templates/base.html:38
 msgid "A step in the open-sourcing mission."
@@ -68,11 +68,11 @@ msgstr "Verificação de Fatos"
 
 #: templates/base.html:70 templates/base.html:71
 msgid "Health benefits of intermittent fasting"
-msgstr "Benefícios para a saúde do jejum intermitente"
+msgstr "Quais os Benefícios para a saúde do jejum intermitente?"
 
 #: templates/base.html:74 templates/base.html:75
 msgid "Impact of social media on mental health"
-msgstr "Impacto das redes sociais na saúde mental"
+msgstr "Impacto das redes sociais na saúde mental é negativo e mensurável?"
 
 #: templates/base.html:78 templates/base.html:79
 msgid "Is electric car adoption growing rapidly?"

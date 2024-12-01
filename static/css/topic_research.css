@@ -172,7 +172,6 @@ a:hover {
     color: #fff;
 }
 
-
 .tab-content {
     display: none;
 }
@@ -361,4 +360,329 @@ a:hover {
     .reference-card p {
         font-size: 14px;
     }
+}
+
+/* ============================
+   New Styles for Related Topics, Extracted Links, and Fetched Links Content
+============================ */
+
+/* Related Topics (Tags/Chips) */
+.related-topics {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 10px 0 20px 0;
+}
+
+.tag {
+    background-color: #e0e0e0; /* Light Gray */
+    color: #1e1e76; /* Lucky Point */
+    border-radius: 16px;
+    padding: 6px 12px;
+    margin: 4px;
+    font-size: 14px;
+    display: inline-block;
+}
+
+/* Tabs Container */
+.tabs-container {
+    display: flex;
+    margin-top: 30px;
+    border-top: 2px solid #e0e0e0;
+}
+
+.tabs-header {
+    display: flex;
+    border-bottom: 1px solid #e0e0e0;
+    cursor: pointer;
+}
+
+.tab {
+    padding: 10px 20px;
+    margin-right: 5px;
+    background-color: #f9f9f9;
+    color: #1e1e76;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.tab.active {
+    background-color: #4b4bc3; /* Indigo */
+    color: #ffffff;
+}
+
+.tab:hover {
+    background-color: #dcdcdc;
+}
+
+.tab-content {
+    display: none;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-top: none;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Extracted Links List */
+.extracted-links-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.extracted-links-list li {
+    margin-bottom: 10px;
+}
+
+.extracted-links-list a {
+    color: #4b4bc3; /* Indigo */
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.extracted-links-list a:hover {
+    text-decoration: underline;
+}
+
+.extracted-links-description {
+    margin-left: 20px;
+    color: #555;
+    font-size: 14px;
+}
+
+/* Fetched Links Content */
+.fetched-links-content {
+    margin-top: 20px;
+}
+
+.fetched-link-item {
+    margin-bottom: 20px;
+}
+
+.fetched-link-item h4 {
+    font-size: 18px;
+    color: #5cb2d1; /* Shakespeare */
+    margin-bottom: 5px;
+}
+
+.fetched-link-item p {
+    font-size: 14px;
+    color: #333;
+    margin: 5px 0;
+}
+
+.key-insights-list {
+    list-style-type: disc;
+    padding-left: 20px;
+    color: #333;
+}
+
+.key-insights-list li {
+    margin-bottom: 5px;
+}
+
+/* ============================
+   Dark Mode Styles
+============================ */
+
+body.night-mode h1,
+body.night-mode .report-title {
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode h2,
+body.night-mode .section-header {
+    color: #a0c4ff; /* Light Indigo */
+}
+
+body.night-mode h3 {
+    color: #bde0fe; /* Light Blue */
+}
+
+body.night-mode h4 {
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode p,
+body.night-mode .reason-text,
+body.night-mode .conclusion-text {
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode a {
+    color: #a0c4ff; /* Light Indigo */
+}
+
+body.night-mode .report-card {
+    background-color: #2c2c54; /* Dark Background */
+    border-color: #1e1e76; /* Indigo Border */
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .report-header .report-title {
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .badge.true {
+    background-color: #5cb2d1; /* Shakespeare */
+}
+
+body.night-mode .badge.false {
+    background-color: #e74c3c; /* Red */
+}
+
+body.night-mode .download-button {
+    background-color: #14145e; /* Dark Indigo */
+}
+
+body.night-mode .download-button:hover {
+    background-color: #0d0d3b;
+}
+
+body.night-mode .summary-card {
+    background-color: #1e1e76; /* Indigo */
+    border-left-color: #5cb2d1; /* Shakespeare */
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .summary-card h3 {
+    color: #a0c4ff; /* Light Indigo */
+}
+
+body.night-mode .summary-card p {
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .claim-section .claim-text {
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .claim-section .claim-icon {
+    color: #a0c4ff; /* Light Indigo */
+}
+
+body.night-mode .factuality-score .score-label {
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .progress-bar-container {
+    background-color: #333333; /* Dark Gray */
+}
+
+body.night-mode .progress-bar {
+    background-color: #a0c4ff; /* Light Indigo */
+}
+
+body.night-mode .factuality-score .progress-bar.score-strongly-supported {
+    background-color: #5cb2d1; /* Shakespeare */
+}
+
+body.night-mode .factuality-score .progress-bar.score-supported {
+    background-color: #a0c4ff; /* Light Indigo */
+}
+
+body.night-mode .factuality-score .progress-bar.score-neutral {
+    background-color: #707ff5; /* Cornflower Blue */
+}
+
+body.night-mode .factuality-score .progress-bar.score-not-supported {
+    background-color: #e74c3c; /* Red */
+}
+
+body.night-mode .verification-result.true {
+    background-color: #5cb2d1; /* Shakespeare */
+}
+
+body.night-mode .verification-result.false {
+    background-color: #e74c3c; /* Red */
+}
+
+body.night-mode .collapsible-header {
+    background-color: #1e1e76; /* Indigo */
+    color: #f1f5f8; /* Light Text */
+    border-color: #5cb2d1; /* Shakespeare */
+}
+
+body.night-mode .collapsible-header:hover {
+    background-color: #14145e; /* Darker Indigo */
+}
+
+body.night-mode .collapsible-header h3 {
+    color: #a0c4ff; /* Light Indigo */
+}
+
+body.night-mode .collapsible-header .toggle-icon {
+    color: #a0c4ff; /* Light Indigo */
+}
+
+body.night-mode .collapsible-content {
+    background-color: #2c2c54; /* Dark Background */
+    border-color: #1e1e76; /* Indigo Border */
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .collapsible-content p {
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .references-section {
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .references-header h2 {
+    color: #a0c4ff; /* Light Indigo */
+    border-bottom-color: #5cb2d1; /* Shakespeare */
+}
+
+body.night-mode .filter-button {
+    background-color: #14145e; /* Dark Indigo */
+}
+
+body.night-mode .filter-button.active,
+body.night-mode .filter-button:hover {
+    background-color: #0d0d3b;
+}
+
+body.night-mode .references-container .reference-card {
+    background-color: #2c2c54; /* Dark Background */
+    border-color: #1e1e76; /* Indigo Border */
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .reference-card.non-supportive {
+    border-left-color: #e74c3c; /* Red */
+}
+
+body.night-mode .reference-card .reference-title {
+    color: #a0c4ff; /* Light Indigo */
+}
+
+body.night-mode .reference-card .key-quote {
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .reference-card .support-icon {
+    color: #a0c4ff; /* Light Indigo */
+}
+
+body.night-mode .reference-card.supportive .support-icon {
+    color: #5cb2d1; /* Shakespeare */
+}
+
+body.night-mode .reference-card.non-supportive .support-icon {
+    color: #e74c3c; /* Red */
+}
+
+body.night-mode .reference-card .read-source-button {
+    background-color: #14145e; /* Dark Indigo */
+}
+
+body.night-mode .reference-card .read-source-button:hover {
+    background-color: #0d0d3b;
 }

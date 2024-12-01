@@ -1,5 +1,9 @@
 /* ============================
-   Updated general.css
+   general.css - Updated
+============================ */
+
+/* ============================
+   general.css - Updated
 ============================ */
 
 /* Importing Fonts */
@@ -25,7 +29,8 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    font-size: 16px;
+    font-size: 1rem;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 /* Video Background Styles */
@@ -41,12 +46,12 @@ body {
 
 /* Styles for Day/Night Mode */
 body.night-mode {
-    background-color: #1e1e76;
-    color: #f1f5f8;
+    background-color: #1e1e76; /* Dark Blue */
+    color: #f1f5f8; /* Light Gray */
 }
 
 body.night-mode a {
-    color: #ffffff;
+    color: #ffffff; /* White */
 }
 
 /* Utilities */
@@ -87,11 +92,54 @@ body.night-mode a {
 
 /* Accessibility */
 a {
-    color: #1e1e76;
+    color: #1e1e76; /* Lucky Point */
     text-decoration: none;
+    transition: color 0.3s;
 }
 
 a:hover,
 a:focus {
     text-decoration: underline;
+    color: #707ff5; /* Accent Blue */
+    outline: none;
+}
+
+/* Focus Styles for Accessibility */
+button:focus,
+input:focus,
+a:focus {
+    outline: 2px dashed #1e1e76; /* Lucky Point */
+    outline-offset: 4px;
+}
+
+/* Responsive Typography */
+html {
+    font-size: 100%; /* 16px */
+}
+
+@media (max-width: 768px) {
+    body {
+        font-size: 0.9rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    body {
+        font-size: 1.1rem;
+    }
+}
+
+/* Dark Mode Adjustments for Links */
+body.night-mode a:hover,
+body.night-mode a:focus {
+    color: #e0e0ff; /* Light Blue */
+}
+
+/* ============================
+   Padding to Prevent Content Overlap on Mobile
+============================ */
+@media (max-width: 768px) {
+    .wrapper {
+        padding-top: 80px; /* Adjust based on the mobile header height */
+    }
 }

@@ -1,3 +1,5 @@
+/* static/css/website_navigation.css */
+
 /* Import Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Raleway:wght@400;500;700&display=swap');
 
@@ -75,6 +77,7 @@ a:hover {
     color: #1e1e76; /* Lucky Point */
 }
 
+/* Summary Overview */
 .summary-overview {
     margin-top: 10px;
     font-size: 16px;
@@ -158,13 +161,6 @@ a:hover {
     font-family: 'Raleway', sans-serif;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .main-content-area {
-        padding: 15px;
-    }
-}
-
 /* ============================
    New Styles for Related Topics, Extracted Links, and Fetched Links Content
 ============================ */
@@ -189,6 +185,7 @@ a:hover {
 
 /* Tabs Container */
 .tabs-container {
+    display: flex;
     margin-top: 30px;
     border-top: 2px solid #e0e0e0;
 }
@@ -243,7 +240,7 @@ a:hover {
 }
 
 .extracted-links-list a {
-    color: #4b4bc3;
+    color: #4b4bc3; /* Indigo */
     text-decoration: none;
     font-weight: 500;
 }
@@ -289,14 +286,247 @@ a:hover {
     margin-bottom: 5px;
 }
 
-/* Responsive Adjustments for Tabs */
-@media (max-width: 768px) {
-    .tabs-header {
-        flex-direction: column;
-    }
+/* ============================
+   Dark Mode Styles
+============================ */
 
-    .tab {
-        margin-right: 0;
-        margin-bottom: 5px;
-    }
+body.night-mode h1,
+body.night-mode .topic-title {
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode h2,
+body.night-mode .content-section h2 {
+    color: #a0c4ff; /* Light Indigo */
+}
+
+body.night-mode h3,
+body.night-mode .sub-section h3 {
+    color: #bde0fe; /* Light Blue */
+}
+
+body.night-mode h4 {
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode p,
+body.night-mode li {
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode a {
+    color: #a0c4ff; /* Light Indigo */
+}
+
+body.night-mode .header-section {
+    background-color: #2c2c54; /* Dark Background */
+    border-bottom-color: #1e1e76; /* Indigo Border */
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .header-section .report-url {
+    color: #a0c4ff; /* Light Indigo */
+}
+
+body.night-mode .summary-overview {
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .main-content-area {
+    background-color: #2c2c54; /* Dark Background */
+}
+
+body.night-mode .content-section:nth-child(odd),
+body.night-mode .content-section:nth-child(even) {
+    background-color: #1e1e76; /* Indigo */
+}
+
+body.night-mode .sub-section p,
+body.night-mode .sub-section ul {
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .section-separator {
+    background: #1e1e76; /* Indigo */
+}
+
+body.night-mode .spinner-container {
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .spinner {
+    border: 8px solid #333333; /* Dark Gray */
+    border-top: 8px solid #f1f5f8; /* Light Text */
+}
+
+body.night-mode .spinner-text {
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .report-card {
+    background-color: #2c2c54; /* Dark Background */
+    border-color: #1e1e76; /* Indigo Border */
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .report-header .report-title {
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .badge.true {
+    background-color: #5cb2d1; /* Shakespeare */
+}
+
+body.night-mode .badge.false {
+    background-color: #e74c3c; /* Red */
+}
+
+body.night-mode .download-button {
+    background-color: #14145e; /* Dark Indigo */
+}
+
+body.night-mode .download-button:hover {
+    background-color: #0d0d3b;
+}
+
+body.night-mode .summary-card {
+    background-color: #1e1e76; /* Indigo */
+    border-left-color: #5cb2d1; /* Shakespeare */
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .summary-card h3 {
+    color: #a0c4ff; /* Light Indigo */
+}
+
+body.night-mode .summary-card p {
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .claim-section .claim-text {
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .claim-section .claim-icon {
+    color: #a0c4ff; /* Light Indigo */
+}
+
+body.night-mode .factuality-score .score-label {
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .progress-bar-container {
+    background-color: #333333; /* Dark Gray */
+}
+
+body.night-mode .progress-bar {
+    background-color: #a0c4ff; /* Light Indigo */
+}
+
+body.night-mode .factuality-score .progress-bar.score-strongly-supported {
+    background-color: #5cb2d1; /* Shakespeare */
+}
+
+body.night-mode .factuality-score .progress-bar.score-supported {
+    background-color: #a0c4ff; /* Light Indigo */
+}
+
+body.night-mode .factuality-score .progress-bar.score-neutral {
+    background-color: #707ff5; /* Cornflower Blue */
+}
+
+body.night-mode .factuality-score .progress-bar.score-not-supported {
+    background-color: #e74c3c; /* Red */
+}
+
+body.night-mode .verification-result.true {
+    background-color: #5cb2d1; /* Shakespeare */
+}
+
+body.night-mode .verification-result.false {
+    background-color: #e74c3c; /* Red */
+}
+
+body.night-mode .collapsible-header {
+    background-color: #1e1e76; /* Indigo */
+    color: #f1f5f8; /* Light Text */
+    border-color: #5cb2d1; /* Shakespeare */
+}
+
+body.night-mode .collapsible-header:hover {
+    background-color: #14145e; /* Darker Indigo */
+}
+
+body.night-mode .collapsible-header h3 {
+    color: #a0c4ff; /* Light Indigo */
+}
+
+body.night-mode .collapsible-header .toggle-icon {
+    color: #a0c4ff; /* Light Indigo */
+}
+
+body.night-mode .collapsible-content {
+    background-color: #2c2c54; /* Dark Background */
+    border-color: #1e1e76; /* Indigo Border */
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .collapsible-content p {
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .references-section {
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .references-header h2 {
+    color: #a0c4ff; /* Light Indigo */
+    border-bottom-color: #5cb2d1; /* Shakespeare */
+}
+
+body.night-mode .filter-button {
+    background-color: #14145e; /* Dark Indigo */
+}
+
+body.night-mode .filter-button.active,
+body.night-mode .filter-button:hover {
+    background-color: #0d0d3b;
+}
+
+body.night-mode .references-container .reference-card {
+    background-color: #2c2c54; /* Dark Background */
+    border-color: #1e1e76; /* Indigo Border */
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .reference-card.non-supportive {
+    border-left-color: #e74c3c; /* Red */
+}
+
+body.night-mode .reference-card .reference-title {
+    color: #a0c4ff; /* Light Indigo */
+}
+
+body.night-mode .reference-card .key-quote {
+    color: #f1f5f8; /* Light Text */
+}
+
+body.night-mode .reference-card .support-icon {
+    color: #a0c4ff; /* Light Indigo */
+}
+
+body.night-mode .reference-card.supportive .support-icon {
+    color: #5cb2d1; /* Shakespeare */
+}
+
+body.night-mode .reference-card.non-supportive .support-icon {
+    color: #e74c3c; /* Red */
+}
+
+body.night-mode .reference-card .read-source-button {
+    background-color: #14145e; /* Dark Indigo */
+}
+
+body.night-mode .reference-card .read-source-button:hover {
+    background-color: #0d0d3b;
 }
