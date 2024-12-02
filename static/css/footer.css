@@ -1,35 +1,54 @@
 /* ============================
-   footer.css - Updated
+   General Styles
 ============================ */
 
-/* Footer Styles */
-footer {
+
+
+/* Flex Container to Manage Layout */
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensures the container takes the full viewport height */
+}
+
+/* Main Content */
+.wrapper {
+    flex: 1; /* Allows the content to grow and fill available space */
+}
+
+/* ============================
+   Footer Styles
+============================ */
+
+/* Footer */
+.footer {
     width: 100%;
     font-family: 'Poppins', sans-serif;
     font-size: 0.875rem;
-    color: #0056D2;  /* Accent color */
+    color: #0056D2; /* Accent color */
     text-align: center;
-    padding: 20px 0;
-    margin-top: auto; /* Push the footer to the bottom if the main content doesn't take enough space */
+    padding: 5px 0;
+    background-color: #f9f9f9; /* Optional background for visibility */
 }
 
+/* Footer Container */
 .footer-container {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     max-width: 1200px; /* Limit the width to keep it aligned with the main content */
     margin: 0 auto;
-    padding: 0 20px;
+
 }
 
 /* Branding Section (Left-aligned) */
-.branding {
+.footer-section.branding {
     text-align: left;
 }
 
-.branding p {
-    margin: 0;
+.footer-section.branding p {
     font-size: 0.8rem;
     color: #0056D2; /* Accent color */
 }
@@ -37,7 +56,7 @@ footer {
 /* Logos/Buttons Section (Right-aligned) */
 .footer-section.logos {
     display: flex;
-    gap: 20px; /* Spacing between logos */
+    gap: 22px; /* Spacing between logos */
 }
 
 .footer-section.logos a {
@@ -48,7 +67,7 @@ footer {
 .footer-section.logos a img {
     width: 30px;
     height: 30px;
-    border-radius: 12px; /* Increased border-radius for more rounded edges */
+    border-radius: 12px; /* Rounded edges */
 }
 
 .footer-section.logos a:hover,
@@ -57,15 +76,18 @@ footer {
     outline: none;
 }
 
-/* Responsive Design for Footer */
+/* ============================
+   Responsive Design for Footer
+============================ */
+
 @media (max-width: 768px) {
     .footer-container {
         flex-direction: column;
         text-align: center;
-        gap: 15px; /* Space between elements in a column */
+        gap: 2px; /* Space between elements in a column */
     }
 
-    .branding {
+    .footer-section.branding {
         text-align: center;
     }
 
@@ -74,7 +96,7 @@ footer {
     }
 
     .footer-section.logos a img {
-        width: 36px;
-        height: 36px;
+        width: 30px;
+        height: 30px;
     }
 }

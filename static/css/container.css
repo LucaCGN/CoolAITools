@@ -1,11 +1,11 @@
 /* ============================
-   container.css - Refactored
+   container.css - Refactored and Adjusted
 ============================ */
 
 /* Container Class */
 .container {
     width: 90%;
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
     padding-bottom: 2px;
 }
@@ -18,11 +18,12 @@
     margin: 10px 0;
 }
 
-.section-header{
+.section-header {
     align-self: center;  
 }
+
 /* .tab Selector with Explicit Colors */
-.container .tabs .tab {
+.tabs .tab {
     margin: 5px;
     background-color: #707ff5; /* Default background color: #707ff5 */
     border-radius: 6px;
@@ -38,7 +39,7 @@
 }
 
 /* .tab.active Selector with Explicit Colors */
-.container .tabs .tab.active {
+.tabs .tab.active {
     margin-top: 0%;
     background-color: #1e1e76; /* Active tab background: #1e1e76 */
     border: 2px solid #1e1e76; /* Active tab border: #1e1e76 */
@@ -46,8 +47,8 @@
 }
 
 /* .tab:hover and .tab:focus Selectors with Explicit Colors */
-.container .tabs .tab:hover,
-.container .tabs .tab:focus {
+.tabs .tab:hover,
+.tabs .tab:focus {
     background-color: #5cb2d1; /* Hover and Focus background: #5cb2d1 */
     border-color: #4b4bc3;     /* Hover and Focus border: #4b4bc3 */
     outline: none;
@@ -55,7 +56,7 @@
 }
 
 /* Content Area Styling */
-.container .content-area {
+.content-area {
     padding: 15px;
     background-color: #ffffff; /* Background color: #ffffff */
     border-radius: 8px;        /* Border radius: 8px */
@@ -67,12 +68,12 @@
 }
 
 /* Input Group Styles */
-.container .input-group {
+.input-group {
     display: flex;
     flex-direction: column;
 }
 
-.container .input-group input[type="text"] {
+.input-group input[type="text"] {
     width: 80%;
     padding: 10px;
     border: 1px solid #4b4bc3;
@@ -82,7 +83,7 @@
     font-family: 'Raleway', sans-serif; /* Secondary font */
 }
 
-.container .input-group button {
+.input-group button {
     width: 50%;
     align-self: center;
     margin-top: 10px;
@@ -98,21 +99,21 @@
     font-family: 'Raleway', sans-serif; /* Secondary font */
 }
 
-.container .input-group button:hover,
-.container .input-group button:focus {
+.input-group button:hover,
+.input-group button:focus {
     background-color: #14145e; /* Hover background: #14145e */
     outline: none;
 }
 
 /* Example Suggestion Buttons */
-.container .example-grid {
+.example-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 10px;
     margin: 20px;
 }
 
-.container .example-button {
+.example-button {
     background-color: #707ff5; /* Background color: #707ff5 */
     padding: 15px;
     border-radius: 8px; /* Border radius: 8px */
@@ -126,15 +127,15 @@
     font-family: 'Raleway', sans-serif; /* Secondary font */
 }
 
-.container .example-button:hover,
-.container .example-button:focus {
+.example-button:hover,
+.example-button:focus {
     background-color: #5cb2d1; /* Hover background: #5cb2d1 */
     border-color: #4b4bc3;     /* Hover border: #4b4bc3 */
     outline: none;
 }
 
 /* Error Message Styling */
-.container .error {
+.error {
     color: #e74c3c; /* Error color: #e74c3c */
     font-weight: bold;
     margin-top: 20px;
@@ -144,7 +145,7 @@
 }
 
 /* Output Area Styling */
-.container .output-area {
+.output-area {
     margin-top: 40px;
     padding: 30px; /* Corrected from '30x' to '30px' */
     background-color: #ffffff; /* Background color: #ffffff */
@@ -155,7 +156,7 @@
 }
 
 /* Action Buttons Container */
-.container .action-buttons {
+.action-buttons {
     display: flex;
     justify-content: center;
     margin-top: 20px;
@@ -163,7 +164,7 @@
 }
 
 /* Style individual buttons */
-.container .action-buttons button {
+.action-buttons button {
     padding: 10px 10px; /* Adjust padding to make buttons fit the text better */
     border-radius: 25px; /* Make the buttons rounded */
     border: none; /* Remove default borders */
@@ -175,8 +176,8 @@
 }
 
 /* Download and Copy Buttons Styling */
-.container .download-button,
-.container .copy-button {
+.download-button,
+.copy-button {
     padding: 10px 20px;
     font-size: 1rem;
     background-color: #4b4bc3; /* Background color: #4b4bc3 */
@@ -190,88 +191,88 @@
     box-sizing: border-box;
 }
 
-.container .download-button:hover,
-.container .copy-button:hover,
-.container .download-button:focus,
-.container .copy-button:focus {
+.download-button:hover,
+.copy-button:hover,
+.download-button:focus,
+.copy-button:focus {
     background-color: #3a3ab3; /* Hover background: #3a3ab3 */
     outline: none;
 }
 
 /* Responsive Design Enhancements */
 @media (max-width: 1024px) {
-    .container .example-grid {
+    .example-grid {
         grid-template-columns: 1fr;
     }
 
-    .container .tabs {
+    .tabs {
         flex-wrap: wrap;
     }
 
-    .container .tabs .tab {
+    .tabs .tab {
         width: 100%;
         text-align: center;
     }
 
-    .container .input-group {
+    .input-group {
         width: 100%;
         align-items: center;
     }
 
-    .container .input-group input[type="text"] {
+    .input-group input[type="text"] {
         width: 100%;
     }
 
-    .container .input-group button {
+    .input-group button {
         width: 100%;
     }
 }
 
 /* Day/Night Mode for Content */
-body.night-mode .container .tabs .tab {
+body.night-mode .tabs .tab {
     background-color: #1e1e76; /* Night mode tab background: #1e1e76 */
     color: #ffffff;            /* Night mode tab text color: #ffffff */
 }
 
-body.night-mode .container .tabs .tab.active {
+body.night-mode .tabs .tab.active {
     background-color: #14145e; /* Night mode active tab background: #14145e */
     border-color: #ffffff;     /* Night mode active tab border: #ffffff */
 }
 
-body.night-mode .container .content-area {
+body.night-mode .content-area {
     background-color: #2c2c54; /* Night mode content background: #2c2c54 */
     border-color: #1e1e76;     /* Night mode content border: #1e1e76 */
     color: #f1f5f8;            /* Night mode content text color: #f1f5f8 */
 }
 
-body.night-mode .container .example-button {
+body.night-mode .example-button {
     background-color: #5cb2d1; /* Night mode example button background: #5cb2d1 */
     border-color: #4b4bc3;     /* Night mode example button border: #4b4bc3 */
 }
 
-body.night-mode .container .example-button:hover,
-body.night-mode .container .example-button:focus {
+body.night-mode .example-button:hover,
+body.night-mode .example-button:focus {
     background-color: #4b4bc3; /* Night mode example button hover background: #4b4bc3 */
     border-color: #3a3ab3;     /* Night mode example button hover border: #3a3ab3 */
 }
 
-body.night-mode .container .input-group input[type="text"] {
+body.night-mode .input-group input[type="text"] {
     background-color: #3a3ab3; /* Night mode input background: #3a3ab3 */
     color: #f1f5f8;            /* Night mode input text color: #f1f5f8 */
     border-color: #5cb2d1;     /* Night mode input border: #5cb2d1 */
 }
 
-body.night-mode .container .input-group button {
+body.night-mode .input-group button {
     background-color: #5cb2d1; /* Night mode input group button background: #5cb2d1 */
 }
 
-body.night-mode .container .input-group button:hover,
-body.night-mode .container .input-group button:focus {
+body.night-mode .input-group button:hover,
+body.night-mode .input-group button:focus {
     background-color: #4b4bc3; /* Night mode input group button hover background: #4b4bc3 */
 }
 
 /* Adjust the spacing for the tool name */
-.container .title {
+.title {
     margin-top: 0px; /* Decrease value to reduce spacing */
     padding-top: 5px; /* Adjust or remove to reduce extra space */
     font-size: 1.5rem; /* Optional: Change size if it’s taking too much space */

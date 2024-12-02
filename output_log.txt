@@ -276,3 +276,131 @@
 }
 ```"
 
+2024-12-01 18:21:24: task_name="None", task="Verify the provided academic claim: O bolsonaro planejou o golpe em lula using the Jina AI Grounding Tool. Your verification should be as detailed and comprehensive as possible, covering all relevant aspects such as methodology, data sources, and potential biases. Include all main references you consult that are pertinent to the claim. Incorporate a tool usage step when verifying the claim and conclude with a JSON report containing 'summary', 'details', 'conclusion', and 'references'. Ensure the report is thorough to meet the expectations of users from any academic field. Include as many references as you can find that are relevant.", agent="Claim Verifier", status="started"
+
+2024-12-01 18:22:24: task_name="None", task="Verify the provided academic claim: O bolsonaro planejou o golpe em lula using the Jina AI Grounding Tool. Your verification should be as detailed and comprehensive as possible, covering all relevant aspects such as methodology, data sources, and potential biases. Include all main references you consult that are pertinent to the claim. Incorporate a tool usage step when verifying the claim and conclude with a JSON report containing 'summary', 'details', 'conclusion', and 'references'. Ensure the report is thorough to meet the expectations of users from any academic field. Include as many references as you can find that are relevant.", agent="Claim Verifier", status="completed", output="{
+  "claim": "O Bolsonaro planejou o golpe em Lula",
+  "details": {
+    "factuality": 1.0,
+    "result": true,
+    "reason": "The available evidence from credible sources indicates that Jair Bolsonaro was indeed involved in planning a coup against Lula. Reports from the Brazilian Federal Police detail operational plans that suggest Bolsonaro had direct control over the execution of these actions, which included violence intended against Lula. This evidence comprises judicial and investigative findings that support the claim significantly.",
+    "references": [
+      {
+        "url": "https://g1.globo.com/politica/noticia/2024/11/19/militar-preso-por-plano-para-matar-lula-foi-ao-alvorada-e-disse-que-bolsonaro-aceitou-nosso-assessoramento-diz-pf.ghtml",
+        "keyQuote": "Segundo a PF, entre as ações elaboradas pelo grupo havia um 'detalhado planejamento operacional, denominado 'Punhal Verde e Amarelo', que seria executado no dia 15 de dezembro de 2022' para matar os já eleitos presidente Lula e o vice-presidente Geraldo Alckmin.",
+        "isSupportive": true
+      },
+      {
+        "url": "https://g1.globo.com/politica/noticia/2024/11/21/bolsonaro-indiciado-por-tentativa-de-golpe-o-que-se-sabe-ate-agora.ghtml",
+        "keyQuote": 'Núcleo Operacional de Medidas Coercitivas: encarregado de anular adversários do golpe, inclusive com uso de violência, com previsão de assassinato ou captura de Lula',
+        "isSupportive": true
+      },
+      {
+        "url": "https://g1.globo.com/politica/noticia/2024/11/26/tanques-nas-ruas-lula-nao-sobe-a-rampa-e-bolsonaro-tinha-plena-consciencia-as-revelacoes-da-trama-golpista-segundo-a-pf.ghtml",
+        "keyQuote": 'O documento, que tem mais de 800 ... A corporação indiciou 37 pessoas por envolvimento na suposta tentativa de golpe, entre eles o ex-presidente Jair Bolsonaro.',
+        "isSupportive": true
+      },
+      {
+        "url": "https://oglobo.globo.com/politica/noticia/2024/11/26/pf-diz-que-grupo-liderado-por-bolsonaro-planejou-tentativa-de-golpe-em-2022.ghtml",
+        "keyQuote": 'A Polícia Federal (PF) apontou que o ex-presidente Jair Bolsonaro "planejou, atuou e teve domínio de forma direta e efetiva" de um plano de golpe de Estado para mantê-lo no poder no fim de 2022.',
+        "isSupportive": true
+      },
+      {
+        "url": "https://www.bbc.com/portuguese/articles/c4gz1942mn0o",
+        "keyQuote": 'Bolsonaro no relatório da PF: ex-presidente liderou tentativa de golpe de Estado e sabia de plano para matar Lula, conclui inquérito',
+        "isSupportive": true
+      },
+      {
+        "url": "https://www.bbc.com/portuguese/articles/ckgrp4v73w3o",
+        "keyQuote": 'Bolsonaro, Braga Netto, Heleno e outras 34 pessoas por tentativa de golpe de Estado e organização criminosa',
+        "isSupportive": true
+      },
+      {
+        "url": "https://www.publico.pt/2024/11/21/mundo/noticia/policia-federal-implica-bolsonaro-tentativa-golpe-estado-lula-2112864",
+        "keyQuote": 'A Polícia Federal (PF) brasileira acredita que o ex-Presidente Jair Bolsonaro fez parte de uma conspiração para impedir a tomada de posse de Lula da Silva',
+        "isSupportive": true
+      },
+      {
+        "url": "https://www.publico.pt/2024/11/27/mundo/noticia/bolsonaro-planeou-golpe-sabia-plano-matar-lula-policia-brasileira-2113471",
+        "keyQuote": 'As provas demonstram de forma inequívoca que Jair Bolsonaro esteve envolvido de forma directa nos planos para a concretização do golpe de estado, segundo o relatório da Polícia Federal brasileira.',
+        "isSupportive": true
+      }
+    ]
+  },
+  "conclusion": "The evidence overwhelmingly supports the claim that Jair Bolsonaro planned a coup against Lula, with multiple credible sources detailing the operational aspects and intent behind the actions identified."
+}"
+
+2024-12-01 18:24:03: task_name="None", task="Verify the provided academic claim: O bolsonaro planejou o golpe em lula using the Jina AI Grounding Tool. Your verification should be as detailed and comprehensive as possible, covering all relevant aspects such as methodology, data sources, and potential biases. Include all main references you consult that are pertinent to the claim. Incorporate a tool usage step when verifying the claim and conclude with a JSON report containing 'summary', 'details', 'conclusion', and 'references'. Ensure the report is thorough to meet the expectations of users from any academic field. Include as many references as you can find that are relevant.", agent="Claim Verifier", status="started"
+
+2024-12-01 18:24:42: task_name="None", task="Verify the provided academic claim: O bolsonaro planejou o golpe em lula using the Jina AI Grounding Tool. Your verification should be as detailed and comprehensive as possible, covering all relevant aspects such as methodology, data sources, and potential biases. Include all main references you consult that are pertinent to the claim. Incorporate a tool usage step when verifying the claim and conclude with a JSON report containing 'summary', 'details', 'conclusion', and 'references'. Ensure the report is thorough to meet the expectations of users from any academic field. Include as many references as you can find that are relevant.", agent="Claim Verifier", status="completed", output="{
+  "claim": "O bolsonaro planejou o golpe em lula",
+  "details": {
+    "factuality": 0.9,
+    "result": true,
+    "reason": "The references provide substantial evidence indicating that Jair Bolsonaro was involved in planning actions against Lula da Silva, including leading a coup plot and having knowledge of military plans to assassinate him. Multiple sources from law enforcement and news reports corroborate these claims, suggesting a coordinated effort from Bolsonaro's government.",
+    "references": [
+      {
+        "url": "https://agorarn.com.br/ultimas/bolsonaro-atuou-golpe-diz-policia-federal/",
+        "keyQuote": "O ex-presidente Jair Bolsonaro liderou a trama golpista no final de 2022 , e a ruptura democrática não foi concretizada, segundo a Polícia Federal.",
+        "isSupportive": true
+      },
+      {
+        "url": "https://g1.globo.com/politica/noticia/2024/11/26/tanques-nas-ruas-lula-nao-sobe-a-rampa-e-bolsonaro-tinha-plena-consciencia-as-revelacoes-da-trama-golpista-segundo-a-pf.ghtml",
+        "keyQuote": "A corporação indiciou 37 pessoas por envolvimento na suposta tentativa de golpe, entre eles o ex-presidente Jair Bolsonaro.",
+        "isSupportive": true
+      },
+      {
+        "url": "https://g1.globo.com/politica/noticia/2024/11/28/pf-acha-em-pendrive-de-kid-preto-plano-para-golpe-de-estado-para-evitar-posse-de-lula.ghtml",
+        "keyQuote": "A PF destaca que o documento é um ensaio retórico preparado para ser lido em caso de subversão do Estado democrático de Direito, reforçando a conexão entre o plano golpista e os círculos próximos ao ex-presidente.",
+        "isSupportive": true
+      },
+      {
+        "url": "https://noticias.uol.com.br/politica/ultimas-noticias/2024/11/27/o-que-lula-e-bolsonaro-fizeram-publicamente-no-dia-marcado-para-o-golpe.htm",
+        "keyQuote": "o ex-presidente Jair Bolsonaro (PL) planejou, atuou e teve",
+        "isSupportive": true
+      },
+      {
+        "url": "https://www.ambito.com/mundo/exasesor-libertario-fernando-cerimedo-fue-acusado-la-policia-brasilena-participar-el-intento-golpe-lula-n6087326",
+        "keyQuote": "Las evidencias recogidas indican que Jair Bolsonaro tenía pleno",
+        "isSupportive": true
+      },
+      {
+        "url": "https://www.ambito.com/mundo/lula-hablo-el-intento-golpe-la-acusacion-la-policia-bolsonaro-nadie-lo-va-poder-desmentir-n6087346",
+        "keyQuote": "Lula da Silva, aseguró que ahora 'nadie va a poder desmentir' que el intento de golpe de Estado fue verdadero",
+        "isSupportive": true
+      },
+      {
+        "url": "https://www.bbc.com/portuguese/articles/c3e82950lleo",
+        "keyQuote": "Uma das reuniões de planejamento da operação teria acontecido na casa do general Braga Netto, candidato à vice-presidente na chapa de Bolsonaro.",
+        "isSupportive": true
+      },
+      {
+        "url": "https://www.dgabc.com.br/Noticia/4178402/bolsonaro-planejou-atuou-e-teve-o-dominio-de-forma-direta-e-efetiva-de-golpe",
+        "keyQuote": "Bolsonaro planejou, atuou e teve o dominio de forma direta e efetiva - 26/11/2024",
+        "isSupportive": true
+      },
+      {
+        "url": "https://www.france24.com/es/am%C3%A9rica-latina/20241127-la-polic%C3%ADa-acusa-a-bolsonaro-de-participaci%C3%B3n-directa-en-plan-de-golpe-de-estado-y-para-asesinar-a-lula",
+        "keyQuote": "Jair Bolsonaro tenía pleno conocimiento de plan operacional, así como de las acciones clandestinas practicadas bajo el apodo 'Copa 2022'",
+        "isSupportive": true
+      },
+      {
+        "url": "https://www.infobae.com/america/america-latina/2024/11/22/las-seis-evidencias-que-investigo-la-policia-de-brasil-y-vinculan-a-jair-bolsonaro-con-un-plan-golpista-contra-lula-da-silva/",
+        "keyQuote": "Las seis evidencias que investigó la Policía de Brasil y vinculan a Jair Bolsonaro con un plan golpista contra Lula da Silva",
+        "isSupportive": true
+      },
+      {
+        "url": "https://www.lr21.com.uy/mundo/1479756-jair-bolsonaro-intento-golpe-estado-contra-lula-da-silva-acusaciones",
+        "keyQuote": "Las evidencias recopiladas durante casi dos años apuntan a una red de acciones coordinadas desde el gobierno de Bolsonaro",
+        "isSupportive": true
+      },
+      {
+        "url": "https://www.publico.pt/2024/11/27/mundo/noticia/bolsonaro-planeou-golpe-sabia-plano-matar-lula-policia-brasileira-2113471",
+        "keyQuote": "Para além disso, as autoridades policiais acreditam que ex-presidente brasileiro tinha 'pleno conhecimento' de um plano de militares para assassinar o então Presidente eleito, Lula da Silva, por envenenamento após as eleições de 2022.",
+        "isSupportive": true
+      }
+    ]
+  },
+  "conclusion": "The evidence strongly supports the claim that Jair Bolsonaro planned actions against Lula, indicating a serious breach of democratic norms and potential conspiracy to conduct a coup."
+}"
+

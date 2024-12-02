@@ -103,8 +103,8 @@ function addExampleButtonListeners() {
     const exampleMappings = [
         {
             buttonSelector: '.example-button[data-fact_check_input]',
-            inputSelector: '#fact_check_input',
-            attributeName: 'data-fact_check_input'
+            inputSelectors: ['#fact_check_input'],
+            attributeNames: ['data-fact_check_input']
         },
         {
             buttonSelector: '.example-button[data-topic_research_input]',
@@ -122,24 +122,24 @@ function addExampleButtonListeners() {
         const buttons = document.querySelectorAll(mapping.buttonSelector);
         buttons.forEach(button => {
             button.addEventListener('click', () => {
-                if (Array.isArray(mapping.inputSelectors)) {
+                try {
                     mapping.inputSelectors.forEach((selector, index) => {
                         const inputElement = document.querySelector(selector);
                         if (inputElement) {
-                            const value = button.getAttribute(mapping.attributeNames[index]);
+                            let value = button.getAttribute(mapping.attributeNames[index]);
+
                             if (value) {
                                 inputElement.value = value;
+                                console.debug(`Set value of '${selector}' to '${value}'`);
+                            } else {
+                                console.warn(`Attribute '${mapping.attributeNames[index]}' is empty for button ID '${button.id}'`);
                             }
+                        } else {
+                            console.error(`Input element '${selector}' not found for button ID '${button.id}'`);
                         }
                     });
-                } else {
-                    const inputElement = document.querySelector(mapping.inputSelector);
-                    if (inputElement) {
-                        const value = button.getAttribute(mapping.attributeName);
-                        if (value) {
-                            inputElement.value = value;
-                        }
-                    }
+                } catch (error) {
+                    console.error(`Error processing click event for button ID '${button.id}':`, error);
                 }
             });
         });

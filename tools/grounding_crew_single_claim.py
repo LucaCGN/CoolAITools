@@ -66,9 +66,11 @@ def main():
     # Parse command-line arguments
     parser = argparse.ArgumentParser(description="Verify the accuracy of a claim using the Jina AI Grounding API.")
     parser.add_argument('--topic', type=str, required=True, help='The claim to be verified.')
+    parser.add_argument('--language', choices=['en', 'pt'], default='en', help='Language for the output report (en or pt).')
     args = parser.parse_args()
 
     claim_text = args.topic
+    language = args.language
 
     # Retrieve API keys from environment variables
     JINA_API_KEY = os.getenv("JINA_API_KEY")
@@ -93,6 +95,7 @@ def main():
         tools=[jina_grounding_tool],
         model="gpt-4-mini",
         verbose=True,
+        language="{language}"
     )
 
     # Define the task with explicit `expected_output` and `output_json`
@@ -103,6 +106,7 @@ def main():
             "Include all main references you consult that are pertinent to the claim. "
             "Incorporate a tool usage step when verifying the claim and conclude with a JSON report containing 'summary', 'details', 'conclusion', and 'references'. "
             "Ensure the report is thorough to meet the expectations of users from any academic field. Include as many references as you can find that are relevant."
+            "All the report fields must be in following language:{language}"
         ),
         expected_output=(
             "{{\n"
@@ -132,7 +136,7 @@ def main():
         tasks=[grounding_task],
         verbose=True,
         output_log_file="output_log.txt",
-        language="Português"
+        language="{language}"
     )
 
     # Execute the task with the specific claim and process the output
