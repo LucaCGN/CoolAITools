@@ -2,13 +2,13 @@ import os
 
 files = [
     "templates/base.html",
-    "static/css/general.css",
-    "static/css/header_shared.css",
-    "static/css/header_mobile.css",
-    "static/css/header_web.css",
+    #"static/css/general.css",
+    #"static/css/header_shared.css",
+    #"static/css/header_mobile.css",
+    #"static/css/header_web.css",
     #"static/css/container.css",
     #"static/css/footer.css",
-    #"static/js/scripts.js",
+    "static/js/scripts.js",
     #"static/css/loading.css",
     #"static/js/loading_cards.js",
     #"static/css/verify.css",
@@ -24,7 +24,7 @@ files = [
     #"tools/search_crew_single_topic.py",
     #"static/js/topic_research_display.js",
     #"static/js/topic_research_download.js",
-    #"static/js/verify_display.js",
+    "static/js/verify_display.js",
     #"static/js/verify_download.js",
     #"static/js/website_navigation_display.js",
     #"static/js/website_navigation_download.js"

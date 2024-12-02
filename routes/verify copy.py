@@ -1,4 +1,4 @@
-# routes/topic_research.py
+# routes/verify.py
 
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
@@ -13,7 +13,7 @@ from main import (
     logger,
     remove_ansi_codes,
     safe_parse_json,
-    generate_thinking_process_prompts_search,
+    generate_thinking_process_prompts_verify,
     ThoughtProcessResponse
 )
 
@@ -26,7 +26,7 @@ LANGUAGE_MAP = {
     'spanish': 'es'
 }
 
-# Supported languages should be defined or imported
+# Supported languages
 SUPPORTED_LANGUAGES = ['en', 'pt', 'es']
 
 def get_locale_from_request(request: Request) -> str:
@@ -44,30 +44,30 @@ def get_locale_from_request(request: Request) -> str:
     else:
         return 'en'
 
-@router.post("/topic_research/planning")
-async def topic_research_planning(request: Request):
+@router.post("/verify/planning")
+async def verify_planning(request: Request):
     """
-    Planning route for topic research.
-    Generates and returns thought process phrases based on the provided topic and language.
+    Planning route for verification.
+    Generates and returns thought process phrases based on the provided claim and language.
     """
     data = await request.json()
-    topic = data.get('topic', '').strip()
+    claim = data.get('claim', '').strip()
 
     # Retrieve language from cookie
     language_input = get_locale_from_request(request)
-    
+
     # Map full language names to codes if necessary
     language = LANGUAGE_MAP.get(language_input, language_input)
     if language not in SUPPORTED_LANGUAGES:
         logger.warning(f"Unsupported language '{language_input}'. Falling back to English.")
         language = 'en'
 
-    if not topic:
-        logger.error("Empty topic received.")
-        return JSONResponse({"error": "Error: Empty topic received."})
+    if not claim:
+        logger.error("Empty claim received.")
+        return JSONResponse({"error": "Error: Empty claim received."})
 
     try:
-        thought_process_response: ThoughtProcessResponse = generate_thinking_process_prompts_search(topic, language=language)
+        thought_process_response: ThoughtProcessResponse = generate_thinking_process_prompts_verify(claim, language=language)
         thought_process_phrases = thought_process_response.thought_process
         logger.info(f"Generated thought_process_phrases: {thought_process_phrases}")
         return JSONResponse({"thought_process": thought_process_phrases})
@@ -75,15 +75,14 @@ async def topic_research_planning(request: Request):
         logger.exception("Failed to generate thought process phrases:")
         return JSONResponse({"error": f"Error generating thought process: {str(e)}"})
 
-@router.post("/topic_research/report")
-async def topic_research_report(request: Request):
+@router.post("/verify/report")
+async def verify_report(request: Request):
     """
-    Report route for topic research.
-    Executes a backend script to generate a report based on the provided topic and language, then returns the result.
+    Report route for verification.
+    Executes a backend script to generate a report based on the provided claim and language, then returns the result.
     """
     data = await request.json()
-    topic = data.get('topic', '').strip()
-    url = data.get('url', '').strip()
+    claim = data.get('claim', '').strip()
 
     # Retrieve language from cookie
     language_input = get_locale_from_request(request)
@@ -94,13 +93,9 @@ async def topic_research_report(request: Request):
         logger.warning(f"Unsupported language '{language_input}'. Falling back to English.")
         language = 'en'
 
-    if not topic:
-        logger.error("Empty topic received.")
-        return JSONResponse({"error": "Error: Empty topic received."})
-    
-    if not url:
-        logger.error("Empty URL received.")
-        return JSONResponse({"error": "Error: Empty URL received."})
+    if not claim:
+        logger.error("Empty claim received.")
+        return JSONResponse({"error": "Error: Empty claim received."})
 
     try:
         # Prepare the subprocess environment
@@ -108,7 +103,7 @@ async def topic_research_report(request: Request):
         env['PYTHONIOENCODING'] = 'utf-8'
 
         # Construct the absolute path to the script
-        script_path = os.path.join(os.getcwd(), 'tools', 'search_crew_single_topic.py')
+        script_path = os.path.join(os.getcwd(), 'tools', 'grounding_crew_single_claim.py')
         if not os.path.exists(script_path):
             error_message = f"Script not found at path: {script_path}"
             logger.error(error_message)
@@ -120,13 +115,12 @@ async def topic_research_report(request: Request):
                 [
                     sys.executable,
                     script_path,
-                    '--topic', topic,
-                    '--language', language,  # Added language parameter
-                    '--url', url
+                    '--claim', claim,  # Assuming '--claim' is the correct argument
+                    '--language', language  # Added language parameter
                 ],
                 capture_output=True,
                 text=True,
-                encoding='utf-8',  # Specify the encoding
+                encoding='utf-8',  # Specify the encoding explicitly
                 env=env
             )
             return result.stdout
@@ -160,7 +154,5 @@ async def topic_research_report(request: Request):
             logger.error("No JSON output found after '## Final Answer'.")
             return JSONResponse({"error": "Error: No JSON output found after '## Final Answer'."})
     except Exception as e:
-        logger.exception("Error in topic research report process:")
+        logger.exception("Error in verification report process:")
         return JSONResponse({"error": f"Error: {str(e)}"})
-
-# Ensure that `SUPPORTED_LANGUAGES` is defined or imported as shown above.

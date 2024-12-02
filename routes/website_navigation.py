@@ -19,22 +19,56 @@ from main import (
 
 router = APIRouter()
 
+# Mapping full language names to codes
+LANGUAGE_MAP = {
+    'english': 'en',
+    'portuguese': 'pt',
+    'spanish': 'es'
+}
+
+# Supported languages
+SUPPORTED_LANGUAGES = ['en', 'pt', 'es']
+
+def get_locale_from_request(request: Request) -> str:
+    """
+    Retrieves the language from the 'language' cookie.
+    Defaults to 'en' if not set or unsupported.
+    """
+    locale = request.cookies.get('language', 'en').lower()
+    logger.debug(f"Detected locale from cookie: {locale}")
+    # If the locale is a full code like 'pt_BR', map it to 'pt' for consistency
+    if locale.startswith('pt'):
+        return 'pt'
+    elif locale.startswith('es'):
+        return 'es'
+    else:
+        return 'en'
+
 @router.post("/website_navigation/planning")
 async def website_navigation_planning(request: Request):
     """
     Planning route for website navigation.
-    Generates and returns thought process phrases based on the provided URL and topic.
+    Generates and returns thought process phrases based on the provided URL, topic, and language.
     """
     data = await request.json()
     url = data.get('url', '').strip()
     topic = data.get('topic', '').strip()
+
+    # Retrieve language from cookie
+    language_input = get_locale_from_request(request)
+
+    # Map full language names to codes if necessary
+    language = LANGUAGE_MAP.get(language_input, language_input)
+    if language not in SUPPORTED_LANGUAGES:
+        logger.warning(f"Unsupported language '{language_input}'. Falling back to English.")
+        language = 'en'
 
     if not url or not topic:
         logger.error("Empty URL or topic received.")
         return JSONResponse({"error": "Error: Both 'url' and 'topic' must be provided."})
 
     try:
-        thought_process_response: ThoughtProcessResponse = generate_thinking_process_prompts_read(url, topic)
+        thought_process_response: ThoughtProcessResponse = generate_thinking_process_prompts_read(url, topic, language=language)
         thought_process_phrases = thought_process_response.thought_process
         logger.info(f"Generated thought_process_phrases: {thought_process_phrases}")
         return JSONResponse({"thought_process": thought_process_phrases})
@@ -46,11 +80,20 @@ async def website_navigation_planning(request: Request):
 async def website_navigation_report(request: Request):
     """
     Report route for website navigation.
-    Executes a backend script to generate a report based on the provided URL and topic and returns the result.
+    Executes a backend script to generate a report based on the provided URL, topic, and language, then returns the result.
     """
     data = await request.json()
     url = data.get('url', '').strip()
     topic = data.get('topic', '').strip()
+
+    # Retrieve language from cookie
+    language_input = get_locale_from_request(request)
+
+    # Map full language names to codes if necessary
+    language = LANGUAGE_MAP.get(language_input, language_input)
+    if language not in SUPPORTED_LANGUAGES:
+        logger.warning(f"Unsupported language '{language_input}'. Falling back to English.")
+        language = 'en'
 
     if not url or not topic:
         logger.error("Empty URL or topic received.")
@@ -71,7 +114,13 @@ async def website_navigation_report(request: Request):
         # Define function to run the script using subprocess
         def run_script():
             result = subprocess.run(
-                [sys.executable, script_path, '--url', url, '--topic', topic],
+                [
+                    sys.executable,
+                    script_path,
+                    '--url', url,
+                    '--topic', topic,
+                    '--language', language  # Added language parameter
+                ],
                 capture_output=True,
                 text=True,
                 encoding='utf-8',  # Specify the encoding

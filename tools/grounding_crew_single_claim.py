@@ -10,7 +10,6 @@ from pydantic import BaseModel, Field
 import logging
 import json
 
-
 # Configure Logging to a file to prevent cluttering stdout
 logging.basicConfig(
     filename='logs/grounding_crew_log.txt',
@@ -65,11 +64,11 @@ class ClaimVerificationOutput(BaseModel):
 def main():
     # Parse command-line arguments
     parser = argparse.ArgumentParser(description="Verify the accuracy of a claim using the Jina AI Grounding API.")
-    parser.add_argument('--topic', type=str, required=True, help='The claim to be verified.')
-    parser.add_argument('--language', choices=['en', 'pt'], default='en', help='Language for the output report (en or pt).')
+    parser.add_argument('--claim', type=str, required=True, help='The claim to be verified.')
+    parser.add_argument('--language', choices=['en', 'pt', 'es'], default='en', help='Language for the output report (en, pt, or es).')
     args = parser.parse_args()
 
-    claim_text = args.topic
+    claim_text = args.claim
     language = args.language
 
     # Retrieve API keys from environment variables
@@ -105,8 +104,8 @@ def main():
             "Your verification should be as detailed and comprehensive as possible, covering all relevant aspects such as methodology, data sources, and potential biases. "
             "Include all main references you consult that are pertinent to the claim. "
             "Incorporate a tool usage step when verifying the claim and conclude with a JSON report containing 'summary', 'details', 'conclusion', and 'references'. "
-            "Ensure the report is thorough to meet the expectations of users from any academic field. Include as many references as you can find that are relevant."
-            "All the report fields must be in following language:{language}"
+            "Ensure the report is thorough to meet the expectations of users from any academic field. Include as many references as you can find that are relevant. "
+            "LANGUAGE SETTING FOR JSON OUTPUT: All the report fields names should be in English and their content must be explicitly in {language}."
         ),
         expected_output=(
             "{{\n"
@@ -139,8 +138,8 @@ def main():
         language="{language}"
     )
 
-    # Execute the task with the specific claim and process the output
-    output = crew.kickoff(inputs={'claim': claim_text})
+    # Execute the task with the specific claim and language
+    output = crew.kickoff(inputs={'claim': claim_text, 'language': language})
 
 
 if __name__ == "__main__":

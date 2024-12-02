@@ -145,3 +145,45 @@ function addExampleButtonListeners() {
         });
     });
 }
+
+// scripts.js
+
+/**
+ * Utility function to get a cookie value by name.
+ * @param {string} name - The name of the cookie.
+ * @returns {string|null} - The value of the cookie or null if not found.
+ */
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+}
+
+/**
+ * Function to retrieve the current language code.
+ * Maps 'pt_BR' to 'pt', 'en_US' to 'en', etc.
+ * Defaults to 'en' if not found or unsupported.
+ * @returns {string} - The language code ('en', 'pt', 'es').
+ */
+function getCurrentLanguage() {
+    const languageCookie = getCookie('language');
+    if (!languageCookie) return 'en'; // Default to English
+
+    // Mapping full language names or variants to supported codes
+    const languageMap = {
+        'en': 'en',
+        'en_us': 'en',
+        'pt': 'pt',
+        'pt_br': 'pt',
+        'es': 'es',
+        'es_es': 'es',
+        // Add more mappings if necessary
+    };
+
+    const langKey = languageCookie.toLowerCase();
+    return languageMap[langKey] || 'en'; // Default to English if unsupported
+}
+
+// Expose the functions globally if needed
+window.getCurrentLanguage = getCurrentLanguage;

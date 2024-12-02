@@ -36,13 +36,15 @@ const TopicResearchDisplayModule = (function() {
         transitionState(STATES.PREPARING_CREW);
         showSpinner("Preparing crew...");
 
+        const language = getCurrentLanguage(); // Get current language
+
         // Fetch planning texts from the backend
         fetch('/topic_research/planning', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ topic: topicInput, focus: focusInput }),
+            body: JSON.stringify({ topic: topicInput, focus: focusInput, language: language }),
         })
         .then(response => response.json())
         .then(data => {
@@ -136,12 +138,14 @@ const TopicResearchDisplayModule = (function() {
     function fetchReport() {
         const topicInput = document.getElementById('topic_research_input').value.trim();
         const focusInput = document.getElementById('topic_research_focus').value.trim();
+        const language = getCurrentLanguage(); // Get current language
+
         fetch('/topic_research/report', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ topic: topicInput, focus: focusInput }),
+            body: JSON.stringify({ topic: topicInput, focus: focusInput, language: language }),
         })
         .then(response => response.json())
         .then(data => {
@@ -438,7 +442,9 @@ const TopicResearchDisplayModule = (function() {
                 tab.classList.add('tab-active');
                 // Show the corresponding tab content
                 const activeTabContent = document.getElementById(tab.dataset.tab);
-                activeTabContent.style.display = 'block';
+                if (activeTabContent) {
+                    activeTabContent.style.display = 'block';
+                }
             });
         });
     }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ request.state.get_locale() }}">
+<html lang="{{ locale }}">
 <head>
     <meta charset="UTF-8">
     <title>{{ _('🤖 Cool AI Tools - Simple AI for Everyone 🚀') }}</title>
@@ -51,7 +51,7 @@
                 <div class="button-container">
                     <!-- Language Toggle -->
                     <form action="/set_language" method="post" class="language-form">
-                        <input type="hidden" name="language" value="{% if request.cookies.get('language', 'en') == 'en' %}pt_BR{% else %}en{% endif %}">
+                        <input type="hidden" name="language" value="{% if request.cookies.get('language', 'en') == 'en' %}pt{% else %}en{% endif %}">
                         <button type="submit" class="button-language">
                             {% if request.cookies.get('language', 'en') == 'en' %}
                                 PT
@@ -60,7 +60,8 @@
                             {% endif %}
                         </button>
                     </form>
-
+                    
+                
                     <!-- Theme Toggle -->
                     <button class="button-theme-toggle" id="toggle-day-night">☀️</button>
 
@@ -99,8 +100,8 @@
             <div class="menu-container">
                 <div class="menu-buttons">
                     <div class="top-buttons">
-                        <form action="/set_language" method="post">
-                            <input type="hidden" name="language" value="{% if request.cookies.get('language', 'en') == 'en' %}pt_BR{% else %}en{% endif %}">
+                        <form action="/set_language" method="post" class="language-form">
+                            <input type="hidden" name="language" value="{% if request.cookies.get('language', 'en') == 'en' %}pt{% else %}en{% endif %}">
                             <button type="submit" class="button-language">
                                 {% if request.cookies.get('language', 'en') == 'en' %}
                                     PT
@@ -108,7 +109,7 @@
                                     EN
                                 {% endif %}
                             </button>
-                        </form>
+                        </form>                        
                         <button class="button-theme-toggle" id="toggle-day-night">☀️</button>
                     </div>
                     <button class="button-credits">

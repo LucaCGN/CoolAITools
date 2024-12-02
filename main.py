@@ -40,14 +40,14 @@ if sys.platform == 'win32':
 logger = logging.getLogger("fastapi_app")
 logger.setLevel(logging.DEBUG)  # Set to DEBUG to capture all levels of log messages
 
-# Create handlers
+# Create handlers with UTF-8 encoding
 console_handler = logging.StreamHandler(sys.stdout)
 console_handler.setLevel(logging.DEBUG)
 
 # Ensure the 'logs' directory exists
 os.makedirs('logs', exist_ok=True)
 
-file_handler = logging.FileHandler('logs/app.log')
+file_handler = logging.FileHandler('logs/app.log', encoding='utf-8')
 file_handler.setLevel(logging.DEBUG)
 
 # Create formatter and add it to handlers
@@ -103,41 +103,50 @@ logger.debug("Initialized Babel.")
 # 5. Translation Functions
 # ============================
 
-def get_locale(request: Request) -> str:
+def get_locale_from_request(request: Request) -> str:
     """
     Function to select the language based on the 'language' cookie.
     Returns 'en' if the cookie is not set.
     """
-    locale = request.cookies.get('language', babel_configs.BABEL_DEFAULT_LOCALE)
-    logger.debug(f"Detected locale: {locale}")
+    locale = request.cookies.get('language', babel_configs.BABEL_DEFAULT_LOCALE).lower()
+    logger.debug(f"Detected locale from cookie: {locale}")
     return locale
 
-def get_translations(request: Request) -> Translations:
+def get_translations(locale: str) -> Translations:
     """
     Loads translations based on the selected locale.
+    Maps frontend locale codes to Babel locale codes if necessary.
     """
-    locale = get_locale(request)
+    # Mapping frontend locales to Babel locales
+    locale_mapping = {
+        'pt': 'pt_BR',  # Map 'pt' to 'pt_BR'
+        # Add more mappings if you have other locales
+        # 'es': 'es_ES',
+        # 'en': 'en_US',
+    }
+    
+    # Use the mapped locale if it exists; otherwise, use the original locale
+    babel_locale = locale_mapping.get(locale, locale)
+    
     translations = Translations.load(
         babel_configs.BABEL_TRANSLATION_DIRECTORY,  # Base directory for translations
-        [locale]  # List of languages
+        [babel_locale]  # List of languages
     )
-    logger.debug(f"Loaded translations for locale: {locale}")
+    logger.debug(f"Loaded translations for locale: '{babel_locale}' (mapped from '{locale}')")
     return translations
 
-def _(text: str, request: Request) -> str:
+def _(text: str, translations: Translations) -> str:
     """
     Function to translate text.
     """
-    translations = get_translations(request)
     translated_text = translations.gettext(text)
     logger.debug(f"Translating text: '{text}' -> '{translated_text}'")
     return translated_text
 
-def _l(text: str, request: Request) -> Callable[[], str]:
+def _l(text: str, translations: Translations) -> Callable[[], str]:
     """
     Lazy translation function.
     """
-    translations = get_translations(request)
     translated_text = translations.gettext(text)
     logger.debug(f"Lazy translating text: '{text}' -> '{translated_text}'")
     return lambda: translated_text
@@ -148,9 +157,10 @@ def _l(text: str, request: Request) -> Callable[[], str]:
 
 class LocaleMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
-        # Set `get_locale` in request state
-        request.state.get_locale = lambda: get_locale(request)
-        logger.debug(f"LocaleMiddleware: Set locale for request to '{get_locale(request)}'")
+        # Set `locale` in request state
+        locale = get_locale_from_request(request)
+        request.state.locale = locale
+        logger.debug(f"LocaleMiddleware: Set locale for request to '{locale}'")
         response = await call_next(request)
         return response
 
@@ -170,12 +180,18 @@ async def set_language(request: Request):
     logger.debug("Received POST request to '/set_language'.")
     try:
         form = await request.form()
-        language = form.get('language', babel_configs.BABEL_DEFAULT_LOCALE)
+        language = form.get('language', babel_configs.BABEL_DEFAULT_LOCALE).lower()
         logger.debug(f"Language selected by user: {language}")
     except Exception as e:
         logger.error(f"Error processing form data: {e}")
         language = babel_configs.BABEL_DEFAULT_LOCALE
         logger.debug(f"Falling back to default language: {language}")
+
+    # Validate the selected language
+    supported_languages = ['en', 'pt', 'es']
+    if language not in supported_languages:
+        language = babel_configs.BABEL_DEFAULT_LOCALE
+        logger.debug(f"Unsupported language selected. Falling back to '{language}'.")
 
     # Retrieve the referer header
     referer = request.headers.get('referer')
@@ -192,7 +208,7 @@ async def set_language(request: Request):
     # Create the RedirectResponse with status_code=303 to ensure GET method
     try:
         response = RedirectResponse(url=redirect_url, status_code=303)
-        response.set_cookie('language', language)
+        response.set_cookie(key='language', value=language, max_age=30*24*60*60, httponly=True, path='/')
         logger.debug(f"Set 'language' cookie to '{language}'. Redirecting with 303 status.")
         return response
     except Exception as e:
@@ -273,13 +289,14 @@ async def get_home(request: Request):
     Passes translation functions to the template.
     """
     try:
-        locale = get_locale(request)
+        locale = request.state.locale
         logger.debug(f"Rendering home page with locale '{locale}'.")
+        translations = get_translations(locale)
         return templates.TemplateResponse("base.html", {
             "request": request,
-            "_": lambda text: _(text, request),
-            "_l": lambda text: _l(text, request),
-            "locale": locale
+            "_": lambda text: _(text, translations),
+            "_l": lambda text: _l(text, translations),
+            "locale": locale  # Pass locale to the template
         })
     except Exception as e:
         logger.error(f"Error rendering home page: {e}")
@@ -296,4 +313,3 @@ async def global_exception_handler(request: Request, exc: Exception):
     """
     logger.error(f"Unhandled exception: {exc}", exc_info=True)
     return JSONResponse(status_code=500, content={"detail": "Internal Server Error"})
-

@@ -34,13 +34,15 @@ const VerifyDisplayModule = (function() {
         transitionState(STATES.PREPARING_CREW);
         showSpinner("Preparing crew...");
 
+        const language = getCurrentLanguage(); // Get current language
+
         // Fetch planning texts from the backend
         fetch('/verify/planning', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ claim: claimInput }),
+            body: JSON.stringify({ claim: claimInput, language: language }),
         })
         .then(response => response.json())
         .then(data => {
@@ -80,7 +82,7 @@ const VerifyDisplayModule = (function() {
     }
 
     function startLoadingCards(planningTexts) {
-        let loadingCardsContainer = document.createElement('div');
+        const loadingCardsContainer = document.createElement('div');
         loadingCardsContainer.classList.add('loading-cards-container');
         outputContainer.appendChild(loadingCardsContainer);
 
@@ -104,8 +106,8 @@ const VerifyDisplayModule = (function() {
                 previousCurrentCard.classList.add('stacked');
             }
 
-            let cardText = planningTexts[index];
-            let card = createLoadingCard(cardText, true);
+            const cardText = planningTexts[index];
+            const card = createLoadingCard(cardText, true);
             loadingCardsContainer.appendChild(card);
 
             // Update the reference to the current card
@@ -119,11 +121,11 @@ const VerifyDisplayModule = (function() {
     }
 
     function createLoadingCard(text, isCurrentStep) {
-        let card = document.createElement('div');
+        const card = document.createElement('div');
         card.classList.add('loading-card');
         card.classList.add(isCurrentStep ? 'current-step' : 'stacked');
 
-        let cardContent = document.createElement('div');
+        const cardContent = document.createElement('div');
         cardContent.classList.add('card-content');
         cardContent.textContent = text;
 
@@ -132,13 +134,15 @@ const VerifyDisplayModule = (function() {
     }
 
     function fetchReport() {
-        let claimInput = document.getElementById('fact_check_input').value.trim();
+        const claimInput = document.getElementById('fact_check_input').value.trim();
+        const language = getCurrentLanguage(); // Get current language
+
         fetch('/verify/report', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ claim: claimInput }),
+            body: JSON.stringify({ claim: claimInput, language: language }),
         })
         .then(response => response.json())
         .then(data => {
@@ -146,11 +150,12 @@ const VerifyDisplayModule = (function() {
                 transitionState(STATES.ERROR, data.error);
                 return;
             }
-            // Store the JSON data in the state variable
+            // Assign the JSON object directly without parsing
             window.verifyReportData = data;
+
             transitionState(STATES.REPORT_READY);
             hideSpinner();
-            displayReport(data);
+            displayReport(window.verifyReportData);
         })
         .catch(error => {
             console.error('Error:', error);
@@ -166,24 +171,7 @@ const VerifyDisplayModule = (function() {
         const reportWrapper = document.createElement('div');
         reportWrapper.id = 'report-wrapper';
 
-        // Create Summary Card
-        const summaryCard = document.createElement('div');
-        summaryCard.classList.add('summary-card');
-
-        const summaryTitle = document.createElement('h3');
-        summaryTitle.textContent = "Summary";
-
-        const summaryText = document.createElement('p');
-        summaryText.textContent = data.conclusion;
-
-        summaryCard.appendChild(summaryTitle);
-        summaryCard.appendChild(summaryText);
-
-        // Create Report Card
-        const reportCard = document.createElement('div');
-        reportCard.classList.add('report-card');
-
-        // Report Header
+        // Render header with claim and verification result
         const reportHeader = document.createElement('div');
         reportHeader.classList.add('report-header');
 
@@ -262,8 +250,8 @@ const VerifyDisplayModule = (function() {
         reportCard.appendChild(conclusionSection);
         reportCard.appendChild(referencesSection);
 
-        // Append Summary and Report to Report Wrapper
-        reportWrapper.appendChild(summaryCard);
+        // Append Report Header and Report Card to Report Wrapper
+        reportWrapper.appendChild(reportHeader);
         reportWrapper.appendChild(reportCard);
 
         // Append the report wrapper to the output container

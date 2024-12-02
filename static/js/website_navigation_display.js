@@ -36,13 +36,15 @@ const WebsiteNavigationDisplayModule = (function() {
         transitionState(STATES.PREPARING_CREW);
         showSpinner("Preparing crew...");
 
+        const language = getCurrentLanguage(); // Get current language
+
         // Fetch planning texts from the backend
         fetch('/website_navigation/planning', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ url: urlInput, topic: focusInput }),
+            body: JSON.stringify({ url: urlInput, topic: focusInput, language: language }),
         })
         .then(response => response.json())
         .then(data => {
@@ -136,12 +138,14 @@ const WebsiteNavigationDisplayModule = (function() {
     function fetchReport() {
         const urlInput = document.getElementById('website_navigation_url').value.trim();
         const focusInput = document.getElementById('website_navigation_focus').value.trim();
+        const language = getCurrentLanguage(); // Get current language
+
         fetch('/website_navigation/report', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ url: urlInput, topic: focusInput }),
+            body: JSON.stringify({ url: urlInput, topic: focusInput, language: language }),
         })
         .then(response => response.json())
         .then(data => {
@@ -408,6 +412,9 @@ const WebsiteNavigationDisplayModule = (function() {
 
         // Append action buttons to the output container
         outputContainer.appendChild(actionButtonsContainer);
+
+        // Initialize Collapsible Sections
+        initializeCollapsibleSections();
     }
 
     // Function definitions outside of displayReport
