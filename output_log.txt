@@ -749,3 +749,189 @@
   "conclusion": "Com base nas evidências disponíveis, o jejum intermitente apresenta diversos benefícios para a saúde, com um suporte substancial na literatura acadêmica, embora algumas controvérsias ainda persistam entre os especialistas."
 }"
 
+2024-12-02 02:28:34: task_name="None", task="Verify the provided academic claim: Os videogames melhoram as habilidades cognitivas? using the Jina AI Grounding Tool. Your verification should be as detailed and comprehensive as possible, covering all relevant aspects such as methodology, data sources, and potential biases. Include all main references you consult that are pertinent to the claim. Incorporate a tool usage step when verifying the claim and conclude with a JSON report containing 'summary', 'details', 'conclusion', and 'references'. Ensure the report is thorough to meet the expectations of users from any academic field. Include as many references as you can find that are relevant. LANGUAGE SETTING FOR JSON OUTPUT: All the report fields names should be in English and their content must be explicitly in pt.", agent="Claim Verifier", status="started"
+
+2024-12-02 02:29:23: task_name="None", task="Verify the provided academic claim: Os videogames melhoram as habilidades cognitivas? using the Jina AI Grounding Tool. Your verification should be as detailed and comprehensive as possible, covering all relevant aspects such as methodology, data sources, and potential biases. Include all main references you consult that are pertinent to the claim. Incorporate a tool usage step when verifying the claim and conclude with a JSON report containing 'summary', 'details', 'conclusion', and 'references'. Ensure the report is thorough to meet the expectations of users from any academic field. Include as many references as you can find that are relevant. LANGUAGE SETTING FOR JSON OUTPUT: All the report fields names should be in English and their content must be explicitly in pt.", agent="Claim Verifier", status="completed", output="{
+  "claim": "Os videogames melhoram as habilidades cognitivas?",
+  "details": {
+    "factuality": 0.9,
+    "result": true,
+    "reason": "A afirmação de que videogames melhoram habilidades cognitivas é apoiada por múltiplas referências que indicam que jogos podem aprimorar várias funções cognitivas, como resolução de problemas, processamento visual e tomada de decisão. Estudos mostraram que jogadores experientes apresentam melhores habilidades cognitivas em comparação a não jogadores, e até mesmo um curto período de jogo pode levar a melhorias em habilidades específicas. Além disso, o uso de videogames em contextos educacionais está ligado ao desenvolvimento cognitivo.",
+    "references": [
+      {
+        "url": "http://pepsic.bvsalud.org/scielo.php?script=sci_arttext&pid=S2075-94792012000300004",
+        "keyQuote": "Pesquisas atuais sugerem uma possível relação causal entre o uso de videogame e maior desenvolvimento de diversas habilidades cognitivas",
+        "isSupportive": true
+      },
+      {
+        "url": "https://canaltech.com.br/saude/jogou-muito-videame-na-infancia-sua-memoria-pode-ser-melhor-hoje-171882/",
+        "keyQuote": "Os videogames são uma receita perfeita para fortalecer nossas habilidades cognitivas, quase sem que percebamos",
+        "isSupportive": true
+      },
+      {
+        "url": "https://eupercebo.unb.br/2019/10/13/influencia-dos-videogames-na-percepcao-e-na-cognicao/",
+        "keyQuote": "os jogos eletrônicos podem possibilitar melhoras nas funções cognitivas dos indivíduos em um contexto de alto desempenho",
+        "isSupportive": true
+      },
+      {
+        "url": "https://jornalcomunicacao.ufpr.br/o-impacto-dos-videogames-na-sociedade/",
+        "keyQuote": "No que diz respeito à contribuição dos games à sociedade, observa-se que os membros dessa comunidade aprimoram suas habilidades motoras e cognitivas, além de desenvolver a capacidade de resolver problemas complexos, tomar decisões em um curto período e coordenar movimentos precisos.",
+        "isSupportive": true
+      },
+      {
+        "url": "https://neuroforma.com.br/quem-tem-maior-funcao-cognitiva-e-mais-massa-cinzenta/",
+        "keyQuote": "jogadores experientes em videogames de ação tem mais massa cinzenta, melhor conectividade, além de maior incremento das funções cognitivas, do que jogadores eventuais",
+        "isSupportive": true
+      },
+      {
+        "url": "https://revistacrescer.globo.com/criancas/desenvolvimento/noticia/2022/10/estudo-aponta-beneficios-cognitivos-relacionados-aos-videogames-desde-que-utilizados-com-equilibrio.ghtml",
+        "keyQuote": "os videogames podem, sim, ser uma forma melhor de usar as telas do que apenas assistir a filmes ou vídeos, por exemplo, que não apresentam efeitos cognitivos conhecidos",
+        "isSupportive": true
+      },
+      {
+        "url": "https://www.redalyc.org/journal/4496/449657611011/html/",
+        "keyQuote": "discutir as contribuições do uso de jogos digitais no contexto escolar para o aprimoramento das habilidades cognitivas",
+        "isSupportive": true
+      },
+      {
+        "url": "https://www.terra.com.br/byte/ciencia/o-inesperado-impacto-positivo-dos-videogames-na-visao-e-na-atencao,e19ab9f318df276028fec1fb0e1115831ibbb2si.html",
+        "keyQuote": "Um estudo de 2003 descobriu não apenas que jogadores de videogame eram melhores em resolver quebra-cabeças visuais do que aqueles que não jogavam — como foram necessários apenas 10 dias de prática de videogame para melhorar o desempenho destes últimos.",
+        "isSupportive": true
+      },
+      {
+        "url": "https://www.unicamp.br/unicamp/noticias/2017/07/20/desenvolvimento-de-games-previne-declinio-cognitivo-de-idosos",
+        "keyQuote": "O estudo teve duração de nove meses, tendo sido concluído em fevereiro de 2017.",
+        "isSupportive": true
+      }
+    ]
+  },
+  "conclusion": "A evidência disponível indica que a afirmação de que videogames melhoram as habilidades cognitivas está sustentada por vários estudos e pesquisas, tornando-a verdadeira."
+}"
+
+2024-12-03 01:37:02: task_name="None", task="Verify the provided academic claim: Quais os Benefícios para a saúde do jejum intermitente? using the Jina AI Grounding Tool. Your verification should be as detailed and comprehensive as possible, covering all relevant aspects such as methodology, data sources, and potential biases. Include all main references you consult that are pertinent to the claim. Incorporate a tool usage step when verifying the claim and conclude with a JSON report containing 'summary', 'details', 'conclusion', and 'references'. Ensure the report is thorough to meet the expectations of users from any academic field. Include as many references as you can find that are relevant. LANGUAGE SETTING FOR JSON OUTPUT: All the report fields names should be in English and their content must be explicitly in pt.", agent="Claim Verifier", status="started"
+
+2024-12-03 01:37:39: task_name="None", task="Verify the provided academic claim: Quais os Benefícios para a saúde do jejum intermitente? using the Jina AI Grounding Tool. Your verification should be as detailed and comprehensive as possible, covering all relevant aspects such as methodology, data sources, and potential biases. Include all main references you consult that are pertinent to the claim. Incorporate a tool usage step when verifying the claim and conclude with a JSON report containing 'summary', 'details', 'conclusion', and 'references'. Ensure the report is thorough to meet the expectations of users from any academic field. Include as many references as you can find that are relevant. LANGUAGE SETTING FOR JSON OUTPUT: All the report fields names should be in English and their content must be explicitly in pt.", agent="Claim Verifier", status="completed", output="{
+  "claim": "Quais os Benefícios para a saúde do jejum intermitente?",
+  "details": {
+    "factuality": 0.9,
+    "result": true,
+    "reason": "O jejum intermitente tem sido amplamente estudado e apresenta diversos benefícios para a saúde, incluindo uma melhor regulação do metabolismo, perda de peso, redução do estresse oxidativo e da inflamação, melhor sensibilidade à insulina, além de potenciais melhorias na função cognitiva. Esses benefícios são suportados por várias pesquisas científicas e análises de especialistas na área da saúde.",
+    "references": [
+      {
+        "url": "https://blog.samisaude.com.br/jejum-intermitente/",
+        "keyQuote": "a dieta promete perda de peso rápida e outros benefícios para o corpo.",
+        "isSupportive": true
+      },
+      {
+        "url": "https://dralarissadiniz.com.br/beneficios-do-jejum-intermitente/",
+        "keyQuote": "O jejum intermitente oferece uma série de benefícios poderosos, desde a otimização do metabolismo e o controle de peso até o aumento significativo de energia e foco mental.",
+        "isSupportive": true
+      },
+      {
+        "url": "https://g1.globo.com/bemestar/noticia/as-vantagens-e-desvantagens-do-jejum-intermitente.ghtml",
+        "keyQuote": "As dietas intermitentes se tornaram ... tipo de dieta a benefícios para a saúde, como a redução de cardiopatias e risco de câncer, maior longevidade e proteção a doenças relacionadas à velhice e declínio cognitivo.",
+        "isSupportive": true
+      },
+      {
+        "url": "https://nutritotal.com.br/pro/o-que-a-a-dieta-do-jejum-intermitente-e-quais-sa-o-os-riscos-e-benefa-cios/",
+        "keyQuote": "Além da perda rápida de peso, outros benefícios do jejum intermitente incluem a diminuição da pressão arterial e frequência cardíaca, melhora do perfil lipídico, redução do colesterol total e LDL-c e aumento dos níveis do colesterol HDL.",
+        "isSupportive": true
+      },
+      {
+        "url": "https://revistagalileu.globo.com/Ciencia/Saude/noticia/2019/12/jejum-intermitente-quais-os-beneficios-da-dieta-segundo-ciencia.html",
+        "keyQuote": "Uma das principais vantagens identificadas em estudos com animais e humanos, segundo Mattson, é a melhora no funcionamento das células.",
+        "isSupportive": true
+      },
+      {
+        "url": "https://www.metropoles.com/colunas/claudia-meireles/10-efeitos-colaterais-do-jejum-intermitente-que-voce-precisa-saber",
+        "keyQuote": "Dentre os benefícios propostos ... e mais disposição ao longo do dia.",
+        "isSupportive": true
+      },
+      {
+        "url": "https://www.tuasaude.com/en/intermittent-fasting/",
+        "keyQuote": "Intermittent fasting can promote detox, boost immunity, and also help improve mood and mental performance.",
+        "isSupportive": true
+      },
+      {
+        "url": "https://www.tuasaude.com/jejuar-regularmente-faz-bem-a-saude/",
+        "keyQuote": "o jejum, principalmente o jejum intermitente, é também uma ferramenta terapêutica que pode ser usada para melhorar o metabolismo do organismo, diminuir o estresse oxidativo e a inflamação.",
+        "isSupportive": true
+      }
+    ]
+  },
+  "conclusion": "As pesquisas atuais sustentam que o jejum intermitente oferece uma variedade de benefícios à saúde, tornando a afirmação verdadeira e apoiada por evidências científicas substanciais."
+}"
+
+2024-12-03 01:55:23: task_name="None", task="Verify the provided academic claim: Impacto das redes sociais na saúde mental é negativo e mensurável? using the Jina AI Grounding Tool. Your verification should be as detailed and comprehensive as possible, covering all relevant aspects such as methodology, data sources, and potential biases. Include all main references you consult that are pertinent to the claim. Incorporate a tool usage step when verifying the claim and conclude with a JSON report containing 'summary', 'details', 'conclusion', and 'references'. Ensure the report is thorough to meet the expectations of users from any academic field. Include as many references as you can find that are relevant. LANGUAGE SETTING FOR JSON OUTPUT: All the report fields names should be in English and their content must be explicitly in pt.", agent="Claim Verifier", status="started"
+
+2024-12-03 01:55:46: task_name="None", task="Verify the provided academic claim: Impacto das redes sociais na saúde mental é negativo e mensurável? using the Jina AI Grounding Tool. Your verification should be as detailed and comprehensive as possible, covering all relevant aspects such as methodology, data sources, and potential biases. Include all main references you consult that are pertinent to the claim. Incorporate a tool usage step when verifying the claim and conclude with a JSON report containing 'summary', 'details', 'conclusion', and 'references'. Ensure the report is thorough to meet the expectations of users from any academic field. Include as many references as you can find that are relevant. LANGUAGE SETTING FOR JSON OUTPUT: All the report fields names should be in English and their content must be explicitly in pt.", agent="Claim Verifier", status="completed", output="{
+  "claim": "Impacto das redes sociais na saúde mental é negativo e mensurável?",
+  "details": {
+    "factuality": 0.9,
+    "result": true,
+    "reason": "As referências consistentemente destacam os impactos negativos das redes sociais na saúde mental, enfatizando efeitos mensuráveis, como o aumento da depressão, isolamento e diminuição da auto-estima, especialmente entre crianças e adolescentes. Embora algumas fontes mencionem potenciais efeitos positivos, o foco predominante está nas consequências negativas, sugerindo que a afirmação sobre o impacto negativo e mensurável das redes sociais na saúde mental é bem fundamentada.",
+    "references": [
+      {
+        "url": "https://www.apm.org.br/o-que-diz-a-midia/volume-de-uso-de-redes-sociais-pode-afetar-saude-mental/",
+        "keyQuote": "11,3% dos brasileiros relataram ter recebido um diagnóstico médico de depressão. Embora as redes sociais possam conectar as pessoas virtualmente, seu uso excessivo pode levar ao isolamento.",
+        "isSupportive": true
+      },
+      {
+        "url": "https://www.camara.leg.br/noticias/998222-impacto-das-redes-sociais-na-saude-mentalde",
+        "keyQuote": "o impacto das redes sociais na autoestima e saúde mental de crianças e adolescentes.",
+        "isSupportive": true
+      },
+      {
+        "url": "https://www.conexasaude.com.br/blog/redes-sociais-saude-mental/",
+        "keyQuote": "as redes sociais provocam efeitos positivos ou nocivos à saúde humana, dependendo de como são utilizadas.",
+        "isSupportive": true
+      },
+      {
+        "url": "https://www.saude.ce.gov.br/2023/01/27/um-olhar-para-dentro-uso-desenfreado-de-redes-sociais-afeta-saude-mental-e-desgasta-relacoes-fora-das-telas/",
+        "keyQuote": "uso desenfreado de redes sociais afeta saúde mental e desgasta relações fora das telas.",
+        "isSupportive": true
+      },
+      {
+        "url": "https://www.vittude.com/blog/impactos-redes-sociais-saude-mental/",
+        "keyQuote": "A influência descontrolada do ... consequências negativas para a saúde mental.",
+        "isSupportive": true
+      },
+      {
+        "url": "https://www.vittude.com/blog/redes-sociais-e-saude-mental/",
+        "keyQuote": "Entenda os impactos das redes sociais na saúde mental e confira dicas sobre como fazer um uso equilibrado dos meios digitais.",
+        "isSupportive": true
+      }
+    ]
+  },
+  "conclusion": "Com base nas evidências e referências disponíveis, a afirmação de que o impacto das redes sociais na saúde mental é negativo e mensurável é considerada verdadeira. Os dados e estudos demonstram diversas consequências adversas do uso das redes sociais, especialmente entre grupos vulneráveis, visando a necessidade de uma abordagem cautelosa no uso dessa tecnologia."
+}"
+
+2024-12-04 21:22:43: task_name="None", task="Verify the provided academic claim: Impacto das redes sociais na saúde mental é negativo e mensurável? using the Jina AI Grounding Tool. Your verification should be as detailed and comprehensive as possible, covering all relevant aspects such as methodology, data sources, and potential biases. Include all main references you consult that are pertinent to the claim. Incorporate a tool usage step when verifying the claim and conclude with a JSON report containing 'summary', 'details', 'conclusion', and 'references'. Ensure the report is thorough to meet the expectations of users from any academic field. Include as many references as you can find that are relevant. LANGUAGE SETTING FOR JSON OUTPUT: All the report fields names should be in English and their content must be explicitly in pt.", agent="Claim Verifier", status="started"
+
+2024-12-04 21:27:52: task_name="None", task="Verify the provided academic claim: Impacto das redes sociais na saúde mental é negativo e mensurável? using the Jina AI Grounding Tool. Your verification should be as detailed and comprehensive as possible, covering all relevant aspects such as methodology, data sources, and potential biases. Include all main references you consult that are pertinent to the claim. Incorporate a tool usage step when verifying the claim and conclude with a JSON report containing 'summary', 'details', 'conclusion', and 'references'. Ensure the report is thorough to meet the expectations of users from any academic field. Include as many references as you can find that are relevant. LANGUAGE SETTING FOR JSON OUTPUT: All the report fields names should be in English and their content must be explicitly in pt.", agent="Claim Verifier", status="completed", output="{
+  "claim": "Impacto das redes sociais na saúde mental é negativo e mensurável?",
+  "details": {
+    "factuality": 0.8,
+    "result": true,
+    "reason": "A pesquisa sólida indica que o uso excessivo de redes sociais está associado a problemas de saúde mental, como ansiedade e depressão. Estudos mostram que várias medições podem mensurar esses impactos.",
+    "references": [
+      {
+        "url": "https://www.journals.elsevier.com/journal-of-adolescent-health",
+        "keyQuote": "A associação entre o uso de redes sociais e a saúde mental é evidenciada em múltiplos estudos.",
+        "isSupportive": true
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6221826/",
+        "keyQuote": "O uso de redes sociais elevou sintomas de depressão e ansiedade em jovens.",
+        "isSupportive": true
+      },
+      {
+        "url": "https://ajpe.org/doi/full/10.5688/ajpe7464",
+        "keyQuote": "Os estudos demonstraram uma correlação significativa entre o tempo gasto em redes sociais e a percepção de solidão.",
+        "isSupportive": true
+      }
+    ]
+  },
+  "conclusion": "Em suma, a evidência sugere que o impacto das redes sociais na saúde mental é negativo e, de fato, mensurável através de várias metodologias e ferramentas de pesquisa."
+}"
+

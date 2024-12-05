@@ -1,3 +1,5 @@
+// static/js/scripts.js
+
 document.addEventListener('DOMContentLoaded', () => {
     const tabs = document.querySelectorAll('.tab');
     const sections = {

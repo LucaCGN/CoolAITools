@@ -27,12 +27,12 @@ const VerifyDisplayModule = (function() {
 
         let claimInput = document.getElementById('fact_check_input').value.trim();
         if (!claimInput) {
-            alert("Please enter a claim to verify.");
+            alert(window.translations.error_empty_claim || "Please enter a claim to verify.");
             return;
         }
 
         transitionState(STATES.PREPARING_CREW);
-        showSpinner("Preparing crew...");
+        showSpinner(window.translations.preparing_crew || "Preparing crew...");
 
         const language = getCurrentLanguage(); // Get current language
 
@@ -57,7 +57,7 @@ const VerifyDisplayModule = (function() {
         })
         .catch(error => {
             console.error('Error:', error);
-            transitionState(STATES.ERROR, "An error occurred while preparing the crew.");
+            transitionState(STATES.ERROR, window.translations.error_preparing_crew || "An error occurred while preparing the crew.");
         });
     }
 
@@ -93,7 +93,7 @@ const VerifyDisplayModule = (function() {
             if (index >= planningTexts.length) {
                 // All cards added, prepare report
                 transitionState(STATES.PREPARING_REPORT);
-                showSpinner("Preparing report...");
+                showSpinner(window.translations.preparing_report || "Preparing report...");
                 setTimeout(() => {
                     fetchReport();
                 }, 3000);
@@ -159,7 +159,7 @@ const VerifyDisplayModule = (function() {
         })
         .catch(error => {
             console.error('Error:', error);
-            transitionState(STATES.ERROR, "An error occurred while preparing the report.");
+            transitionState(STATES.ERROR, window.translations.error_preparing_report || "An error occurred while preparing the report.");
         });
     }
 
@@ -192,9 +192,9 @@ const VerifyDisplayModule = (function() {
         factualitySection.classList.add('factuality-score');
 
         const factualityLabel = document.createElement('span');
-        factualityLabel.textContent = "Factuality Score:";
+        factualityLabel.textContent = window.translations.factuality_score || "Factuality Score:";
         factualityLabel.classList.add('tooltip');
-        factualityLabel.innerHTML += `<span class="tooltiptext">A score that represents the strength of evidence supporting the claim.</span>`;
+        factualityLabel.innerHTML += `<span class="tooltiptext">${window.translations.factuality_score_tooltip || "A score that represents the strength of evidence supporting the claim."}</span>`;
 
         const progressBarContainer = document.createElement('div');
         progressBarContainer.classList.add('progress-bar-container');
@@ -221,13 +221,13 @@ const VerifyDisplayModule = (function() {
         const scoreLabel = document.createElement('span');
         scoreLabel.classList.add('score-label');
         if (score >= 0.75) {
-            scoreLabel.textContent = "Strongly Supported";
+            scoreLabel.textContent = window.translations.strongly_supported || "Strongly Supported";
         } else if (score >= 0.5) {
-            scoreLabel.textContent = "Supported";
+            scoreLabel.textContent = window.translations.supported || "Supported";
         } else if (score >= 0.25) {
-            scoreLabel.textContent = "Neutral";
+            scoreLabel.textContent = window.translations.neutral || "Neutral";
         } else {
-            scoreLabel.textContent = "Not Supported";
+            scoreLabel.textContent = window.translations.not_supported || "Not Supported";
         }
 
         factualitySection.appendChild(factualityLabel);
@@ -235,13 +235,17 @@ const VerifyDisplayModule = (function() {
         factualitySection.appendChild(scoreLabel);
 
         // Reason Section (Collapsible)
-        const reasonSection = createCollapsibleSection("Reason", data.details.reason);
+        const reasonSection = createCollapsibleSection(window.translations.reason || "Reason", data.details.reason);
 
         // Conclusion Section (Collapsible)
-        const conclusionSection = createCollapsibleSection("Conclusion", data.conclusion);
+        const conclusionSection = createCollapsibleSection(window.translations.conclusion || "Conclusion", data.conclusion);
 
         // References Section
         const referencesSection = createReferencesSection(data.details.references);
+
+        // **Define reportCard**
+        const reportCard = document.createElement('div');
+        reportCard.classList.add('report-card');
 
         // Assemble Report Card
         reportCard.appendChild(reportHeader);
@@ -263,7 +267,7 @@ const VerifyDisplayModule = (function() {
 
         const downloadButton = document.createElement('button');
         downloadButton.classList.add('download-button');
-        downloadButton.textContent = 'Download Report';
+        downloadButton.textContent = window.translations.download_report || 'Download Report';
         downloadButton.addEventListener('click', () => {
             if (typeof downloadVerifyReport === 'function') {
                 downloadVerifyReport();
@@ -274,7 +278,7 @@ const VerifyDisplayModule = (function() {
 
         const copyButton = document.createElement('button');
         copyButton.classList.add('copy-button');
-        copyButton.textContent = 'Copy to Clipboard';
+        copyButton.textContent = window.translations.copy_to_clipboard || 'Copy to Clipboard';
         copyButton.addEventListener('click', () => {
             if (typeof copyVerifyReport === 'function') {
                 copyVerifyReport();
@@ -327,24 +331,24 @@ const VerifyDisplayModule = (function() {
         header.classList.add('references-header');
 
         const title = document.createElement('h2');
-        title.textContent = "References";
+        title.textContent = window.translations.references || "References";
 
         const filterOptions = document.createElement('div');
         filterOptions.classList.add('filter-options');
 
         const allFilter = document.createElement('button');
         allFilter.classList.add('filter-button', 'active');
-        allFilter.textContent = "All";
+        allFilter.textContent = window.translations.all || "All";
         allFilter.addEventListener('click', () => filterReferences('all'));
 
         const supportiveFilter = document.createElement('button');
         supportiveFilter.classList.add('filter-button');
-        supportiveFilter.textContent = "Supportive";
+        supportiveFilter.textContent = window.translations.supportive || "Supportive";
         supportiveFilter.addEventListener('click', () => filterReferences('supportive'));
 
         const nonSupportiveFilter = document.createElement('button');
         nonSupportiveFilter.classList.add('filter-button');
-        nonSupportiveFilter.textContent = "Non-Supportive";
+        nonSupportiveFilter.textContent = window.translations.non_supportive || "Non-Supportive";
         nonSupportiveFilter.addEventListener('click', () => filterReferences('non-supportive'));
 
         filterOptions.appendChild(allFilter);
@@ -435,7 +439,7 @@ const VerifyDisplayModule = (function() {
         readSource.href = ref.url;
         readSource.target = "_blank";
         readSource.rel = "noopener noreferrer";
-        readSource.textContent = "Read Source";
+        readSource.textContent = window.translations.read_source || "Read Source";
 
         actions.appendChild(supportIcon);
         actions.appendChild(readSource);

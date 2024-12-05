@@ -6,7 +6,6 @@ import os
 import logging
 import ast
 from typing import Callable
-from types import SimpleNamespace
 
 from fastapi import FastAPI, Request, Depends, Form
 from fastapi.responses import HTMLResponse, JSONResponse, StreamingResponse, RedirectResponse
@@ -82,6 +81,7 @@ logger.debug("Configured Jinja2 templates.")
 # ============================
 # 4. Configure FastAPI-Babel
 # ============================
+
 # Adjust ROOT_DIR to ricertai folder
 ROOT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'ricertai')
 
@@ -119,18 +119,18 @@ def get_translations(locale: str) -> Translations:
     """
     # Mapping frontend locales to Babel locales
     locale_mapping = {
-        'pt': 'pt_BR',  # Map 'pt' to 'pt_BR'
-        # Add more mappings if you have other locales
-        # 'es': 'es_ES',
-        # 'en': 'en_US',
+        'pt': 'pt',  # Map 'pt' to 'pt'
+        'es': 'es',
+        'en': 'en',
     }
     
     # Use the mapped locale if it exists; otherwise, use the original locale
     babel_locale = locale_mapping.get(locale, locale)
     
     translations = Translations.load(
-        babel_configs.BABEL_TRANSLATION_DIRECTORY,  # Base directory for translations
-        [babel_locale]  # List of languages
+        dirname=babel_configs.BABEL_TRANSLATION_DIRECTORY,  # Base directory for translations
+        locales=[babel_locale],  # List of languages
+        domain=babel_configs.BABEL_DOMAIN  # Specify the domain
     )
     logger.debug(f"Loaded translations for locale: '{babel_locale}' (mapped from '{locale}')")
     return translations
@@ -208,7 +208,13 @@ async def set_language(request: Request):
     # Create the RedirectResponse with status_code=303 to ensure GET method
     try:
         response = RedirectResponse(url=redirect_url, status_code=303)
-        response.set_cookie(key='language', value=language, max_age=30*24*60*60, httponly=True, path='/')
+        response.set_cookie(
+            key='language',
+            value=language,
+            max_age=30*24*60*60,  # 30 days
+            httponly=False,  # Allow JavaScript to read the cookie if needed
+            path='/'
+        )
         logger.debug(f"Set 'language' cookie to '{language}'. Redirecting with 303 status.")
         return response
     except Exception as e:
@@ -286,17 +292,47 @@ except ImportError as e:
 async def get_home(request: Request):
     """
     Home route that renders the main page.
-    Passes translation functions to the template.
+    Passes translation functions and translations to the template.
     """
     try:
         locale = request.state.locale
         logger.debug(f"Rendering home page with locale '{locale}'.")
+
+        # Load translations
         translations = get_translations(locale)
+
+        # Create translations dictionary for frontend
+        translations_dict = {
+            "preparing_crew": _( "Preparing crew...", translations),
+            "error_empty_claim": _( "Please enter a claim to verify.", translations),
+            "error_preparing_crew": _( "An error occurred while preparing the crew.", translations),
+            "error_preparing_report": _( "An error occurred while preparing the report.", translations),
+            "preparing_report": _( "Preparing report...", translations),
+            "factuality_score": _( "Factuality Score:", translations),
+            "factuality_score_tooltip": _( "A score that represents the strength of evidence supporting the claim.", translations),
+            "strongly_supported": _( "Strongly Supported", translations),
+            "supported": _( "Supported", translations),
+            "neutral": _( "Neutral", translations),
+            "not_supported": _( "Not Supported", translations),
+            "reason": _( "Reason", translations),
+            "conclusion": _( "Conclusion", translations),
+            "references": _( "References", translations),
+            "all": _( "All", translations),
+            "supportive": _( "Supportive", translations),
+            "non_supportive": _( "Non-Supportive", translations),
+            "read_source": _( "Read Source", translations),
+            "download_report": _( "Download Report", translations),
+            "copy_to_clipboard": _( "Copy to Clipboard", translations ),
+            # Add any additional translations used in your frontend here
+        }
+
+        # Pass translations to the template
         return templates.TemplateResponse("base.html", {
             "request": request,
             "_": lambda text: _(text, translations),
             "_l": lambda text: _l(text, translations),
-            "locale": locale  # Pass locale to the template
+            "locale": locale,  # Pass locale to the template
+            "translations": translations_dict  # Pass translations dict for frontend
         })
     except Exception as e:
         logger.error(f"Error rendering home page: {e}")

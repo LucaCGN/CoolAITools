@@ -233,3 +233,94 @@ msgstr "GitHub Logo"
 #: templates/base.html:207
 msgid "© 2024 Cool AI Tools. All rights reserved."
 msgstr "© 2024 Cool AI Tools. All rights reserved."
+
+#: scripts.js: (other lines)
+msgid "Error: Empty claim received."
+msgstr "Error: Empty claim received."
+
+#: scripts.js: (other lines)
+msgid "Error generating thought process."
+msgstr "Error generating thought process."
+
+#: scripts.js: (other lines)
+msgid "Error generating report."
+msgstr "Error generating report."
+
+# Additional Translation Keys Required
+
+# Adding missing translation keys based on the `window.translations` object
+#: templates/base.html:9
+msgid "Preparing crew..."
+msgstr "Preparing crew..."
+
+#: templates/base.html:10
+msgid "An error occurred while preparing the crew."
+msgstr "An error occurred while preparing the crew."
+
+#: templates/base.html:11
+msgid "An error occurred while preparing the report."
+msgstr "An error occurred while preparing the report."
+
+#: templates/base.html:12
+msgid "Preparing report..."
+msgstr "Preparing report..."
+
+#: templates/base.html:13
+msgid "Factuality Score:"
+msgstr "Factuality Score:"
+
+#: templates/base.html:14
+msgid "A score that represents the strength of evidence supporting the claim."
+msgstr "A score that represents the strength of evidence supporting the claim."
+
+#: templates/base.html:15
+msgid "Strongly Supported"
+msgstr "Strongly Supported"
+
+#: templates/base.html:16
+msgid "Supported"
+msgstr "Supported"
+
+#: templates/base.html:17
+msgid "Neutral"
+msgstr "Neutral"
+
+#: templates/base.html:18
+msgid "Not Supported"
+msgstr "Not Supported"
+
+#: templates/base.html:19
+msgid "Reason"
+msgstr "Reason"
+
+#: templates/base.html:20
+msgid "Conclusion"
+msgstr "Conclusion"
+
+#: templates/base.html:21
+msgid "References"
+msgstr "References"
+
+#: templates/base.html:22
+msgid "All"
+msgstr "All"
+
+#: templates/base.html:23
+msgid "Supportive"
+msgstr "Supportive"
+
+#: templates/base.html:24
+msgid "Non-Supportive"
+msgstr "Non-Supportive"
+
+#: templates/base.html:25
+msgid "Read Source"
+msgstr "Read Source"
+
+#: templates/base.html:26
+msgid "Download Report"
+msgstr "Download Report"
+
+#: templates/base.html:27
+msgid "Copy to Clipboard"
+msgstr "Copy to Clipboard"

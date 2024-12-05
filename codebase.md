@@ -1,11 +1,36 @@
 ## base.html
 ```python
 <!DOCTYPE html>
-<html lang="{{ request.state.get_locale() }}">
+
+
+<html lang="{{ locale }}">
 <head>
     <meta charset="UTF-8">
     <title>{{ _('🤖 Cool AI Tools - Simple AI for Everyone 🚀') }}</title>
-
+    <script>
+        window.translations = {
+            "preparing_crew": "{{ _('Preparing crew...')|tojson }}",
+            "error_empty_claim": "{{ _('Please enter a claim to verify.')|tojson }}",
+            "error_preparing_crew": "{{ _('An error occurred while preparing the crew.')|tojson }}",
+            "error_preparing_report": "{{ _('An error occurred while preparing the report.')|tojson }}",
+            "preparing_report": "{{ _('Preparing report...')|tojson }}",
+            "factuality_score": "{{ _('Factuality Score:')|tojson }}",
+            "factuality_score_tooltip": "{{ _('A score that represents the strength of evidence supporting the claim.')|tojson }}",
+            "strongly_supported": "{{ _('Strongly Supported')|tojson }}",
+            "supported": "{{ _('Supported')|tojson }}",
+            "neutral": "{{ _('Neutral')|tojson }}",
+            "not_supported": "{{ _('Not Supported')|tojson }}",
+            "reason": "{{ _('Reason')|tojson }}",
+            "conclusion": "{{ _('Conclusion')|tojson }}",
+            "references": "{{ _('References')|tojson }}",
+            "all": "{{ _('All')|tojson }}",
+            "supportive": "{{ _('Supportive')|tojson }}",
+            "non_supportive": "{{ _('Non-Supportive')|tojson }}",
+            "read_source": "{{ _('Read Source')|tojson }}",
+            "download_report": "{{ _('Download Report')|tojson }}",
+            "copy_to_clipboard": "{{ _('Copy to Clipboard')|tojson }}"
+        };
+    </script>
     <!-- Include Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Raleway:wght@400;500;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
 
@@ -53,7 +78,7 @@
                 <div class="button-container">
                     <!-- Language Toggle -->
                     <form action="/set_language" method="post" class="language-form">
-                        <input type="hidden" name="language" value="{% if request.cookies.get('language', 'en') == 'en' %}pt_BR{% else %}en{% endif %}">
+                        <input type="hidden" name="language" value="{% if request.cookies.get('language', 'en') == 'en' %}pt{% else %}en{% endif %}">
                         <button type="submit" class="button-language">
                             {% if request.cookies.get('language', 'en') == 'en' %}
                                 PT
@@ -62,7 +87,8 @@
                             {% endif %}
                         </button>
                     </form>
-
+                    
+                
                     <!-- Theme Toggle -->
                     <button class="button-theme-toggle" id="toggle-day-night">☀️</button>
 
@@ -101,8 +127,8 @@
             <div class="menu-container">
                 <div class="menu-buttons">
                     <div class="top-buttons">
-                        <form action="/set_language" method="post">
-                            <input type="hidden" name="language" value="{% if request.cookies.get('language', 'en') == 'en' %}pt_BR{% else %}en{% endif %}">
+                        <form action="/set_language" method="post" class="language-form">
+                            <input type="hidden" name="language" value="{% if request.cookies.get('language', 'en') == 'en' %}pt{% else %}en{% endif %}">
                             <button type="submit" class="button-language">
                                 {% if request.cookies.get('language', 'en') == 'en' %}
                                     PT
@@ -110,7 +136,7 @@
                                     EN
                                 {% endif %}
                             </button>
-                        </form>
+                        </form>                        
                         <button class="button-theme-toggle" id="toggle-day-night">☀️</button>
                     </div>
                     <button class="button-credits">
@@ -316,6 +342,8 @@
 
 ## scripts.js
 ```python
+// static/js/scripts.js
+
 document.addEventListener('DOMContentLoaded', () => {
     const tabs = document.querySelectorAll('.tab');
     const sections = {
@@ -464,598 +492,376 @@ function addExampleButtonListeners() {
     });
 }
 
-```
-
-## loading_cards.js
-```python
-// ============================
-/* loading_cards.js */
-// ============================
+// scripts.js
 
 /**
- * LoadingCards Module
- * Manages the creation and animation of loading cards with controlled animations.
+ * Utility function to get a cookie value by name.
+ * @param {string} name - The name of the cookie.
+ * @returns {string|null} - The value of the cookie or null if not found.
  */
-const LoadingCards = (function() {
-    /**
-     * Creates and displays loading cards within the specified container.
-     * @param {HTMLElement} container - The DOM element where loading cards will be appended.
-     * @param {number} totalCount - Total number of loading cards to display.
-     * @param {number} animatedCount - Number of cards to animate simultaneously (1 or 2).
-     * @param {function} onComplete - Callback when all animated cards are loaded.
-     */
-    function showLoading(container, totalCount = 3, animatedCount = 1, onComplete = null) {
-        // Clear any existing loading cards
-        container.innerHTML = '';
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+}
 
-        // Create a container for loading cards
-        const loadingCardsContainer = document.createElement('div');
-        loadingCardsContainer.classList.add('loading-cards-container');
-        container.appendChild(loadingCardsContainer);
+/**
+ * Function to retrieve the current language code.
+ * Maps 'pt_BR' to 'pt', 'en_US' to 'en', etc.
+ * Defaults to 'en' if not found or unsupported.
+ * @returns {string} - The language code ('en', 'pt', 'es').
+ */
+function getCurrentLanguage() {
+    const languageCookie = getCookie('language');
+    if (!languageCookie) return 'en'; // Default to English
 
-        let loadedCount = 0;
-
-        for (let i = 0; i < totalCount; i++) {
-            setTimeout(() => {
-                const loadingCard = document.createElement('div');
-                loadingCard.classList.add('loading-card');
-
-                // Determine if the card should be animated
-                if (i < animatedCount) {
-                    loadingCard.classList.add('animated');
-
-                    const shimmer = document.createElement('div');
-                    shimmer.classList.add('loading-shimmer', 'swipe-animation');
-                    loadingCard.appendChild(shimmer);
-                } else {
-                    // Static card with no shimmer
-                    loadingCard.classList.add('static');
-                }
-
-                loadingCardsContainer.appendChild(loadingCard);
-
-                loadedCount++;
-                if (loadedCount === totalCount && onComplete) {
-                    onComplete();
-                }
-            }, i * 5000); // Delay each card by i * 3000 milliseconds
-        }
-    }
-
-    /**
-     * Updates the loading cards by adding a static card once an animated card is present.
-     * This ensures that only a specified number of cards remain animated.
-     * @param {HTMLElement} container - The DOM element containing loading cards.
-     * @param {number} animatedCount - Number of cards to animate simultaneously.
-     */
-    function updateLoading(container, animatedCount = 1) {
-        const loadingCardsContainer = container.querySelector('.loading-cards-container');
-        if (!loadingCardsContainer) return;
-
-        const loadingCards = loadingCardsContainer.querySelectorAll('.loading-card.animated');
-        loadingCards.forEach((card, index) => {
-            if (index >= animatedCount) {
-                card.classList.remove('animated');
-                card.classList.add('static-blue');
-
-                const shimmer = card.querySelector('.loading-shimmer');
-                if (shimmer) {
-                    shimmer.classList.remove('swipe-animation');
-                    shimmer.classList.add('static-blue');
-                }
-            }
-        });
-    }
-
-    /**
-     * Removes all loading cards from the specified container.
-     * @param {HTMLElement} container - The DOM element from which loading cards will be removed.
-     */
-    function removeLoading(container) {
-        container.innerHTML = '';
-    }
-
-    return {
-        showLoading,
-        updateLoading,
-        removeLoading
+    // Mapping full language names or variants to supported codes
+    const languageMap = {
+        'en': 'en',
+        'en_us': 'en',
+        'pt': 'pt',
+        'pt_br': 'pt',
+        'es': 'es',
+        'es_es': 'es',
+        // Add more mappings if necessary
     };
-})();
 
-// Attach to window for global access
-window.LoadingCards = LoadingCards;
+    const langKey = languageCookie.toLowerCase();
+    return languageMap[langKey] || 'en'; // Default to English if unsupported
+}
+
+// Expose the functions globally if needed
+window.getCurrentLanguage = getCurrentLanguage;
 
 ```
 
-## topic_research_display.js
+## main.py
 ```python
-// static/js/topic_research_display.js
+import sys
+import asyncio
+import re
+import json
+import os
+import logging
+import ast
+from typing import Callable
+from types import SimpleNamespace
 
-const TopicResearchDisplayModule = (function() {
-    // Define States
-    const STATES = {
-        IDLE: 'idle',
-        PREPARING_CREW: 'preparingCrew',
-        LOADING_CARDS: 'loadingCards',
-        PREPARING_REPORT: 'preparingReport',
-        REPORT_READY: 'reportReady',
-        ERROR: 'error'
-    };
+from fastapi import FastAPI, Request, Depends, Form
+from fastapi.responses import HTMLResponse, JSONResponse, StreamingResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+from fastapi_babel import Babel, BabelConfigs, BabelMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
 
-    let currentState = STATES.IDLE;
-    const runButton = document.getElementById('topic_run_button');
-    const outputContainer = document.getElementById('topic_output_container');
+from babel.support import Translations
 
-    // State variable to store JSON data
-    window.topicResearchReportData = null;
+# Import custom functions
+from tools.generate_loading import (
+    generate_thinking_process_prompts_read,
+    generate_thinking_process_prompts_verify,
+    generate_thinking_process_prompts_search,
+    ThoughtProcessResponse
+)
 
-    runButton.addEventListener('click', handleRunButtonClick);
+# ============================
+# 1. Configure Event Loop Policy
+# ============================
 
-    function handleRunButtonClick() {
-        // Clear output and reset state
-        outputContainer.innerHTML = '';
-        currentState = STATES.IDLE;
+if sys.platform == 'win32':
+    asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
 
-        const topicInput = document.getElementById('topic_research_input').value.trim();
-        const focusInput = document.getElementById('topic_research_focus').value.trim();
+# ============================
+# 2. Configure Logging
+# ============================
 
-        if (!topicInput) {
-            alert("Please enter a topic for research.");
-            return;
-        }
+# Create a custom logger
+logger = logging.getLogger("fastapi_app")
+logger.setLevel(logging.DEBUG)  # Set to DEBUG to capture all levels of log messages
 
-        transitionState(STATES.PREPARING_CREW);
-        showSpinner("Preparing crew...");
+# Create handlers with UTF-8 encoding
+console_handler = logging.StreamHandler(sys.stdout)
+console_handler.setLevel(logging.DEBUG)
 
-        // Fetch planning texts from the backend
-        fetch('/topic_research/planning', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ topic: topicInput, focus: focusInput }),
+# Ensure the 'logs' directory exists
+os.makedirs('logs', exist_ok=True)
+
+file_handler = logging.FileHandler('logs/app.log', encoding='utf-8')
+file_handler.setLevel(logging.DEBUG)
+
+# Create formatter and add it to handlers
+formatter = logging.Formatter(
+    "%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S"
+)
+console_handler.setFormatter(formatter)
+file_handler.setFormatter(formatter)
+
+# Add handlers to the logger
+logger.addHandler(console_handler)
+logger.addHandler(file_handler)
+
+# Log that logging is configured
+logger.debug("Logging is configured and ready.")
+
+# ============================
+# 3. Initialize FastAPI App
+# ============================
+
+app = FastAPI()
+
+# Mount static files
+app.mount("/static", StaticFiles(directory="static"), name="static")
+logger.debug("Mounted static files at '/static'.")
+
+# Configure templates
+templates = Jinja2Templates(directory="templates")
+logger.debug("Configured Jinja2 templates.")
+
+# ============================
+# 4. Configure FastAPI-Babel
+# ============================
+# Adjust ROOT_DIR to ricertai folder
+ROOT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'ricertai')
+
+babel_configs = BabelConfigs(
+    ROOT_DIR=ROOT_DIR,
+    BABEL_DEFAULT_LOCALE='en',  # Default language
+    BABEL_TRANSLATION_DIRECTORY='translations',  # Directory for translation files
+    BABEL_DOMAIN='messages'  # Domain for translation files
+)
+
+# Add Babel middleware
+app.add_middleware(BabelMiddleware, babel_configs=babel_configs)
+logger.debug("Added BabelMiddleware.")
+
+babel = Babel(babel_configs)
+logger.debug("Initialized Babel.")
+
+# ============================
+# 5. Translation Functions
+# ============================
+
+def get_locale_from_request(request: Request) -> str:
+    """
+    Function to select the language based on the 'language' cookie.
+    Returns 'en' if the cookie is not set.
+    """
+    locale = request.cookies.get('language', babel_configs.BABEL_DEFAULT_LOCALE).lower()
+    logger.debug(f"Detected locale from cookie: {locale}")
+    return locale
+
+def get_translations(locale: str) -> Translations:
+    """
+    Loads translations based on the selected locale.
+    Maps frontend locale codes to Babel locale codes if necessary.
+    """
+    # Mapping frontend locales to Babel locales
+    locale_mapping = {
+        'pt': 'pt',  # Map 'pt' to 'pt'
+        'es': 'es',
+        'en': 'en',
+    }
+    
+    # Use the mapped locale if it exists; otherwise, use the original locale
+    babel_locale = locale_mapping.get(locale, locale)
+    
+    translations = Translations.load(
+        dirname=babel_configs.BABEL_TRANSLATION_DIRECTORY,  # Base directory for translations
+        locales=[babel_locale],  # List of languages
+        domain=babel_configs.BABEL_DOMAIN  # Specify the domain
+    )
+    logger.debug(f"Loaded translations for locale: '{babel_locale}' (mapped from '{locale}')")
+    return translations
+
+
+def _(text: str, translations: Translations) -> str:
+    """
+    Function to translate text.
+    """
+    translated_text = translations.gettext(text)
+    logger.debug(f"Translating text: '{text}' -> '{translated_text}'")
+    return translated_text
+
+def _l(text: str, translations: Translations) -> Callable[[], str]:
+    """
+    Lazy translation function.
+    """
+    translated_text = translations.gettext(text)
+    logger.debug(f"Lazy translating text: '{text}' -> '{translated_text}'")
+    return lambda: translated_text
+
+# ============================
+# 6. Middleware to Set Locale in Request State
+# ============================
+
+class LocaleMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        # Set `locale` in request state
+        locale = get_locale_from_request(request)
+        request.state.locale = locale
+        logger.debug(f"LocaleMiddleware: Set locale for request to '{locale}'")
+        response = await call_next(request)
+        return response
+
+# Add LocaleMiddleware to the app
+app.add_middleware(LocaleMiddleware)
+logger.debug("Added LocaleMiddleware.")
+
+# ============================
+# 7. Route to Set Language
+# ============================
+
+# routes/set_language.py (assuming this is part of main.py)
+
+@app.post('/set_language', response_class=HTMLResponse)
+async def set_language(request: Request):
+    """
+    Route to set the user's preferred language.
+    """
+    logger.debug("Received POST request to '/set_language'.")
+    try:
+        form = await request.form()
+        language = form.get('language', babel_configs.BABEL_DEFAULT_LOCALE).lower()
+        logger.debug(f"Language selected by user: {language}")
+    except Exception as e:
+        logger.error(f"Error processing form data: {e}")
+        language = babel_configs.BABEL_DEFAULT_LOCALE
+        logger.debug(f"Falling back to default language: {language}")
+
+    # Validate the selected language
+    supported_languages = ['en', 'pt', 'es']
+    if language not in supported_languages:
+        language = babel_configs.BABEL_DEFAULT_LOCALE
+        logger.debug(f"Unsupported language selected. Falling back to '{language}'.")
+
+    # Retrieve the referer header
+    referer = request.headers.get('referer')
+    logger.debug(f"Referer header: {referer}")
+
+    # Determine the redirect URL
+    if referer:
+        redirect_url = referer
+        logger.debug(f"Redirecting to referer: {redirect_url}")
+    else:
+        redirect_url = '/'
+        logger.debug("Referer not found. Redirecting to '/'.")
+
+    # Create the RedirectResponse with status_code=303 to ensure GET method
+    try:
+        response = RedirectResponse(url=redirect_url, status_code=303)
+        response.set_cookie(
+            key='language',
+            value=language,
+            max_age=30*24*60*60,
+            httponly=False,  # Changed from True to False
+            path='/'
+        )
+        logger.debug(f"Set 'language' cookie to '{language}'. Redirecting with 303 status.")
+        return response
+    except Exception as e:
+        logger.error(f"Error creating RedirectResponse: {e}")
+        return JSONResponse(status_code=500, content={"detail": "Internal Server Error"})
+
+# ============================
+# 8. Helper Functions
+# ============================
+
+def remove_ansi_codes(text: str) -> str:
+    """
+    Removes ANSI codes from a string.
+    """
+    ansi_escape = re.compile(r'\x1B\[[0-9;]*[mGKH]')
+    return ansi_escape.sub('', text)
+
+def safe_parse_json(text: str):
+    """
+    Attempts to safely parse JSON.
+    """
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError as e:
+        logger.debug(f"Initial JSON parsing failed: {e}")
+        json_start = text.find('{')
+        if json_start != -1:
+            text = text[json_start:]
+            logger.debug("Removed initial characters before JSON object.")
+        sanitized_text = text.replace('\n', ' ').replace('\r', ' ')
+        logger.debug(f"Sanitized JSON text: {sanitized_text}")
+        try:
+            return json.loads(sanitized_text)
+        except json.JSONDecodeError as e2:
+            logger.debug(f"Sanitized JSON parsing failed: {e2}")
+            try:
+                return ast.literal_eval(sanitized_text)
+            except (ValueError, SyntaxError) as e3:
+                logger.debug(f"Literal eval parsing failed: {e3}")
+                return None
+
+# ============================
+# 9. Include Custom Routes
+# ============================
+
+# Assuming you have routers defined in separate files
+# Make sure to handle import errors if the routes do not exist
+
+try:
+    from routes.verify import router as verify_router
+    app.include_router(verify_router)
+    logger.debug("Included 'verify' router.")
+except ImportError as e:
+    logger.error(f"Failed to include 'verify' router: {e}")
+
+try:
+    from routes.topic_research import router as topic_research_router
+    app.include_router(topic_research_router)
+    logger.debug("Included 'topic_research' router.")
+except ImportError as e:
+    logger.error(f"Failed to include 'topic_research' router: {e}")
+
+try:
+    from routes.website_navigation import router as website_navigation_router
+    app.include_router(website_navigation_router)
+    logger.debug("Included 'website_navigation' router.")
+except ImportError as e:
+    logger.error(f"Failed to include 'website_navigation' router: {e}")
+
+# ============================
+# 10. Home Route
+# ============================
+
+@app.get("/", response_class=HTMLResponse)
+async def get_home(request: Request):
+    """
+    Home route that renders the main page.
+    Passes translation functions to the template.
+    """
+    try:
+        locale = request.state.locale
+        logger.debug(f"Rendering home page with locale '{locale}'.")
+        translations = get_translations(locale)
+        return templates.TemplateResponse("base.html", {
+            "request": request,
+            "_": lambda text: _(text, translations),
+            "_l": lambda text: _l(text, translations),
+            "locale": locale  # Pass locale to the template
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                transitionState(STATES.ERROR, data.error);
-                return;
-            }
-
-            transitionState(STATES.LOADING_CARDS);
-            hideSpinner();
-            startLoadingCards(data.thought_process);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            transitionState(STATES.ERROR, "An error occurred while preparing the crew.");
-        });
-    }
-
-    function transitionState(newState, errorMessage = '') {
-        currentState = newState;
-        if (newState === STATES.ERROR) {
-            showError(errorMessage);
-        }
-    }
-
-    function showSpinner(message) {
-        outputContainer.innerHTML = `
-            <div class="spinner-container">
-                <div class="spinner"></div>
-                <div class="spinner-text">${message}</div>
-            </div>
-        `;
-    }
-
-    function hideSpinner() {
-        outputContainer.innerHTML = '';
-    }
-
-    function startLoadingCards(planningTexts) {
-        const loadingCardsContainer = document.createElement('div');
-        loadingCardsContainer.classList.add('loading-cards-container');
-        outputContainer.appendChild(loadingCardsContainer);
-
-        let index = 0;
-        let previousCurrentCard = null;
-
-        function addNextCard() {
-            if (index >= planningTexts.length) {
-                // All cards added, prepare report
-                transitionState(STATES.PREPARING_REPORT);
-                showSpinner("Preparing report...");
-                setTimeout(() => {
-                    fetchReport();
-                }, 3000); // Reduced delay to 3 seconds
-                return;
-            }
-
-            // Update the previous current-step card to stacked
-            if (previousCurrentCard) {
-                previousCurrentCard.classList.remove('current-step');
-                previousCurrentCard.classList.add('stacked');
-            }
-
-            const cardText = planningTexts[index];
-            const card = createLoadingCard(cardText, true);
-            loadingCardsContainer.appendChild(card);
-
-            // Update the reference to the current card
-            previousCurrentCard = card;
-
-            index++;
-            setTimeout(addNextCard, 3000); // Reduced delay to 3 seconds
-        }
-
-        addNextCard();
-    }
-
-    function createLoadingCard(text, isCurrentStep) {
-        const card = document.createElement('div');
-        card.classList.add('loading-card');
-        card.classList.add(isCurrentStep ? 'current-step' : 'stacked');
-
-        const cardContent = document.createElement('div');
-        cardContent.classList.add('card-content');
-        cardContent.textContent = text;
-
-        card.appendChild(cardContent);
-        return card;
-    }
-
-    function fetchReport() {
-        const topicInput = document.getElementById('topic_research_input').value.trim();
-        const focusInput = document.getElementById('topic_research_focus').value.trim();
-        fetch('/topic_research/report', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ topic: topicInput, focus: focusInput }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                transitionState(STATES.ERROR, data.error);
-                return;
-            }
-            // Store JSON data in state variable
-            window.topicResearchReportData = data;
-            transitionState(STATES.REPORT_READY);
-            hideSpinner();
-            displayReport(data);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            transitionState(STATES.ERROR, "An error occurred while preparing the report.");
-        });
-    }
-
-    function displayReport(data) {
-        // Clear the output container
-        outputContainer.innerHTML = '';
-
-        // Create Report Card
-        const reportCard = document.createElement('div');
-        reportCard.classList.add('report-card');
-
-        // Report Header
-        const reportHeader = document.createElement('div');
-        reportHeader.classList.add('report-header');
-
-        // Container for Title and Buttons
-        const headerLeft = document.createElement('div');
-        headerLeft.classList.add('header-left');
-
-        const reportTitle = document.createElement('div');
-        reportTitle.classList.add('report-title');
-        reportTitle.innerHTML = `<span class="claim-icon">📚</span> ${data.report_title || 'Topic Research Report'}`;
-
-        headerLeft.appendChild(reportTitle);
-
-        // Container for Action Buttons
-        const actionButtons = document.createElement('div');
-        actionButtons.classList.add('action-buttons');
-
-        // Create Download Button
-        const downloadButton = document.createElement('button');
-        downloadButton.classList.add('download-button');
-        downloadButton.textContent = 'Download';
-        downloadButton.addEventListener('click', () => {
-            if (typeof downloadReport === 'function') {
-                downloadReport();
-            } else {
-                console.error('Download function not found.');
-            }
-        });
-
-        // Create Copy Button
-        const copyButton = document.createElement('button');
-        copyButton.classList.add('copy-button');
-        copyButton.textContent = 'Copy';
-        copyButton.addEventListener('click', () => {
-            if (typeof copyReportToClipboard === 'function') {
-                copyReportToClipboard();
-            } else {
-                console.error('Copy function not found.');
-            }
-        });
-
-        actionButtons.appendChild(downloadButton);
-        actionButtons.appendChild(copyButton);
-
-        // Append title and buttons to reportHeader
-        reportHeader.appendChild(headerLeft);
-        reportHeader.appendChild(actionButtons);
-
-        // Append report header to report card
-        reportCard.appendChild(reportHeader);
-
-        // Create Summary Card
-        const summaryCard = document.createElement('div');
-        summaryCard.classList.add('summary-card');
-
-        const summaryTitle = document.createElement('h3');
-        summaryTitle.textContent = "Summary";
-
-        const summaryText = document.createElement('p');
-        summaryText.textContent = data.report_summary || 'No summary available.';
-
-        summaryCard.appendChild(summaryTitle);
-        summaryCard.appendChild(summaryText);
-
-        // Append summary card to report card
-        reportCard.appendChild(summaryCard);
-
-        // Create Tab Navigation
-        const tabContainer = document.createElement('div');
-        tabContainer.classList.add('tab-container');
-
-        const tabs = [
-            { name: 'Report Content', key: 'reportContent' },
-            { name: 'Main Sources', key: 'mainSources' },
-            { name: 'Quotes', key: 'quotes' },
-            { name: 'References', key: 'references' }
-        ];
-
-        tabs.forEach((tab, idx) => {
-            const tabElement = document.createElement('div');
-            tabElement.classList.add('tab');
-            if (idx === 0) tabElement.classList.add('tab-active');
-            tabElement.textContent = tab.name;
-            tabElement.dataset.tab = tab.key;
-            tabContainer.appendChild(tabElement);
-        });
-
-        reportCard.appendChild(tabContainer);
-
-        // Create Tab Content Container
-        const tabContentContainer = document.createElement('div');
-        tabContentContainer.classList.add('tab-content-container');
-
-        // Create individual tab contents
-        const reportContentSection = createReportContentSection(data.report_content);
-        const mainSourcesSection = createMainSourcesSection(data.main_sources);
-        const quotesSection = createQuotesSection(data.quotes);
-        const referencesSection = createReferencesSection(data.references);
-
-        tabContentContainer.appendChild(reportContentSection);
-        tabContentContainer.appendChild(mainSourcesSection);
-        tabContentContainer.appendChild(quotesSection);
-        tabContentContainer.appendChild(referencesSection);
-
-        reportCard.appendChild(tabContentContainer);
-
-        // Append report card to output container
-        outputContainer.appendChild(reportCard);
-
-        // Initialize Tab Navigation
-        initializeTabNavigation();
-
-        // Initialize Collapsible Sections
-        initializeCollapsibleSections();
-    }
-
-    function createReportContentSection(reportContent) {
-        const section = document.createElement('div');
-        section.classList.add('tab-content');
-        section.id = 'reportContent';
-
-        reportContent.forEach(item => {
-            const contentItem = document.createElement('div');
-            contentItem.classList.add('reference-card');
-
-            // Source Icon (Assuming favicon URL can be derived or fetched)
-            const sourceIcon = document.createElement('img');
-            sourceIcon.classList.add('source-icon');
-            sourceIcon.src = getFaviconUrl(item.url);
-            sourceIcon.alt = 'Source Icon';
-
-            const itemTitle = document.createElement('a');
-            itemTitle.href = item.url;
-            itemTitle.textContent = item.title;
-            itemTitle.target = '_blank';
-
-            const itemDescription = document.createElement('p');
-            itemDescription.textContent = item.description;
-
-            const itemPublishedTime = document.createElement('p');
-            const publishedDate = new Date(item.published_time);
-            itemPublishedTime.textContent = `Published Time: ${publishedDate.toLocaleDateString()}`;
-
-            // Optional: Make Key Points Collapsible
-            const collapsibleHeader = document.createElement('div');
-            collapsibleHeader.classList.add('collapsible-header');
-            collapsibleHeader.innerHTML = `<span>Key Points</span><span class="toggle-icon">➕</span>`;
-
-            const collapsibleContent = document.createElement('div');
-            collapsibleContent.classList.add('collapsible-content');
-            collapsibleContent.style.maxHeight = null; // Initially collapsed
-
-            const keyPointsList = document.createElement('ul');
-            item.key_points.forEach(point => {
-                const li = document.createElement('li');
-                li.textContent = point;
-                keyPointsList.appendChild(li);
-            });
-
-            collapsibleContent.appendChild(keyPointsList);
-
-            contentItem.appendChild(sourceIcon);
-            contentItem.appendChild(itemTitle);
-            contentItem.appendChild(itemDescription);
-            contentItem.appendChild(itemPublishedTime);
-            contentItem.appendChild(collapsibleHeader);
-            contentItem.appendChild(collapsibleContent);
-
-            section.appendChild(contentItem);
-        });
-
-        return section;
-    }
-
-    function createMainSourcesSection(mainSources) {
-        const section = document.createElement('div');
-        section.classList.add('tab-content');
-        section.id = 'mainSources';
-        section.style.display = 'none'; // Initially hidden
-
-        mainSources.forEach(source => {
-            const sourceItem = document.createElement('div');
-            sourceItem.classList.add('reference-card', 'reference-card-supportive');
-
-            const sourceTitle = document.createElement('a');
-            sourceTitle.href = source.url;
-            sourceTitle.textContent = source.title;
-            sourceTitle.target = '_blank';
-
-            const sourceDescription = document.createElement('p');
-            sourceDescription.textContent = source.description;
-
-            sourceItem.appendChild(sourceTitle);
-            sourceItem.appendChild(sourceDescription);
-
-            section.appendChild(sourceItem);
-        });
-
-        return section;
-    }
-
-    function createQuotesSection(quotes) {
-        const section = document.createElement('div');
-        section.classList.add('tab-content');
-        section.id = 'quotes';
-        section.style.display = 'none'; // Initially hidden
-
-        quotes.forEach(quoteItem => {
-            const quoteDiv = document.createElement('div');
-            quoteDiv.classList.add('reference-card');
-
-            const quoteText = document.createElement('p');
-            quoteText.textContent = `"${quoteItem.quote}"`;
-
-            const quoteSource = document.createElement('p');
-            quoteSource.textContent = `Source: ${quoteItem.source}`;
-
-            quoteDiv.appendChild(quoteText);
-            quoteDiv.appendChild(quoteSource);
-
-            section.appendChild(quoteDiv);
-        });
-
-        return section;
-    }
-
-    function createReferencesSection(references) {
-        const section = document.createElement('div');
-        section.classList.add('tab-content');
-        section.id = 'references';
-        section.style.display = 'none'; // Initially hidden
-
-        references.forEach(ref => {
-            const refDiv = document.createElement('div');
-            refDiv.classList.add('reference-card');
-
-            const refUrl = document.createElement('a');
-            refUrl.href = ref.url;
-            refUrl.textContent = ref.url;
-            refUrl.target = '_blank';
-
-            const refQuote = document.createElement('p');
-            refQuote.textContent = ref.keyQuote;
-
-            refDiv.appendChild(refUrl);
-            refDiv.appendChild(refQuote);
-
-            section.appendChild(refDiv);
-        });
-
-        return section;
-    }
-
-    function initializeTabNavigation() {
-        const tabs = outputContainer.querySelectorAll('.tab');
-        const tabContents = outputContainer.querySelectorAll('.tab-content');
-
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                // Remove active class from all tabs
-                tabs.forEach(t => t.classList.remove('tab-active'));
-                // Hide all tab contents
-                tabContents.forEach(tc => tc.style.display = 'none');
-
-                // Add active class to the clicked tab
-                tab.classList.add('tab-active');
-                // Show the corresponding tab content
-                const activeTabContent = document.getElementById(tab.dataset.tab);
-                activeTabContent.style.display = 'block';
-            });
-        });
-    }
-
-    function initializeCollapsibleSections() {
-        const headers = outputContainer.querySelectorAll('.collapsible-header');
-        headers.forEach(header => {
-            header.addEventListener('click', () => {
-                const content = header.nextElementSibling;
-                const toggleIcon = header.querySelector('.toggle-icon');
-
-                if (content.style.maxHeight) {
-                    // Collapse
-                    content.style.maxHeight = null;
-                    toggleIcon.textContent = "➕";
-                } else {
-                    // Expand
-                    content.style.maxHeight = content.scrollHeight + "px";
-                    toggleIcon.textContent = "➖";
-                }
-            });
-        });
-    }
-
-    function showError(message) {
-        outputContainer.innerHTML = `<div class="error-message">${message}</div>`;
-    }
-
-    /**
-     * Utility function to get favicon URL from a website URL.
-     * @param {string} url - The website URL.
-     * @returns {string} - The favicon URL or a placeholder image.
-     */
-    function getFaviconUrl(url) {
-        try {
-            const urlObj = new URL(url);
-            return `${urlObj.origin}/favicon.ico`;
-        } catch (e) {
-            return 'https://via.placeholder.com/20'; // Fallback icon
-        }
-    }
-
-    return {
-        // Expose functions or variables if needed
-    };
-})();
+    except Exception as e:
+        logger.error(f"Error rendering home page: {e}")
+        return JSONResponse(status_code=500, content={"detail": "Internal Server Error"})
+
+# ============================
+# 11. Error Handlers
+# ============================
+
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    """
+    Global exception handler to catch unhandled exceptions and log them.
+    """
+    logger.error(f"Unhandled exception: {exc}", exc_info=True)
+    return JSONResponse(status_code=500, content={"detail": "Internal Server Error"})
 
 ```
 
@@ -1090,12 +896,14 @@ const VerifyDisplayModule = (function() {
 
         let claimInput = document.getElementById('fact_check_input').value.trim();
         if (!claimInput) {
-            alert("Please enter a claim to verify.");
+            alert(window.translations.error_empty_claim || "Please enter a claim to verify.");
             return;
         }
 
         transitionState(STATES.PREPARING_CREW);
-        showSpinner("Preparing crew...");
+        showSpinner(window.translations.preparing_crew || "Preparing crew...");
+
+        const language = getCurrentLanguage(); // Get current language
 
         // Fetch planning texts from the backend
         fetch('/verify/planning', {
@@ -1103,7 +911,7 @@ const VerifyDisplayModule = (function() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ claim: claimInput }),
+            body: JSON.stringify({ claim: claimInput, language: language }),
         })
         .then(response => response.json())
         .then(data => {
@@ -1118,7 +926,7 @@ const VerifyDisplayModule = (function() {
         })
         .catch(error => {
             console.error('Error:', error);
-            transitionState(STATES.ERROR, "An error occurred while preparing the crew.");
+            transitionState(STATES.ERROR, window.translations.error_preparing_crew || "An error occurred while preparing the crew.");
         });
     }
 
@@ -1143,7 +951,7 @@ const VerifyDisplayModule = (function() {
     }
 
     function startLoadingCards(planningTexts) {
-        let loadingCardsContainer = document.createElement('div');
+        const loadingCardsContainer = document.createElement('div');
         loadingCardsContainer.classList.add('loading-cards-container');
         outputContainer.appendChild(loadingCardsContainer);
 
@@ -1154,7 +962,7 @@ const VerifyDisplayModule = (function() {
             if (index >= planningTexts.length) {
                 // All cards added, prepare report
                 transitionState(STATES.PREPARING_REPORT);
-                showSpinner("Preparing report...");
+                showSpinner(window.translations.preparing_report || "Preparing report...");
                 setTimeout(() => {
                     fetchReport();
                 }, 3000);
@@ -1167,8 +975,8 @@ const VerifyDisplayModule = (function() {
                 previousCurrentCard.classList.add('stacked');
             }
 
-            let cardText = planningTexts[index];
-            let card = createLoadingCard(cardText, true);
+            const cardText = planningTexts[index];
+            const card = createLoadingCard(cardText, true);
             loadingCardsContainer.appendChild(card);
 
             // Update the reference to the current card
@@ -1182,11 +990,11 @@ const VerifyDisplayModule = (function() {
     }
 
     function createLoadingCard(text, isCurrentStep) {
-        let card = document.createElement('div');
+        const card = document.createElement('div');
         card.classList.add('loading-card');
         card.classList.add(isCurrentStep ? 'current-step' : 'stacked');
 
-        let cardContent = document.createElement('div');
+        const cardContent = document.createElement('div');
         cardContent.classList.add('card-content');
         cardContent.textContent = text;
 
@@ -1195,13 +1003,15 @@ const VerifyDisplayModule = (function() {
     }
 
     function fetchReport() {
-        let claimInput = document.getElementById('fact_check_input').value.trim();
+        const claimInput = document.getElementById('fact_check_input').value.trim();
+        const language = getCurrentLanguage(); // Get current language
+
         fetch('/verify/report', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ claim: claimInput }),
+            body: JSON.stringify({ claim: claimInput, language: language }),
         })
         .then(response => response.json())
         .then(data => {
@@ -1209,15 +1019,16 @@ const VerifyDisplayModule = (function() {
                 transitionState(STATES.ERROR, data.error);
                 return;
             }
-            // Store the JSON data in the state variable
+            // Assign the JSON object directly without parsing
             window.verifyReportData = data;
+
             transitionState(STATES.REPORT_READY);
             hideSpinner();
-            displayReport(data);
+            displayReport(window.verifyReportData);
         })
         .catch(error => {
             console.error('Error:', error);
-            transitionState(STATES.ERROR, "An error occurred while preparing the report.");
+            transitionState(STATES.ERROR, window.translations.error_preparing_report || "An error occurred while preparing the report.");
         });
     }
 
@@ -1229,24 +1040,7 @@ const VerifyDisplayModule = (function() {
         const reportWrapper = document.createElement('div');
         reportWrapper.id = 'report-wrapper';
 
-        // Create Summary Card
-        const summaryCard = document.createElement('div');
-        summaryCard.classList.add('summary-card');
-
-        const summaryTitle = document.createElement('h3');
-        summaryTitle.textContent = "Summary";
-
-        const summaryText = document.createElement('p');
-        summaryText.textContent = data.conclusion;
-
-        summaryCard.appendChild(summaryTitle);
-        summaryCard.appendChild(summaryText);
-
-        // Create Report Card
-        const reportCard = document.createElement('div');
-        reportCard.classList.add('report-card');
-
-        // Report Header
+        // Render header with claim and verification result
         const reportHeader = document.createElement('div');
         reportHeader.classList.add('report-header');
 
@@ -1267,9 +1061,9 @@ const VerifyDisplayModule = (function() {
         factualitySection.classList.add('factuality-score');
 
         const factualityLabel = document.createElement('span');
-        factualityLabel.textContent = "Factuality Score:";
+        factualityLabel.textContent = window.translations.factuality_score || "Factuality Score:";
         factualityLabel.classList.add('tooltip');
-        factualityLabel.innerHTML += `<span class="tooltiptext">A score that represents the strength of evidence supporting the claim.</span>`;
+        factualityLabel.innerHTML += `<span class="tooltiptext">${window.translations.factuality_score_tooltip || "A score that represents the strength of evidence supporting the claim."}</span>`;
 
         const progressBarContainer = document.createElement('div');
         progressBarContainer.classList.add('progress-bar-container');
@@ -1296,13 +1090,13 @@ const VerifyDisplayModule = (function() {
         const scoreLabel = document.createElement('span');
         scoreLabel.classList.add('score-label');
         if (score >= 0.75) {
-            scoreLabel.textContent = "Strongly Supported";
+            scoreLabel.textContent = window.translations.strongly_supported || "Strongly Supported";
         } else if (score >= 0.5) {
-            scoreLabel.textContent = "Supported";
+            scoreLabel.textContent = window.translations.supported || "Supported";
         } else if (score >= 0.25) {
-            scoreLabel.textContent = "Neutral";
+            scoreLabel.textContent = window.translations.neutral || "Neutral";
         } else {
-            scoreLabel.textContent = "Not Supported";
+            scoreLabel.textContent = window.translations.not_supported || "Not Supported";
         }
 
         factualitySection.appendChild(factualityLabel);
@@ -1310,13 +1104,17 @@ const VerifyDisplayModule = (function() {
         factualitySection.appendChild(scoreLabel);
 
         // Reason Section (Collapsible)
-        const reasonSection = createCollapsibleSection("Reason", data.details.reason);
+        const reasonSection = createCollapsibleSection(window.translations.reason || "Reason", data.details.reason);
 
         // Conclusion Section (Collapsible)
-        const conclusionSection = createCollapsibleSection("Conclusion", data.conclusion);
+        const conclusionSection = createCollapsibleSection(window.translations.conclusion || "Conclusion", data.conclusion);
 
         // References Section
         const referencesSection = createReferencesSection(data.details.references);
+
+        // **Define reportCard**
+        const reportCard = document.createElement('div');
+        reportCard.classList.add('report-card');
 
         // Assemble Report Card
         reportCard.appendChild(reportHeader);
@@ -1325,8 +1123,8 @@ const VerifyDisplayModule = (function() {
         reportCard.appendChild(conclusionSection);
         reportCard.appendChild(referencesSection);
 
-        // Append Summary and Report to Report Wrapper
-        reportWrapper.appendChild(summaryCard);
+        // Append Report Header and Report Card to Report Wrapper
+        reportWrapper.appendChild(reportHeader);
         reportWrapper.appendChild(reportCard);
 
         // Append the report wrapper to the output container
@@ -1338,7 +1136,7 @@ const VerifyDisplayModule = (function() {
 
         const downloadButton = document.createElement('button');
         downloadButton.classList.add('download-button');
-        downloadButton.textContent = 'Download Report';
+        downloadButton.textContent = window.translations.download_report || 'Download Report';
         downloadButton.addEventListener('click', () => {
             if (typeof downloadVerifyReport === 'function') {
                 downloadVerifyReport();
@@ -1349,7 +1147,7 @@ const VerifyDisplayModule = (function() {
 
         const copyButton = document.createElement('button');
         copyButton.classList.add('copy-button');
-        copyButton.textContent = 'Copy to Clipboard';
+        copyButton.textContent = window.translations.copy_to_clipboard || 'Copy to Clipboard';
         copyButton.addEventListener('click', () => {
             if (typeof copyVerifyReport === 'function') {
                 copyVerifyReport();
@@ -1402,24 +1200,24 @@ const VerifyDisplayModule = (function() {
         header.classList.add('references-header');
 
         const title = document.createElement('h2');
-        title.textContent = "References";
+        title.textContent = window.translations.references || "References";
 
         const filterOptions = document.createElement('div');
         filterOptions.classList.add('filter-options');
 
         const allFilter = document.createElement('button');
         allFilter.classList.add('filter-button', 'active');
-        allFilter.textContent = "All";
+        allFilter.textContent = window.translations.all || "All";
         allFilter.addEventListener('click', () => filterReferences('all'));
 
         const supportiveFilter = document.createElement('button');
         supportiveFilter.classList.add('filter-button');
-        supportiveFilter.textContent = "Supportive";
+        supportiveFilter.textContent = window.translations.supportive || "Supportive";
         supportiveFilter.addEventListener('click', () => filterReferences('supportive'));
 
         const nonSupportiveFilter = document.createElement('button');
         nonSupportiveFilter.classList.add('filter-button');
-        nonSupportiveFilter.textContent = "Non-Supportive";
+        nonSupportiveFilter.textContent = window.translations.non_supportive || "Non-Supportive";
         nonSupportiveFilter.addEventListener('click', () => filterReferences('non-supportive'));
 
         filterOptions.appendChild(allFilter);
@@ -1510,7 +1308,7 @@ const VerifyDisplayModule = (function() {
         readSource.href = ref.url;
         readSource.target = "_blank";
         readSource.rel = "noopener noreferrer";
-        readSource.textContent = "Read Source";
+        readSource.textContent = window.translations.read_source || "Read Source";
 
         actions.appendChild(supportIcon);
         actions.appendChild(readSource);
@@ -1553,553 +1351,743 @@ const VerifyDisplayModule = (function() {
 
 ```
 
-## website_navigation_display.js
+## messages.po
 ```python
-// static/js/website_navigation_display.js
-
-const WebsiteNavigationDisplayModule = (function() {
-    // Define States
-    const STATES = {
-        IDLE: 'idle',
-        PREPARING_CREW: 'preparingCrew',
-        LOADING_CARDS: 'loadingCards',
-        PREPARING_REPORT: 'preparingReport',
-        REPORT_READY: 'reportReady',
-        ERROR: 'error'
-    };
-
-    let currentState = STATES.IDLE;
-    const runButton = document.getElementById('website_run_button');
-    const outputContainer = document.getElementById('website_output_container');
-
-    // State variable to store JSON data
-    window.websiteNavigationReportData = null;
-
-    runButton.addEventListener('click', handleRunButtonClick);
-
-    function handleRunButtonClick() {
-        // Clear output and reset state
-        outputContainer.innerHTML = '';
-        currentState = STATES.IDLE;
-
-        const urlInput = document.getElementById('website_navigation_url').value.trim();
-        const focusInput = document.getElementById('website_navigation_focus').value.trim();
-
-        if (!urlInput) {
-            alert("Please enter a URL to navigate.");
-            return;
-        }
-
-        transitionState(STATES.PREPARING_CREW);
-        showSpinner("Preparing crew...");
-
-        // Fetch planning texts from the backend
-        fetch('/website_navigation/planning', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ url: urlInput, topic: focusInput }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                transitionState(STATES.ERROR, data.error);
-                return;
-            }
-
-            transitionState(STATES.LOADING_CARDS);
-            hideSpinner();
-            startLoadingCards(data.thought_process);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            transitionState(STATES.ERROR, "An error occurred while preparing the crew.");
-        });
-    }
-
-    function transitionState(newState, errorMessage = '') {
-        currentState = newState;
-        if (newState === STATES.ERROR) {
-            showError(errorMessage);
-        }
-    }
-
-    function showSpinner(message) {
-        outputContainer.innerHTML = `
-            <div class="spinner-container">
-                <div class="spinner"></div>
-                <div class="spinner-text">${message}</div>
-            </div>
-        `;
-    }
-
-    function hideSpinner() {
-        outputContainer.innerHTML = '';
-    }
-
-    function startLoadingCards(planningTexts) {
-        const loadingCardsContainer = document.createElement('div');
-        loadingCardsContainer.classList.add('loading-cards-container');
-        outputContainer.appendChild(loadingCardsContainer);
-
-        let index = 0;
-        let previousCurrentCard = null;
-
-        function addNextCard() {
-            if (index >= planningTexts.length) {
-                // All cards added, prepare report
-                transitionState(STATES.PREPARING_REPORT);
-                showSpinner("Preparing report...");
-                setTimeout(() => {
-                    fetchReport();
-                }, 3000); // Adjust the delay as needed
-                return;
-            }
-
-            // Update the previous current-step card to stacked
-            if (previousCurrentCard) {
-                previousCurrentCard.classList.remove('current-step');
-                previousCurrentCard.classList.add('stacked');
-            }
-
-            const cardText = planningTexts[index];
-            const card = createLoadingCard(cardText, true);
-            loadingCardsContainer.appendChild(card);
-
-            // Update the reference to the current card
-            previousCurrentCard = card;
-
-            index++;
-            setTimeout(addNextCard, 3000); // Adjust the delay as needed
-        }
-
-        addNextCard();
-    }
-
-    function createLoadingCard(text, isCurrentStep) {
-        const card = document.createElement('div');
-        card.classList.add('loading-card');
-        card.classList.add(isCurrentStep ? 'current-step' : 'stacked');
-
-        const cardContent = document.createElement('div');
-        cardContent.classList.add('card-content');
-        cardContent.textContent = text;
-
-        card.appendChild(cardContent);
-        return card;
-    }
-
-    function fetchReport() {
-        const urlInput = document.getElementById('website_navigation_url').value.trim();
-        const focusInput = document.getElementById('website_navigation_focus').value.trim();
-        fetch('/website_navigation/report', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ url: urlInput, topic: focusInput }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                transitionState(STATES.ERROR, data.error);
-                return;
-            }
-            // Assign the JSON object directly without parsing
-            window.websiteNavigationReportData = data;
-
-            transitionState(STATES.REPORT_READY);
-            hideSpinner();
-            displayReport(window.websiteNavigationReportData);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            transitionState(STATES.ERROR, "An error occurred while preparing the report.");
-        });
-    }
-
-    function displayReport(data) {
-        // Clear the output container
-        outputContainer.innerHTML = '';
-
-        // Create a wrapper div to hold the report content
-        const reportWrapper = document.createElement('div');
-        reportWrapper.id = 'report-wrapper';
-
-        // Render header with topic and URL
-        const headerSection = document.createElement('header');
-        headerSection.classList.add('header-section');
-
-        const topicTitle = document.createElement('h1');
-        topicTitle.classList.add('topic-title');
-        topicTitle.textContent = data.topic || 'Report';
-
-        const reportUrl = document.createElement('a');
-        reportUrl.href = data.url;
-        reportUrl.target = '_blank';
-        reportUrl.classList.add('report-url');
-        reportUrl.textContent = data.url;
-
-        headerSection.appendChild(topicTitle);
-        headerSection.appendChild(reportUrl);
-
-        // Render Related Topics as Tags/Chips
-        if (data.related_topics && Array.isArray(data.related_topics) && data.related_topics.length > 0) {
-            const tagsContainer = document.createElement('div');
-            tagsContainer.classList.add('related-topics');
-
-            data.related_topics.forEach(topic => {
-                const tag = document.createElement('span');
-                tag.classList.add('tag');
-                tag.textContent = topic;
-                tagsContainer.appendChild(tag);
-            });
-
-            headerSection.appendChild(tagsContainer);
-        }
-
-        if (data.report_summary) {
-            const summaryOverview = document.createElement('p');
-            summaryOverview.classList.add('summary-overview');
-            summaryOverview.textContent = data.report_summary;
-            headerSection.appendChild(summaryOverview);
-        }
-
-        reportWrapper.appendChild(headerSection);
-
-        const mainContent = document.createElement('div');
-        mainContent.classList.add('main-content-area');
-        reportWrapper.appendChild(mainContent);
-
-        // Sections to render
-        const sectionsToRender = {
-            'detailed_content_summary': 'Detailed Content Summary',
-            'detailed_analysis': 'Detailed Analysis',
-            'references': 'References',
-            'conclusion': 'Conclusion'
-        };
-
-        for (let key in sectionsToRender) {
-            if (data[key]) {
-                // Create section
-                const sectionElement = document.createElement('div');
-                sectionElement.id = key;
-                sectionElement.classList.add('content-section');
-
-                // Generate section content
-                let sectionContent = '';
-                if (key === 'detailed_content_summary') {
-                    sectionContent = generateContentSummary(data[key]);
-                } else if (key === 'references') {
-                    sectionContent = generateReferencesContent(data[key]);
-                } else {
-                    sectionContent = generateSectionContent(data[key]);
-                }
-
-                const sectionHeader = document.createElement('h2');
-                sectionHeader.textContent = sectionsToRender[key];
-                sectionElement.appendChild(sectionHeader);
-
-                const sectionBody = document.createElement('div');
-                sectionBody.innerHTML = sectionContent;
-                sectionElement.appendChild(sectionBody);
-
-                mainContent.appendChild(sectionElement);
-            }
-        }
-
-        // Render Extracted Links and Fetched Links Content as Tabs
-        if ((data.extracted_links && data.extracted_links.length > 0) || 
-            (data.fetched_links_content && data.fetched_links_content.length > 0)) {
-            const tabsContainer = document.createElement('div');
-            tabsContainer.classList.add('tabs-container');
-
-            // Create Tabs Header
-            const tabsHeader = document.createElement('div');
-            tabsHeader.classList.add('tabs-header');
-
-            const extractedLinksTab = document.createElement('div');
-            extractedLinksTab.classList.add('tab');
-            extractedLinksTab.textContent = 'Extracted Links';
-            extractedLinksTab.dataset.tab = 'extracted-links';
-            tabsHeader.appendChild(extractedLinksTab);
-
-            if (data.fetched_links_content && data.fetched_links_content.length > 0) {
-                const fetchedLinksTab = document.createElement('div');
-                fetchedLinksTab.classList.add('tab');
-                fetchedLinksTab.textContent = 'Fetched Links Content';
-                fetchedLinksTab.dataset.tab = 'fetched-links-content';
-                tabsHeader.appendChild(fetchedLinksTab);
-            }
-
-            tabsContainer.appendChild(tabsHeader);
-
-            // Create Tabs Content
-            const tabsContent = document.createElement('div');
-            tabsContent.classList.add('tabs-content');
-
-            // Extracted Links Content
-            if (data.extracted_links && data.extracted_links.length > 0) {
-                const extractedLinksContent = document.createElement('div');
-                extractedLinksContent.classList.add('tab-content');
-                extractedLinksContent.id = 'extracted-links';
-
-                const extractedLinksList = document.createElement('ul');
-                extractedLinksList.classList.add('extracted-links-list');
-
-                data.extracted_links.forEach(link => {
-                    const listItem = document.createElement('li');
-
-                    const linkAnchor = document.createElement('a');
-                    linkAnchor.href = link.url;
-                    linkAnchor.target = '_blank';
-                    linkAnchor.textContent = link.url;
-
-                    const descriptionPara = document.createElement('p');
-                    descriptionPara.classList.add('extracted-links-description');
-                    descriptionPara.textContent = link.description;
-
-                    listItem.appendChild(linkAnchor);
-                    listItem.appendChild(descriptionPara);
-                    extractedLinksList.appendChild(listItem);
-                });
-
-                extractedLinksContent.appendChild(extractedLinksList);
-                tabsContent.appendChild(extractedLinksContent);
-            }
-
-            // Fetched Links Content
-            if (data.fetched_links_content && data.fetched_links_content.length > 0) {
-                const fetchedLinksContent = document.createElement('div');
-                fetchedLinksContent.classList.add('tab-content');
-                fetchedLinksContent.id = 'fetched-links-content';
-
-                data.fetched_links_content.forEach(linkContent => {
-                    const fetchedLinkItem = document.createElement('div');
-                    fetchedLinkItem.classList.add('fetched-link-item');
-
-                    const linkTitle = document.createElement('h4');
-                    linkTitle.textContent = linkContent.url;
-                    linkTitle.style.cursor = 'pointer';
-                    linkTitle.addEventListener('click', () => {
-                        // Toggle visibility of content summary and key insights
-                        const details = fetchedLinkItem.querySelector('.fetched-link-details');
-                        if (details.style.display === 'none' || details.style.display === '') {
-                            details.style.display = 'block';
-                        } else {
-                            details.style.display = 'none';
-                        }
-                    });
-
-                    const detailsDiv = document.createElement('div');
-                    detailsDiv.classList.add('fetched-link-details');
-                    detailsDiv.style.display = 'none';
-
-                    const contentSummaryPara = document.createElement('p');
-                    contentSummaryPara.textContent = `Summary: ${linkContent.content_summary}`;
-
-                    const keyInsightsHeader = document.createElement('p');
-                    keyInsightsHeader.textContent = 'Key Insights:';
-
-                    const keyInsightsList = document.createElement('ul');
-                    keyInsightsList.classList.add('key-insights-list');
-
-                    linkContent.key_insights.forEach(insight => {
-                        const insightItem = document.createElement('li');
-                        insightItem.textContent = insight;
-                        keyInsightsList.appendChild(insightItem);
-                    });
-
-                    detailsDiv.appendChild(contentSummaryPara);
-                    detailsDiv.appendChild(keyInsightsHeader);
-                    detailsDiv.appendChild(keyInsightsList);
-
-                    fetchedLinkItem.appendChild(linkTitle);
-                    fetchedLinkItem.appendChild(detailsDiv);
-
-                    fetchedLinksContent.appendChild(fetchedLinkItem);
-                });
-
-                tabsContent.appendChild(fetchedLinksContent);
-            }
-
-            tabsContainer.appendChild(tabsContent);
-            mainContent.appendChild(tabsContainer);
-
-            // Initialize Tabs Functionality
-            initializeTabs(tabsContainer);
-        }
-
-        // Append the report wrapper to the output container
-        outputContainer.appendChild(reportWrapper);
-
-        // Create Download and Copy Buttons
-        const actionButtonsContainer = document.createElement('div');
-        actionButtonsContainer.classList.add('action-buttons');
-
-        const downloadButton = document.createElement('button');
-        downloadButton.classList.add('download-button');
-        downloadButton.textContent = 'Download Report';
-        downloadButton.addEventListener('click', () => {
-            if (typeof downloadWebsiteNavigationReport === 'function') {
-                downloadWebsiteNavigationReport();
-            } else {
-                console.error('Download function not found.');
-            }
-        });
-
-        const copyButton = document.createElement('button');
-        copyButton.classList.add('copy-button');
-        copyButton.textContent = 'Copy to Clipboard';
-        copyButton.addEventListener('click', () => {
-            if (typeof copyWebsiteNavigationReport === 'function') {
-                copyWebsiteNavigationReport();
-            } else {
-                console.error('Copy function not found.');
-            }
-        });
-
-        actionButtonsContainer.appendChild(downloadButton);
-        actionButtonsContainer.appendChild(copyButton);
-
-        // Append action buttons to the output container
-        outputContainer.appendChild(actionButtonsContainer);
-    }
-
-    // Function definitions outside of displayReport
-
-    function generateContentSummary(contentData) {
-        let content = '';
-
-        // Introduction
-        if (contentData.introduction) {
-            content += `
-                <div class="sub-section">
-                    <h3>Introduction</h3>
-                    <p>${contentData.introduction}</p>
-                </div>
-            `;
-        }
-
-        // Main Sections (without titles)
-        if (contentData.main_sections) {
-            for (let key in contentData.main_sections) {
-                if (contentData.main_sections.hasOwnProperty(key)) {
-                    content += `
-                        <div class="sub-section">
-                            <p>${contentData.main_sections[key]}</p>
-                        </div>
-                    `;
-                }
-            }
-        }
-
-        // Key Points
-        if (contentData.key_points && contentData.key_points.length > 0) {
-            content += `
-                <div class="sub-section">
-                    <h3>Key Points</h3>
-                    ${createList(contentData.key_points)}
-                </div>
-            `;
-        }
-
-        return content;
-    }
-
-    function generateSectionContent(sectionData) {
-        let content = '';
-
-        if (typeof sectionData === 'string') {
-            content += `<p>${sectionData}</p>`;
-        } else if (Array.isArray(sectionData)) {
-            content += createList(sectionData);
-        } else if (typeof sectionData === 'object') {
-            for (let key in sectionData) {
-                if (sectionData.hasOwnProperty(key)) {
-                    const title = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-                    let subContent = '';
-
-                    if (typeof sectionData[key] === 'string') {
-                        subContent = `<p>${sectionData[key]}</p>`;
-                    } else if (Array.isArray(sectionData[key])) {
-                        subContent = createList(sectionData[key]);
-                    } else if (typeof sectionData[key] === 'object') {
-                        subContent = generateSectionContent(sectionData[key]);
-                    }
-
-                    content += `
-                        <div class="sub-section">
-                            <h3>${title}</h3>
-                            ${subContent}
-                        </div>
-                    `;
-                }
-            }
-        }
-
-        return content;
-    }
-
-    function generateReferencesContent(referencesData) {
-        let content = '';
-        referencesData.forEach(ref => {
-            content += `
-                <div class="reference-item">
-                    <p><a href="${ref.url}" target="_blank">${ref.url}</a></p>
-                    <p>${ref.description}</p>
-                </div>
-            `;
-        });
-        return content;
-    }
-
-    function createList(items) {
-        return `<ul>${items.map(item => `<li>${item}</li>`).join('')}</ul>`;
-    }
-
-    function initializeTabs(tabsContainer) {
-        const tabsHeader = tabsContainer.querySelector('.tabs-header');
-        const tabs = tabsHeader.querySelectorAll('.tab');
-        const tabContents = tabsContainer.querySelectorAll('.tab-content');
-
-        if (tabs.length === 0) return;
-
-        // Activate the first tab by default
-        tabs[0].classList.add('active');
-        const firstTabContent = tabsContainer.querySelector(`#${tabs[0].dataset.tab}`);
-        if (firstTabContent) {
-            firstTabContent.classList.add('active');
-        }
-
-        // Add click event listeners to tabs
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                // Remove active class from all tabs
-                tabs.forEach(t => t.classList.remove('active'));
-                // Hide all tab contents
-                tabContents.forEach(content => content.classList.remove('active'));
-
-                // Add active class to the clicked tab
-                tab.classList.add('active');
-                // Show the corresponding tab content
-                const activeContent = tabsContainer.querySelector(`#${tab.dataset.tab}`);
-                if (activeContent) {
-                    activeContent.classList.add('active');
-                }
-            });
-        });
-    }
-
-    function showError(message) {
-        outputContainer.innerHTML = `<div class="error-message">${message}</div>`;
-    }
-
-    return {
-        // Expose functions or variables if needed
-    };
-})();
+# Portuguese (Brazil) translations for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-11-29 23:28-0300\n"
+"PO-Revision-Date: 2024-11-29 23:28-0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: pt_BR\n"
+"Language-Team: pt_BR <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: templates/base.html:5
+msgid "🤖 Cool AI Tools - Simple AI for Everyone 🚀"
+msgstr "🤖 Cool AI Tools - IA Simples para Todos 🚀"
+
+#: templates/base.html:24
+msgid "Your browser does not support the video tag."
+msgstr "Seu navegador não suporta a tag de vídeo."
+
+#: templates/base.html:32
+msgid "Logo"
+msgstr "Logo"
+
+#: templates/base.html:35
+msgid "Cool AI Tools"
+msgstr "Cool AI Tools"
+
+#: templates/base.html:37
+msgid "Simple AI Tools for everyone."
+msgstr "Democratizando o Acesso a Inteligência Artificial."
+
+#: templates/base.html:38
+msgid "A step in the open-sourcing mission."
+msgstr ""Morte ao Conceito Falho de Propriedade Intelectual""
+
+#: templates/base.html:50
+msgid "Credits:"
+msgstr "Créditos:"
+
+#: templates/base.html:51
+msgid "Learn More"
+msgstr "Saiba Mais"
+
+#: templates/base.html:57
+msgid "🧐 Fact Checking"
+msgstr "🧐 Verificação de Fatos"
+
+#: templates/base.html:58
+msgid "📚 Topic Research"
+msgstr "📚 Pesquisa de Tópicos"
+
+#: templates/base.html:59
+msgid "🧙 Website Navigation"
+msgstr "🧙 Navegação no Site"
+
+#: templates/base.html:65
+msgid "Fact Checking"
+msgstr "Verificação de Fatos"
+
+#: templates/base.html:70 templates/base.html:71
+msgid "Health benefits of intermittent fasting"
+msgstr "Quais os Benefícios para a saúde do jejum intermitente?"
+
+#: templates/base.html:74 templates/base.html:75
+msgid "Impact of social media on mental health"
+msgstr "Impacto das redes sociais na saúde mental é negativo e mensurável?"
+
+#: templates/base.html:78 templates/base.html:79
+msgid "Is electric car adoption growing rapidly?"
+msgstr "A adoção de carros elétricos está crescendo rapidamente?"
+
+#: templates/base.html:82 templates/base.html:83
+msgid "Do video games improve cognitive skills?"
+msgstr "Os videogames melhoram as habilidades cognitivas?"
+
+#: templates/base.html:89
+msgid "🖊 Enter a claim you need to verify"
+msgstr "🖊 Insira uma afirmação que você precisa verificar"
+
+#: templates/base.html:91 templates/base.html:132 templates/base.html:173
+msgid "🚀 Run Specialized AI Team 🚀"
+msgstr "🚀 Executar Agente Autônomo Especializado 🚀"
+
+#: templates/base.html:101
+msgid "Topic Research"
+msgstr "Pesquisa de Tópicos"
+
+#: templates/base.html:106
+msgid "Machine Learning"
+msgstr "Aprendizado de Máquina"
+
+#: templates/base.html:108
+msgid "Learn about Machine Learning"
+msgstr "Aprenda sobre Aprendizado de Máquina"
+
+#: templates/base.html:111
+msgid "Renewable Energy"
+msgstr "Energia Renovável"
+
+#: templates/base.html:112
+msgid "Latest trends"
+msgstr "Últimas tendências"
+
+#: templates/base.html:113
+msgid "Latest trends in Renewable Energy"
+msgstr "Últimas tendências em Energia Renovável"
+
+#: templates/base.html:116
+msgid "Meditation"
+msgstr "Meditação"
+
+#: templates/base.html:117
+msgid "Beginner's guide"
+msgstr "Guia para iniciantes"
+
+#: templates/base.html:118
+msgid "Beginner's guide to Meditation"
+msgstr "Guia para iniciantes em Meditação"
+
+#: templates/base.html:121
+msgid "Space Exploration"
+msgstr "Exploração Espacial"
+
+#: templates/base.html:122
+msgid "Advancements"
+msgstr "Avanços"
+
+#: templates/base.html:123
+msgid "Advancements in Space Exploration"
+msgstr "Avanços na Exploração Espacial"
+
+#: templates/base.html:129
+msgid "📚 Enter your topic of research"
+msgstr "📚 Insira seu tópico de pesquisa"
+
+#: templates/base.html:130
+msgid "🎯 Focus Area (Optional)"
+msgstr "🎯 Área de Foco (Opcional)"
+
+#: templates/base.html:142
+msgid "Website Navigation"
+msgstr "Navegação no Site"
+
+#: templates/base.html:148
+msgid "Latest Tech News"
+msgstr "Últimas Notícias de Tecnologia"
+
+#: templates/base.html:149
+msgid "Latest Tech News on The Verge"
+msgstr "Últimas Notícias de Tecnologia no The Verge"
+
+#: templates/base.html:153
+msgid "Healthy Recipes"
+msgstr "Receitas Saudáveis"
+
+#: templates/base.html:154
+msgid "Healthy Recipes on Food Network"
+msgstr "Receitas Saudáveis no Food Network"
+
+#: templates/base.html:158
+msgid "Travel Guides"
+msgstr "Guias de Viagem"
+
+#: templates/base.html:159
+msgid "Travel Guides on Lonely Planet"
+msgstr "Guias de Viagem no Lonely Planet"
+
+#: templates/base.html:163
+msgid "Investment Tips"
+msgstr "Dicas de Investimento"
+
+#: templates/base.html:164
+msgid "Investment Tips on Investopedia"
+msgstr "Dicas de Investimento no Investopedia"
+
+#: templates/base.html:170
+msgid "🌐 URL or Domain to Navigate"
+msgstr "🌐 URL ou Domínio para Navegar"
+
+#: templates/base.html:171
+msgid "🎯 Topic of Focus (Optional)"
+msgstr "🎯 Tópico de Foco (Opcional)"
+
+#: templates/base.html:188
+msgid "CrewAI"
+msgstr "CrewAI"
+
+#: templates/base.html:189
+msgid "CrewAI Logo"
+msgstr "Logotipo da CrewAI"
+
+#: templates/base.html:191
+msgid "Jina AI"
+msgstr "Jina AI"
+
+#: templates/base.html:192
+msgid "Jina AI Logo"
+msgstr "Logotipo da Jina AI"
+
+#: templates/base.html:194
+msgid "Send us an Email"
+msgstr "Envie-nos um Email"
+
+#: templates/base.html:195
+msgid "Email Logo"
+msgstr "Logotipo do Email"
+
+#: templates/base.html:197
+msgid "Follow us on LinkedIn"
+msgstr "Siga-nos no LinkedIn"
+
+#: templates/base.html:198
+msgid "LinkedIn Logo"
+msgstr "Logotipo do LinkedIn"
+
+#: templates/base.html:200
+msgid "GitHub"
+msgstr "GitHub"
+
+#: templates/base.html:201
+msgid "GitHub Logo"
+msgstr "Logotipo do GitHub"
+
+#: templates/base.html:207
+msgid "© 2024 Cool AI Tools. All rights reserved."
+msgstr "© 2024 Cool AI Tools. Todos os direitos reservados."
+
+#: templates/base.html: (other lines)
+msgid "Download Report"
+msgstr "Baixar Relatório"
+
+#: templates/base.html: (other lines)
+msgid "Copy to Clipboard"
+msgstr "Copiar para a Área de Transferência"
+
+#: templates/base.html: (other lines)
+msgid "Factuality Score:"
+msgstr "Pontuação de Factualidade:"
+
+#: templates/base.html: (other lines)
+msgid "Strongly Supported"
+msgstr "Fortemente Suportado"
+
+#: templates/base.html: (other lines)
+msgid "Supported"
+msgstr "Suportado"
+
+#: templates/base.html: (other lines)
+msgid "Neutral"
+msgstr "Neutro"
+
+#: templates/base.html: (other lines)
+msgid "Not Supported"
+msgstr "Não Suportado"
+
+#: templates/base.html: (other lines)
+msgid "Reason"
+msgstr "Razão"
+
+#: templates/base.html: (other lines)
+msgid "Conclusion"
+msgstr "Conclusão"
+
+#: templates/base.html: (other lines)
+msgid "References"
+msgstr "Referências"
+
+#: templates/base.html: (other lines)
+msgid "Read Source"
+msgstr "Ler Fonte"
+
+#: templates/base.html: (other lines)
+msgid "All"
+msgstr "Todos"
+
+#: templates/base.html: (other lines)
+msgid "Supportive"
+msgstr "Suportivo"
+
+#: templates/base.html: (other lines)
+msgid "Non-Supportive"
+msgstr "Não Suportivo"
+
+#: templates/base.html: (other lines)
+msgid "Health benefits of intermittent fasting"
+msgstr "Benefícios para a saúde do jejum intermitente"
+
+#: templates/base.html: (other lines)
+msgid "Impact of social media on mental health"
+msgstr "Impacto das mídias sociais na saúde mental"
+
+#: templates/base.html: (other lines)
+msgid "Is electric car adoption growing rapidly?"
+msgstr "A adoção de carros elétricos está crescendo rapidamente?"
+
+#: templates/base.html: (other lines)
+msgid "Do video games improve cognitive skills?"
+msgstr "Os videogames melhoram as habilidades cognitivas?"
+
+#: templates/base.html: (other lines)
+msgid "Learn about Machine Learning"
+msgstr "Aprenda sobre Aprendizado de Máquina"
+
+#: templates/base.html: (other lines)
+msgid "Latest trends in Renewable Energy"
+msgstr "Últimas tendências em Energia Renovável"
+
+#: templates/base.html: (other lines)
+msgid "Beginner's guide to Meditation"
+msgstr "Guia para iniciantes em Meditação"
+
+#: templates/base.html: (other lines)
+msgid "Advancements in Space Exploration"
+msgstr "Avanços na Exploração Espacial"
+
+#: templates/base.html: (other lines)
+msgid "Latest Tech News on The Verge"
+msgstr "Últimas Notícias de Tecnologia no The Verge"
+
+#: templates/base.html: (other lines)
+msgid "Healthy Recipes on Food Network"
+msgstr "Receitas Saudáveis na Food Network"
+
+#: templates/base.html: (other lines)
+msgid "Travel Guides on Lonely Planet"
+msgstr "Guias de Viagem na Lonely Planet"
+
+#: templates/base.html: (other lines)
+msgid "Investment Tips on Investopedia"
+msgstr "Dicas de Investimento na Investopedia"
+
+#: templates/base.html: (other lines)
+msgid "Learn More"
+msgstr "Saiba Mais"
+
+#: templates/base.html: (other lines)
+msgid "Credits"
+msgstr "Créditos"
+
+#: scripts.js: (other lines)
+msgid "Error: Empty claim received."
+msgstr "Erro: Reclamação vazia recebida."
+
+#: scripts.js: (other lines)
+msgid "Error generating thought process."
+msgstr "Erro ao gerar processo de pensamento."
+
+#: scripts.js: (other lines)
+msgid "Error generating report."
+msgstr "Erro ao gerar relatório."
+
+```
+
+## messages.po
+```python
+# English translations for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-11-29 23:28-0300\n"
+"PO-Revision-Date: 2024-11-29 23:28-0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: templates/base.html:5
+msgid "🤖 Cool AI Tools - Simple AI for Everyone 🚀"
+msgstr "🤖 Cool AI Tools - Simple AI for Everyone 🚀"
+
+#: templates/base.html:24
+msgid "Your browser does not support the video tag."
+msgstr "Your browser does not support the video tag."
+
+#: templates/base.html:32
+msgid "Logo"
+msgstr "Logo"
+
+#: templates/base.html:35
+msgid "Cool AI Tools"
+msgstr "Cool AI Tools"
+
+#: templates/base.html:37
+msgid "Simple AI Tools for everyone."
+msgstr "Simple AI Tools for everyone."
+
+#: templates/base.html:38
+msgid "A step in the open-sourcing mission."
+msgstr "A step in the open-sourcing mission."
+
+#: templates/base.html:50
+msgid "Credits:"
+msgstr "Credits:"
+
+#: templates/base.html:51
+msgid "Learn More"
+msgstr "Learn More"
+
+#: templates/base.html:57
+msgid "🧐 Fact Checking"
+msgstr "🧐 Fact Checking"
+
+#: templates/base.html:58
+msgid "📚 Topic Research"
+msgstr "📚 Topic Research"
+
+#: templates/base.html:59
+msgid "🧙 Website Navigation"
+msgstr "🧙 Website Navigation"
+
+#: templates/base.html:65
+msgid "Fact Checking"
+msgstr "Fact Checking"
+
+#: templates/base.html:70 templates/base.html:71
+msgid "Health benefits of intermittent fasting"
+msgstr "Health benefits of intermittent fasting"
+
+#: templates/base.html:74 templates/base.html:75
+msgid "Impact of social media on mental health"
+msgstr "Impact of social media on mental health"
+
+#: templates/base.html:78 templates/base.html:79
+msgid "Is electric car adoption growing rapidly?"
+msgstr "Is electric car adoption growing rapidly?"
+
+#: templates/base.html:82 templates/base.html:83
+msgid "Do video games improve cognitive skills?"
+msgstr "Do video games improve cognitive skills?"
+
+#: templates/base.html:89
+msgid "🖊 Enter a claim you need to verify"
+msgstr "🖊 Enter a claim you need to verify"
+
+#: templates/base.html:91 templates/base.html:132 templates/base.html:173
+msgid "🚀 Run Specialized AI Team 🚀"
+msgstr "🚀 Run Specialized AI Team 🚀"
+
+#: templates/base.html:101
+msgid "Topic Research"
+msgstr "Topic Research"
+
+#: templates/base.html:106
+msgid "Machine Learning"
+msgstr "Machine Learning"
+
+#: templates/base.html:108
+msgid "Learn about Machine Learning"
+msgstr "Learn about Machine Learning"
+
+#: templates/base.html:111
+msgid "Renewable Energy"
+msgstr "Renewable Energy"
+
+#: templates/base.html:112
+msgid "Latest trends"
+msgstr "Latest trends"
+
+#: templates/base.html:113
+msgid "Latest trends in Renewable Energy"
+msgstr "Latest trends in Renewable Energy"
+
+#: templates/base.html:116
+msgid "Meditation"
+msgstr "Meditation"
+
+#: templates/base.html:117
+msgid "Beginner's guide"
+msgstr "Beginner's guide"
+
+#: templates/base.html:118
+msgid "Beginner's guide to Meditation"
+msgstr "Beginner's guide to Meditation"
+
+#: templates/base.html:121
+msgid "Space Exploration"
+msgstr "Space Exploration"
+
+#: templates/base.html:122
+msgid "Advancements"
+msgstr "Advancements"
+
+#: templates/base.html:123
+msgid "Advancements in Space Exploration"
+msgstr "Advancements in Space Exploration"
+
+#: templates/base.html:129
+msgid "📚 Enter your topic of research"
+msgstr "📚 Enter your topic of research"
+
+#: templates/base.html:130
+msgid "🎯 Focus Area (Optional)"
+msgstr "🎯 Focus Area (Optional)"
+
+#: templates/base.html:142
+msgid "Website Navigation"
+msgstr "Website Navigation"
+
+#: templates/base.html:148
+msgid "Latest Tech News"
+msgstr "Latest Tech News"
+
+#: templates/base.html:149
+msgid "Latest Tech News on The Verge"
+msgstr "Latest Tech News on The Verge"
+
+#: templates/base.html:153
+msgid "Healthy Recipes"
+msgstr "Healthy Recipes"
+
+#: templates/base.html:154
+msgid "Healthy Recipes on Food Network"
+msgstr "Healthy Recipes on Food Network"
+
+#: templates/base.html:158
+msgid "Travel Guides"
+msgstr "Travel Guides"
+
+#: templates/base.html:159
+msgid "Travel Guides on Lonely Planet"
+msgstr "Travel Guides on Lonely Planet"
+
+#: templates/base.html:163
+msgid "Investment Tips"
+msgstr "Investment Tips"
+
+#: templates/base.html:164
+msgid "Investment Tips on Investopedia"
+msgstr "Investment Tips on Investopedia"
+
+#: templates/base.html:170
+msgid "🌐 URL or Domain to Navigate"
+msgstr "🌐 URL or Domain to Navigate"
+
+#: templates/base.html:171
+msgid "🎯 Topic of Focus (Optional)"
+msgstr "🎯 Topic of Focus (Optional)"
+
+#: templates/base.html:188
+msgid "CrewAI"
+msgstr "CrewAI"
+
+#: templates/base.html:189
+msgid "CrewAI Logo"
+msgstr "CrewAI Logo"
+
+#: templates/base.html:191
+msgid "Jina AI"
+msgstr "Jina AI"
+
+#: templates/base.html:192
+msgid "Jina AI Logo"
+msgstr "Jina AI Logo"
+
+#: templates/base.html:194
+msgid "Send us an Email"
+msgstr "Send us an Email"
+
+#: templates/base.html:195
+msgid "Email Logo"
+msgstr "Email Logo"
+
+#: templates/base.html:197
+msgid "Follow us on LinkedIn"
+msgstr "Follow us on LinkedIn"
+
+#: templates/base.html:198
+msgid "LinkedIn Logo"
+msgstr "LinkedIn Logo"
+
+#: templates/base.html:200
+msgid "GitHub"
+msgstr "GitHub"
+
+#: templates/base.html:201
+msgid "GitHub Logo"
+msgstr "GitHub Logo"
+
+#: templates/base.html:207
+msgid "© 2024 Cool AI Tools. All rights reserved."
+msgstr "© 2024 Cool AI Tools. All rights reserved."
+
+#: templates/base.html:200
+msgid "GitHub"
+msgstr "GitHub"
+
+#: templates/base.html:201
+msgid "GitHub Logo"
+msgstr "GitHub Logo"
+
+#: templates/base.html:207
+msgid "© 2024 Cool AI Tools. All rights reserved."
+msgstr "© 2024 Cool AI Tools. All rights reserved."
+
+#: templates/base.html: (other lines)
+msgid "Download Report"
+msgstr "Download Report"
+
+#: templates/base.html: (other lines)
+msgid "Copy to Clipboard"
+msgstr "Copy to Clipboard"
+
+#: templates/base.html: (other lines)
+msgid "Factuality Score:"
+msgstr "Factuality Score:"
+
+#: templates/base.html: (other lines)
+msgid "Strongly Supported"
+msgstr "Strongly Supported"
+
+#: templates/base.html: (other lines)
+msgid "Supported"
+msgstr "Supported"
+
+#: templates/base.html: (other lines)
+msgid "Neutral"
+msgstr "Neutral"
+
+#: templates/base.html: (other lines)
+msgid "Not Supported"
+msgstr "Not Supported"
+
+#: templates/base.html: (other lines)
+msgid "Reason"
+msgstr "Reason"
+
+#: templates/base.html: (other lines)
+msgid "Conclusion"
+msgstr "Conclusion"
+
+#: templates/base.html: (other lines)
+msgid "References"
+msgstr "References"
+
+#: templates/base.html: (other lines)
+msgid "Read Source"
+msgstr "Read Source"
+
+#: templates/base.html: (other lines)
+msgid "All"
+msgstr "All"
+
+#: templates/base.html: (other lines)
+msgid "Supportive"
+msgstr "Supportive"
+
+#: templates/base.html: (other lines)
+msgid "Non-Supportive"
+msgstr "Non-Supportive"
+
+#: templates/base.html: (other lines)
+msgid "Health benefits of intermittent fasting"
+msgstr "Health benefits of intermittent fasting"
+
+#: templates/base.html: (other lines)
+msgid "Impact of social media on mental health"
+msgstr "Impact of social media on mental health"
+
+#: templates/base.html: (other lines)
+msgid "Is electric car adoption growing rapidly?"
+msgstr "Is electric car adoption growing rapidly?"
+
+#: templates/base.html: (other lines)
+msgid "Do video games improve cognitive skills?"
+msgstr "Do video games improve cognitive skills?"
+
+#: templates/base.html: (other lines)
+msgid "Learn about Machine Learning"
+msgstr "Learn about Machine Learning"
+
+#: templates/base.html: (other lines)
+msgid "Latest trends in Renewable Energy"
+msgstr "Latest trends in Renewable Energy"
+
+#: templates/base.html: (other lines)
+msgid "Beginner's guide to Meditation"
+msgstr "Beginner's guide to Meditation"
+
+#: templates/base.html: (other lines)
+msgid "Advancements in Space Exploration"
+msgstr "Advancements in Space Exploration"
+
+#: templates/base.html: (other lines)
+msgid "Latest Tech News on The Verge"
+msgstr "Latest Tech News on The Verge"
+
+#: templates/base.html: (other lines)
+msgid "Healthy Recipes on Food Network"
+msgstr "Healthy Recipes on Food Network"
+
+#: templates/base.html: (other lines)
+msgid "Travel Guides on Lonely Planet"
+msgstr "Travel Guides on Lonely Planet"
+
+#: templates/base.html: (other lines)
+msgid "Investment Tips on Investopedia"
+msgstr "Investment Tips on Investopedia"
+
+#: templates/base.html: (other lines)
+msgid "Learn More"
+msgstr "Learn More"
+
+#: templates/base.html: (other lines)
+msgid "Credits"
+msgstr "Credits"
+
+#: scripts.js: (other lines)
+msgid "Error: Empty claim received."
+msgstr "Error: Empty claim received."
+
+#: scripts.js: (other lines)
+msgid "Error generating thought process."
+msgstr "Error generating thought process."
+
+#: scripts.js: (other lines)
+msgid "Error generating report."
+msgstr "Error generating report."
 
 ```
 

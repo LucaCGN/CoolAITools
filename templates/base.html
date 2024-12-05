@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+
+
 <html lang="{{ locale }}">
 <head>
     <meta charset="UTF-8">
     <title>{{ _('🤖 Cool AI Tools - Simple AI for Everyone 🚀') }}</title>
-
     <!-- Include Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Raleway:wght@400;500;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
 
@@ -291,7 +292,9 @@
             </div>
         </footer>
     </div> <!-- End of Flex Container Wrapper -->
-
+    <script>
+        window.translations = {{ translations | tojson }};
+    </script>
     <!-- Include External JavaScript -->
     <script src="{{ url_for('static', path='js/loading_cards.js') }}"></script>
     <script src="{{ url_for('static', path='js/scripts.js') }}"></script>

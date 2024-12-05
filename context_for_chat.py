@@ -15,7 +15,7 @@ files = [
     #"routes/verify.py",
     #"routes/topic_research.py",
     #"routes/website_navigation.py",
-    #"main.py",      
+    "main.py",      
     #"static/css/topic_research.css",
     #"static/css/website_navigation.css",
     #"tools/generate_loading.py",
@@ -28,6 +28,9 @@ files = [
     #"static/js/verify_download.js",
     #"static/js/website_navigation_display.js",
     #"static/js/website_navigation_download.js"
+    "translations/pt_BR/LC_MESSAGES/messages.po",
+    "translations/en/LC_MESSAGES/messages.po"
+
 
 ]
 
