@@ -18,6 +18,8 @@ const TopicResearchDisplayModule = (function() {
     // State variable to store JSON data
     window.topicResearchReportData = null;
 
+    const translations = window.translations || {};
+
     runButton.addEventListener('click', handleRunButtonClick);
 
     function handleRunButtonClick() {
@@ -29,12 +31,12 @@ const TopicResearchDisplayModule = (function() {
         const focusInput = document.getElementById('topic_research_focus').value.trim();
 
         if (!topicInput) {
-            alert("Please enter a topic for research.");
+            alert(translations.error_empty_topic || "Please enter a topic for research.");
             return;
         }
 
         transitionState(STATES.PREPARING_CREW);
-        showSpinner("Preparing crew...");
+        showSpinner(translations.preparing_crew || "Preparing crew...");
 
         const language = getCurrentLanguage(); // Get current language
 
@@ -59,7 +61,7 @@ const TopicResearchDisplayModule = (function() {
         })
         .catch(error => {
             console.error('Error:', error);
-            transitionState(STATES.ERROR, "An error occurred while preparing the crew.");
+            transitionState(STATES.ERROR, translations.error_preparing_crew || "An error occurred while preparing the crew.");
         });
     }
 
@@ -95,10 +97,10 @@ const TopicResearchDisplayModule = (function() {
             if (index >= planningTexts.length) {
                 // All cards added, prepare report
                 transitionState(STATES.PREPARING_REPORT);
-                showSpinner("Preparing report...");
+                showSpinner(translations.preparing_report || "Preparing report...");
                 setTimeout(() => {
                     fetchReport();
-                }, 3000); // Reduced delay to 3 seconds
+                }, 3000);
                 return;
             }
 
@@ -116,7 +118,7 @@ const TopicResearchDisplayModule = (function() {
             previousCurrentCard = card;
 
             index++;
-            setTimeout(addNextCard, 3000); // Reduced delay to 3 seconds
+            setTimeout(addNextCard, 3000);
         }
 
         addNextCard();
@@ -161,7 +163,7 @@ const TopicResearchDisplayModule = (function() {
         })
         .catch(error => {
             console.error('Error:', error);
-            transitionState(STATES.ERROR, "An error occurred while preparing the report.");
+            transitionState(STATES.ERROR, translations.error_preparing_report || "An error occurred while preparing the report.");
         });
     }
 
@@ -183,7 +185,7 @@ const TopicResearchDisplayModule = (function() {
 
         const reportTitle = document.createElement('div');
         reportTitle.classList.add('report-title');
-        reportTitle.innerHTML = `<span class="claim-icon">📚</span> ${data.report_title || 'Topic Research Report'}`;
+        reportTitle.innerHTML = `<span class="claim-icon">📚</span> ${data.report_title || translations.report || 'Topic Research Report'}`;
 
         headerLeft.appendChild(reportTitle);
 
@@ -194,10 +196,10 @@ const TopicResearchDisplayModule = (function() {
         // Create Download Button
         const downloadButton = document.createElement('button');
         downloadButton.classList.add('download-button');
-        downloadButton.textContent = 'Download';
+        downloadButton.textContent = translations.download || 'Download';
         downloadButton.addEventListener('click', () => {
-            if (typeof downloadReport === 'function') {
-                downloadReport();
+            if (typeof downloadTopicResearchReport === 'function') {
+                downloadTopicResearchReport();
             } else {
                 console.error('Download function not found.');
             }
@@ -206,10 +208,10 @@ const TopicResearchDisplayModule = (function() {
         // Create Copy Button
         const copyButton = document.createElement('button');
         copyButton.classList.add('copy-button');
-        copyButton.textContent = 'Copy';
+        copyButton.textContent = translations.copy || 'Copy';
         copyButton.addEventListener('click', () => {
-            if (typeof copyReportToClipboard === 'function') {
-                copyReportToClipboard();
+            if (typeof copyTopicResearchReport === 'function') {
+                copyTopicResearchReport();
             } else {
                 console.error('Copy function not found.');
             }
@@ -230,10 +232,10 @@ const TopicResearchDisplayModule = (function() {
         summaryCard.classList.add('summary-card');
 
         const summaryTitle = document.createElement('h3');
-        summaryTitle.textContent = "Summary";
+        summaryTitle.textContent = translations.summary || "Summary";
 
         const summaryText = document.createElement('p');
-        summaryText.textContent = data.report_summary || 'No summary available.';
+        summaryText.textContent = data.report_summary || translations.no_summary_available || 'No summary available.';
 
         summaryCard.appendChild(summaryTitle);
         summaryCard.appendChild(summaryText);
@@ -246,10 +248,10 @@ const TopicResearchDisplayModule = (function() {
         tabContainer.classList.add('tab-container');
 
         const tabs = [
-            { name: 'Report Content', key: 'reportContent' },
-            { name: 'Main Sources', key: 'mainSources' },
-            { name: 'Quotes', key: 'quotes' },
-            { name: 'References', key: 'references' }
+            { name: translations.report_content || 'Report Content', key: 'reportContent' },
+            { name: translations.main_sources || 'Main Sources', key: 'mainSources' },
+            { name: translations.quotes || 'Quotes', key: 'quotes' },
+            { name: translations.references || 'References', key: 'references' }
         ];
 
         tabs.forEach((tab, idx) => {
@@ -315,12 +317,12 @@ const TopicResearchDisplayModule = (function() {
 
             const itemPublishedTime = document.createElement('p');
             const publishedDate = new Date(item.published_time);
-            itemPublishedTime.textContent = `Published Time: ${publishedDate.toLocaleDateString()}`;
+            itemPublishedTime.textContent = `${translations.published_time || 'Published Time:'} ${publishedDate.toLocaleDateString()}`;
 
             // Optional: Make Key Points Collapsible
             const collapsibleHeader = document.createElement('div');
             collapsibleHeader.classList.add('collapsible-header');
-            collapsibleHeader.innerHTML = `<span>Key Points</span><span class="toggle-icon">➕</span>`;
+            collapsibleHeader.innerHTML = `<span>${translations.key_points || 'Key Points'}</span><span class="toggle-icon">➕</span>`;
 
             const collapsibleContent = document.createElement('div');
             collapsibleContent.classList.add('collapsible-content');
@@ -389,7 +391,7 @@ const TopicResearchDisplayModule = (function() {
             quoteText.textContent = `"${quoteItem.quote}"`;
 
             const quoteSource = document.createElement('p');
-            quoteSource.textContent = `Source: ${quoteItem.source}`;
+            quoteSource.textContent = `${translations.source || 'Source:'} ${quoteItem.source}`;
 
             quoteDiv.appendChild(quoteText);
             quoteDiv.appendChild(quoteSource);

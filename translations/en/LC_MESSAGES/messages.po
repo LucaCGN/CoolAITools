@@ -324,3 +324,67 @@ msgstr "Download Report"
 #: templates/base.html:27
 msgid "Copy to Clipboard"
 msgstr "Copy to Clipboard"
+
+# New entries:
+msgid "Please enter a URL to navigate."
+msgstr "Please enter a URL to navigate."
+
+msgid "Please enter a topic for research."
+msgstr "Please enter a topic for research."
+
+msgid "Detailed Content Summary"
+msgstr "Detailed Content Summary"
+
+msgid "Detailed Analysis"
+msgstr "Detailed Analysis"
+
+msgid "Extracted Links"
+msgstr "Extracted Links"
+
+msgid "Fetched Links Content"
+msgstr "Fetched Links Content"
+
+msgid "Summary:"
+msgstr "Summary:"
+
+msgid "Key Insights:"
+msgstr "Key Insights:"
+
+msgid "Key Points"
+msgstr "Key Points"
+
+msgid "Introduction"
+msgstr "Introduction"
+
+msgid "Main Sections"
+msgstr "Main Sections"
+
+msgid "Report"
+msgstr "Report"
+
+msgid "Report Content"
+msgstr "Report Content"
+
+msgid "Main Sources"
+msgstr "Main Sources"
+
+msgid "Quotes"
+msgstr "Quotes"
+
+msgid "Summary"
+msgstr "Summary"
+
+msgid "No summary available."
+msgstr "No summary available."
+
+msgid "Download"
+msgstr "Download"
+
+msgid "Copy"
+msgstr "Copy"
+
+msgid "Published Time:"
+msgstr "Published Time:"
+
+msgid "Source:"
+msgstr "Source:"

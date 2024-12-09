@@ -324,3 +324,72 @@ msgstr "Baixar Relatório"
 #: templates/base.html:27
 msgid "Copy to Clipboard"
 msgstr "Copiar para a Área de Transferência"
+
+# Portuguese translations for PROJECT.
+# ...
+
+# Existing entries...
+
+# New entries:
+msgid "Please enter a URL to navigate."
+msgstr "Por favor, insira uma URL para navegar."
+
+msgid "Please enter a topic for research."
+msgstr "Por favor, insira um tópico para pesquisa."
+
+msgid "Detailed Content Summary"
+msgstr "Resumo Detalhado do Conteúdo"
+
+msgid "Detailed Analysis"
+msgstr "Análise Detalhada"
+
+msgid "Extracted Links"
+msgstr "Links Extraídos"
+
+msgid "Fetched Links Content"
+msgstr "Conteúdo dos Links Buscados"
+
+msgid "Summary:"
+msgstr "Resumo:"
+
+msgid "Key Insights:"
+msgstr "Principais Insights:"
+
+msgid "Key Points"
+msgstr "Pontos Principais"
+
+msgid "Introduction"
+msgstr "Introdução"
+
+msgid "Main Sections"
+msgstr "Seções Principais"
+
+msgid "Report"
+msgstr "Relatório"
+
+msgid "Report Content"
+msgstr "Conteúdo do Relatório"
+
+msgid "Main Sources"
+msgstr "Fontes Principais"
+
+msgid "Quotes"
+msgstr "Citações"
+
+msgid "Summary"
+msgstr "Resumo"
+
+msgid "No summary available."
+msgstr "Nenhum resumo disponível."
+
+msgid "Download"
+msgstr "Baixar"
+
+msgid "Copy"
+msgstr "Copiar"
+
+msgid "Published Time:"
+msgstr "Data de Publicação:"
+
+msgid "Source:"
+msgstr "Fonte:"

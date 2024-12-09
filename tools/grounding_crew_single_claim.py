@@ -105,7 +105,7 @@ def main():
             "Include all main references you consult that are pertinent to the claim. "
             "Incorporate a tool usage step when verifying the claim and conclude with a JSON report containing 'summary', 'details', 'conclusion', and 'references'. "
             "Ensure the report is thorough to meet the expectations of users from any academic field. Include as many references as you can find that are relevant. "
-            "LANGUAGE SETTING FOR JSON OUTPUT: All the report fields names should be in English and their content must be explicitly in {language}."
+            "LANGUAGE SETTING FOR JSON OUTPUT: All the report fields names should be in English and their content must be explicitly in {language}. IF PT, ALL FIELDS CONTENT MUST BE IN PORTUGUESE"
         ),
         expected_output=(
             "{{\n"

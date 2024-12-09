@@ -63,9 +63,12 @@ async def website_navigation_planning(request: Request):
         logger.warning(f"Unsupported language '{language_input}'. Falling back to English.")
         language = 'en'
 
-    if not url or not topic:
-        logger.error("Empty URL or topic received.")
-        return JSONResponse({"error": "Error: Both 'url' and 'topic' must be provided."})
+    if not url:
+        logger.error("Empty URL received.")
+        return JSONResponse({"error": "Error: 'url' must be provided."})
+
+    if not topic:
+        logger.warning("Empty topic received; proceeding without topic.")
 
     try:
         thought_process_response: ThoughtProcessResponse = generate_thinking_process_prompts_read(url, topic, language=language)
@@ -95,9 +98,12 @@ async def website_navigation_report(request: Request):
         logger.warning(f"Unsupported language '{language_input}'. Falling back to English.")
         language = 'en'
 
-    if not url or not topic:
-        logger.error("Empty URL or topic received.")
-        return JSONResponse({"error": "Error: Both 'url' and 'topic' must be provided."})
+    if not url:
+        logger.error("Empty URL received.")
+        return JSONResponse({"error": "Error: 'url' must be provided."})
+
+    if not topic:
+        logger.warning("Empty topic received; proceeding without topic.")
 
     try:
         # Prepare the subprocess environment
@@ -119,13 +125,16 @@ async def website_navigation_report(request: Request):
                     script_path,
                     '--url', url,
                     '--topic', topic,
-                    '--language', language  # Added language parameter
+                    '--language', language  # Pass the language parameter
                 ],
                 capture_output=True,
                 text=True,
                 encoding='utf-8',  # Specify the encoding
                 env=env
             )
+            if result.returncode != 0:
+                logger.error(f"Subprocess error: {result.stderr}")
+                raise subprocess.CalledProcessError(result.returncode, result.args, output=result.stdout, stderr=result.stderr)
             return result.stdout
 
         # Use ThreadPoolExecutor to run the blocking subprocess call
@@ -156,6 +165,9 @@ async def website_navigation_report(request: Request):
         else:
             logger.error("No JSON output found after '## Final Answer'.")
             return JSONResponse({"error": "Error: No JSON output found after '## Final Answer'."})
+    except subprocess.CalledProcessError as e:
+        logger.exception("Subprocess failed:")
+        return JSONResponse({"error": f"Subprocess failed with error: {e.stderr.strip()}"})
     except Exception as e:
         logger.exception("Error in website navigation report process:")
         return JSONResponse({"error": f"Error: {str(e)}"})

@@ -8,11 +8,6 @@ from pydantic import BaseModel, Field
 import logging
 from typing import List, Dict, Any, Optional
 
-# ==========================
-# Environment Setup
-# ==========================
-
-
 # Configure Logging to a file to prevent cluttering stdout
 logging.basicConfig(
     filename='logs/search_crew_log.txt',
@@ -25,12 +20,9 @@ logger = logging.getLogger(__name__)
 # ==========================
 # Tool Definitions
 # ==========================
-
-# Define an argument schema for the Jina Search Tool
 class JinaSearchToolArgs(BaseModel):
     topic: str = Field(..., description="The topic to search for.")
 
-# Define the Jina Search Tool with proper input validation
 class JinaSearchTool(BaseTool):
     name: str = "jina_search_tool"
     description: str = "Searches content related to a topic using the Jina Search API."
@@ -56,8 +48,6 @@ class JinaSearchTool(BaseTool):
 # ==========================
 # JSON Schema Definition
 # ==========================
-
-# Define the schema for the comprehensive search report
 class SearchReportOutput(BaseModel):
     topic: str = Field(..., description="The topic that was searched.")
     report_title: str = Field(..., description="The title of the search report.")
@@ -112,7 +102,7 @@ class SearchReportOutput(BaseModel):
     )
 
     class Config:
-        json_schema_extra = {  # Updated from schema_extra to json_schema_extra
+        json_schema_extra = {
             "example": {
                 "topic": "Your topic here",
                 "report_title": "Your report title here",
@@ -155,9 +145,7 @@ class SearchReportOutput(BaseModel):
 # ==========================
 # Agent Definitions
 # ==========================
-
-# Define the search agent
-def create_search_agent(jina_search_tool: JinaSearchTool) -> Agent:
+def create_search_agent(jina_search_tool: JinaSearchTool, language: str) -> Agent:
     return Agent(
         name="Search Agent",
         role="Performs searches on a given topic using the Jina Search Tool.",
@@ -174,27 +162,23 @@ def create_search_agent(jina_search_tool: JinaSearchTool) -> Agent:
         tools=[jina_search_tool],
         model="gpt-4-mini",  # Adjust the model as needed
         verbose=True,
+        language=language  # Set the agent's language
     )
 
 # ==========================
 # Task Definition
 # ==========================
-
-# Define a Pydantic model for the task input
-class SearchTaskInput(BaseModel):
-    topic: str = Field(..., description="The topic to search for.")
-
-# Define the search task with the JSON schema as expected_output
-def create_search_task(search_agent: Agent, SearchReportOutput: BaseModel) -> Task:
+def create_search_task(search_agent: Agent, SearchReportOutput: BaseModel, topic: str, focus: str, language: str) -> Task:
     return Task(
         name="Search Task",
         description=(
-            "Conduct a thorough search on the topic: {topic} using the Jina Search Tool. "
+            "Conduct a thorough search on the topic: {topic} with focus on {focus} using the Jina Search Tool. "
             "Generate an exhaustive JSON report that includes the following components: report title, detailed report content, comprehensive report summary, main sources, relevant quotes, and thorough references. "
             "EXTREMELY IMPORTANT: Ensure that the report content is divided into 10 to 30 well-defined sections for each category (e.g., Introduction, Methodology, Findings, Conclusion, etc.). "
             "Each category must include at least 10 items, such as references, quotes, main sources, and content items, to provide a robust and detailed analysis. "
-            "EXTREMELY IMPORTANT: Absolutely do not enclose the final answer JSON in ´´´json and ´´´"
-        ),
+            "EXTREMELY IMPORTANT: Absolutely do not enclose the final answer JSON in ```json and ``` or any code blocks. "
+            "LANGUAGE SETTING FOR JSON OUTPUT: All the report fields names should be in English and their content must be explicitly in {language}. IF PT, ALL FIELDS CONTENT MUST BE IN PORTUGUESE"
+        ).format(topic=topic, focus=focus, language=language),
         expected_output=(
             "{{\n"
             '  "topic": "string",\n'
@@ -237,14 +221,17 @@ def create_search_task(search_agent: Agent, SearchReportOutput: BaseModel) -> Ta
 # ==========================
 # Crew Assembly and Execution
 # ==========================
-
 def main():
     # Parse command-line arguments
     parser = argparse.ArgumentParser(description="Perform a topic-based search and generate a comprehensive JSON report.")
     parser.add_argument('--topic', type=str, required=True, help='The topic to search for.')
+    parser.add_argument('--focus', type=str, help='Optional focus for the search.')
+    parser.add_argument('--language', choices=['en', 'pt', 'es'], default='en', help='Language for the output report (en, pt, or es).')
     args = parser.parse_args()
 
     topic_input = args.topic
+    focus_input = args.focus if args.focus else args.topic  # If focus is empty, set it to topic
+    language = args.language
 
     # Retrieve API keys from environment variables
     JINA_API_KEY = os.getenv("JINA_API_KEY")
@@ -254,28 +241,31 @@ def main():
         logger.error("API keys for JINA_API_KEY and OPENAI_API_KEY must be set as environment variables.")
         sys.exit(1)
 
-    logger.info(f"Starting search task for topic: {topic_input}")
+    logger.info(f"Starting search task for topic: {topic_input} with focus: {focus_input}")
 
     # Instantiate the search tool
     jina_search_tool = JinaSearchTool()
 
     # Define the search agent
-    search_agent = create_search_agent(jina_search_tool)
+    search_agent = create_search_agent(jina_search_tool, language)
 
     # Define the search task
-    search_task = create_search_task(search_agent, SearchReportOutput)
+    search_task = create_search_task(search_agent, SearchReportOutput, topic_input, focus_input, language)
 
     # Assemble the Crew
     crew = Crew(
         agents=[search_agent],
         tasks=[search_task],
         verbose=True,
-        output_log_file="search_output_log.txt"
+        output_log_file="search_output_log.txt",
+        language=language
     )
 
     # Define the input for the task
     task_input = {
-        "topic": topic_input
+        "topic": topic_input,
+        "focus": focus_input,
+        "language": language
     }
 
     # Execute the task

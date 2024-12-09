@@ -1,12 +1,11 @@
 import os
 import logging
 import requests
-import argparse  # Added for command-line argument parsing
+import argparse
 from crewai import Agent, Task, Crew, Process
 from crewai_tools import BaseTool
 from pydantic import BaseModel, Field, ValidationError, validator
 from typing import List, Dict, Any, Optional
-
 
 # Configure Logging to a file to prevent cluttering stdout
 logging.basicConfig(
@@ -16,7 +15,6 @@ logging.basicConfig(
     level=logging.INFO
 )
 logger = logging.getLogger(__name__)
-
 
 # ==========================
 # Tool Definitions
@@ -58,12 +56,9 @@ class JinaReaderTool(BaseTool):
 # Instantiate the tool
 jina_reader_tool = JinaReaderTool()
 
-
-
 # ==========================
 # JSON Schema Definition
 # ==========================
-
 class Section(BaseModel):
     title: str = Field(..., description="The title of the section.")
     content: str = Field(..., description="The content of the section.")
@@ -86,14 +81,10 @@ class ExtractedLink(BaseModel):
     url: str = Field(..., description="The URL of the extracted link.")
     description: str = Field(..., description="A description of the extracted link's content.")
 
-
-
 class FetchedLinkContent(BaseModel):
     url: str = Field(..., description="The URL of the fetched link.")
     content_summary: str = Field(..., description="A detailed summary of the fetched link's content.")
     key_insights: List[str] = Field(..., description="Key insights derived from the fetched link.")
-
-
 
 class DetailedAnalysis(BaseModel):
     thematic_analysis: Optional[str] = Field(None, description="In-depth thematic analysis of the content.")
@@ -174,7 +165,7 @@ class WebScrapingReportOutput(BaseModel):
                     {
                         "url": "https://example.com/related-page",
                         "content_summary": "Comprehensive summary of the related page's content.",
-                        "key_insights": ["Insight 1: Detail about insight.", "Insight 2: Another detail.","Insight N: Another detail., as Much as need to fully capture main concepts"]
+                        "key_insights": ["Insight 1: Detail about insight.", "Insight 2: Another detail.", "Insight N: Another detail."]
                     }
                 ],
                 "detailed_analysis": {
@@ -186,7 +177,7 @@ class WebScrapingReportOutput(BaseModel):
                     "main_findings": "Summary of key findings derived from the analysis.",
                     "actionable_insights": ["Actionable Insight 1.", "Actionable Insight 2.", "Actionable Insight 3.", "Actionable Insight 4."]
                 },
-                "related_topics": ["Related Topic 1", "Related Topic 2","Related Topic 3","Related Topic 4","Related Topic 5"],
+                "related_topics": ["Related Topic 1", "Related Topic 2", "Related Topic 3", "Related Topic 4", "Related Topic 5"],
                 "metadata": {
                     "scraped_at": "2024-04-27T12:00:00Z",
                     "source_language": "en",
@@ -200,100 +191,6 @@ class WebScrapingReportOutput(BaseModel):
 DetailedContentSummary.update_forward_refs()
 Section.update_forward_refs()
 Subsection.update_forward_refs()
-
-# ==========================
-# Agent Definitions
-# ==========================
-web_scraper_agent = Agent(
-    role='Web Content Scraper',
-    goal=(
-        "Thoroughly analyze academic content from specified URLs, extracting detailed information and evaluating the relevance of related links. "
-        "Decide judiciously whether to fetch and process these related links to build a comprehensive and well-structured report that meets scholarly standards."
-    ),  # Enhanced Goal
-    backstory=(
-        "You are an AI agent specialized in gathering and analyzing academic web content with precision and depth. "
-        "Your expertise lies in discerning the quality and relevance of information from diverse scholarly sources. "
-        "When encountering additional links, you must critically evaluate their pertinence and decide whether to fetch and analyze them to enrich the overall report. "
-        "Ensure that all findings are well-supported by credible references and contribute meaningfully to the topic under analysis."
-    ),  # Enhanced Backstory
-
-    tools=[jina_reader_tool],
-    verbose=True,
-    memory=True
-)
-
-# ==========================
-# Task Definitions
-# ==========================
-scraping_task = Task(
-    description=(
-        "Thoroughly analyze the content from the provided URL: {url} with a focus on the academic topic: '{topic}'. "
-        "Develop a comprehensive and detailed report that includes an introduction, main sections, key points, and a conclusion. "
-        "Ensure that the report covers all relevant aspects, such as methodology, data sources, and potential biases. "
-        "Identify and evaluate any related links within the main content for their relevance and credibility. "
-        "If deemed pertinent, follow and analyze these links to incorporate additional insights into the report, ensuring they remain within the original domain. "
-        "The final output should be a well-structured JSON report containing 'topic', 'url', 'detailed_content_summary', 'extracted_links', 'fetched_links_content', 'detailed_analysis', 'related_topics', 'metadata', and 'conclusion'. "
-        "detailed_content_summary -> this section in the json should be a summary in terms of concept, but several paragraphs long, data driven when the topic ('{topic}') requests. "
-        "Ensure that the JSON is properly formatted without enclosing it in any code blocks."
-    ),
-    expected_output = (
-        "{{\n"
-        '  "topic": "string",\n'
-        '  "url": "string",\n'
-        '  "detailed_content_summary": {{\n'
-        '    "introduction": "string",\n'
-        '    "main_sections": {{\n'
-        '      "section1": "string",\n'
-        '      "section2": "string",\n'
-        '      "section3": "string"\n'
-        '      "section4": "string"\n'
-        '      "section5": "string"\n'
-        "    }},\n"
-        '    "key_points": ["string"]\n'
-        "  }},\n"
-        '  "extracted_links": [\n'
-        "    {{\n"
-        '      "url": "string",\n'
-        '      "description": "string",\n'
-        "    }}\n"
-        "  ],\n"
-        '  "fetched_links_content": [\n'
-        "    {{\n"
-        '      "url": "string",\n'
-        '      "content_summary": "string",\n'
-        '      "key_insights": ["string"]\n'
-        "    }}\n"
-        "  ],\n"
-        '  "detailed_analysis": {{\n'
-        '    "thematic_analysis": "string",\n'
-        '    "trend_analysis": "string",\n'
-        '    "comparative_analysis": "string",\n'
-        '    "data_sources": "string",\n'
-        '    "data_quality_assessment": "string",\n'        
-        '    "actionable_insights": ["string"]\n'
-        '    "main_findings": ["string"]\n'
-        "  }},\n"
-        '  "related_topics": ["string"],\n'
-        '  "metadata": {\n'
-        '    "key": "value"\n'
-        "  },\n"
-        '  "conclusion": "string"\n'
-        "}}"
-    ).replace("{", "{{").replace("}", "}}"),
-    agent=web_scraper_agent,
-    output_json=WebScrapingReportOutput  # Use the Pydantic model as the output schema
-)
-
-# ==========================
-# Crew Assembly
-# ==========================
-web_scraping_crew = Crew(
-    agents=[web_scraper_agent],
-    tasks=[scraping_task],
-    process=Process.sequential,
-    verbose=True,
-    output_log_file="web_scraping_output_log.txt"
-)
 
 # ==========================
 # Execute the Task
@@ -316,20 +213,124 @@ if __name__ == "__main__":
         required=True,
         help="The URL of the page to scrape (e.g., 'https://www.healthline.com/')."
     )
+    parser.add_argument(
+        "--language",
+        choices=['en', 'pt', 'es'],
+        default='en',
+        help="Language for the output report (en, pt, or es)."
+    )
 
     # Parse the command-line arguments
     args = parser.parse_args()
 
+    # Retrieve language
+    language = args.language
+
     # Define input data for the task based on command-line arguments
     input_data = {
         "topic": args.topic,
-        "url": args.url
+        "url": args.url,
+        "language": language  # Add language to inputs
     }
+
+    # ==========================
+    # Agent Definitions
+    # ==========================
+    web_scraper_agent = Agent(
+        role='Web Content Scraper',
+        goal=(
+            "Thoroughly analyze academic content from specified URLs, extracting detailed information and evaluating the relevance of related links. "
+            "Decide judiciously whether to fetch and process these related links to build a comprehensive and well-structured report that meets scholarly standards."
+        ),  # Enhanced Goal
+        backstory=(
+            "You are an AI agent specialized in gathering and analyzing academic web content with precision and depth. "
+            "Your expertise lies in discerning the quality and relevance of information from diverse scholarly sources. "
+            "When encountering additional links, you must critically evaluate their pertinence and decide whether to fetch and analyze them to enrich the overall report. "
+            "Ensure that all findings are well-supported by credible references and contribute meaningfully to the topic under analysis."
+        ),  # Enhanced Backstory
+        tools=[jina_reader_tool],
+        verbose=True,
+        memory=True,
+        language=language  # Set the agent's language
+    )
+
+    # ==========================
+    # Task Definitions
+    # ==========================
+    scraping_task = Task(
+        description=(
+            "Thoroughly analyze the content from the provided URL: {url} with a focus on the academic topic: '{topic}'. "
+            "Develop a comprehensive and detailed report that includes an introduction, main sections, key points, and a conclusion. "
+            "Ensure that the report covers all relevant aspects, such as methodology, data sources, and potential biases. "
+            "Identify and evaluate any related links within the main content for their relevance and credibility. "
+            "If deemed pertinent, follow and analyze these links to incorporate additional insights into the report, ensuring they remain within the original domain. "
+            "The final output should be a well-structured JSON report containing 'topic', 'url', 'detailed_content_summary', 'extracted_links', 'fetched_links_content', 'detailed_analysis', 'related_topics', 'metadata', and 'conclusion'. "
+            "detailed_content_summary -> this section in the json should be a summary in terms of concept, but several paragraphs long, data driven when the topic ('{topic}') requests. "
+            "Ensure that the JSON is properly formatted without enclosing it in any code blocks. "
+            "LANGUAGE SETTING FOR JSON OUTPUT: All the report fields names should be in English and their content must be explicitly in {language}. IF PT, ALL FIELDS CONTENT MUST BE IN PORTUGUESE"
+        ).format(url=args.url, topic=args.topic, language=language),
+        expected_output=(
+            "{{\n"
+            '  "topic": "string",\n'
+            '  "url": "string",\n'
+            '  "detailed_content_summary": {{\n'
+            '    "introduction": "string",\n'
+            '    "main_sections": {{\n'
+            '      "section1": "string",\n'
+            '      "section2": "string",\n'
+            '      "section3": "string",\n'
+            '      "section4": "string",\n'
+            '      "section5": "string"\n'
+            "    }},\n"
+            '    "key_points": ["string"]\n'
+            "  }},\n"
+            '  "extracted_links": [\n'
+            "    {{\n"
+            '      "url": "string",\n'
+            '      "description": "string"\n'
+            "    }}\n"
+            "  ],\n"
+            '  "fetched_links_content": [\n'
+            "    {{\n"
+            '      "url": "string",\n'
+            '      "content_summary": "string",\n'
+            '      "key_insights": ["string"]\n'
+            "    }}\n"
+            "  ],\n"
+            '  "detailed_analysis": {{\n'
+            '    "thematic_analysis": "string",\n'
+            '    "trend_analysis": "string",\n'
+            '    "comparative_analysis": "string",\n'
+            '    "data_sources": "string",\n'
+            '    "data_quality_assessment": "string",\n'
+            '    "actionable_insights": ["string"],\n'
+            '    "main_findings": ["string"]\n'
+            "  }},\n"
+            '  "related_topics": ["string"],\n'
+            '  "metadata": {{\n'
+            '    "key": "value"\n'
+            "  }},\n"
+            '  "conclusion": "string"\n'
+            "}}"
+        ).replace("{", "{{").replace("}", "}}"),
+        agent=web_scraper_agent,
+        output_json=WebScrapingReportOutput  # Use the Pydantic model as the output schema
+    )
+
+    # ==========================
+    # Crew Assembly
+    # ==========================
+    web_scraping_crew = Crew(
+        agents=[web_scraper_agent],
+        tasks=[scraping_task],
+        process=Process.sequential,
+        verbose=True,
+        output_log_file="web_scraping_output_log.txt",
+        language=language  # Set the crew's language
+    )
 
     # Execute the task
     try:
         output = web_scraping_crew.kickoff(inputs=input_data)
-
-
     except Exception as e:
         logger.error(f"An error occurred during task execution: {e}")

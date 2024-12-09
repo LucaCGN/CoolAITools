@@ -302,9 +302,12 @@ async def get_home(request: Request):
         translations = get_translations(locale)
 
         # Create translations dictionary for frontend
+        # In main.py, within the get_home function
         translations_dict = {
             "preparing_crew": _( "Preparing crew...", translations),
             "error_empty_claim": _( "Please enter a claim to verify.", translations),
+            "error_empty_url": _( "Please enter a URL to navigate.", translations),
+            "error_empty_topic": _( "Please enter a topic for research.", translations),
             "error_preparing_crew": _( "An error occurred while preparing the crew.", translations),
             "error_preparing_report": _( "An error occurred while preparing the report.", translations),
             "preparing_report": _( "Preparing report...", translations),
@@ -322,7 +325,26 @@ async def get_home(request: Request):
             "non_supportive": _( "Non-Supportive", translations),
             "read_source": _( "Read Source", translations),
             "download_report": _( "Download Report", translations),
-            "copy_to_clipboard": _( "Copy to Clipboard", translations ),
+            "copy_to_clipboard": _( "Copy to Clipboard", translations),
+            "detailed_content_summary": _( "Detailed Content Summary", translations),
+            "detailed_analysis": _( "Detailed Analysis", translations),
+            "extracted_links": _( "Extracted Links", translations),
+            "fetched_links_content": _( "Fetched Links Content", translations),
+            "summary_colon": _( "Summary:", translations),
+            "key_insights": _( "Key Insights:", translations),
+            "key_points": _( "Key Points", translations),
+            "introduction": _( "Introduction", translations),
+            "main_sections": _( "Main Sections", translations),
+            "report": _( "Report", translations),
+            "report_content": _( "Report Content", translations),
+            "main_sources": _( "Main Sources", translations),
+            "quotes": _( "Quotes", translations),
+            "summary": _( "Summary", translations),
+            "no_summary_available": _( "No summary available.", translations),
+            "download": _( "Download", translations),
+            "copy": _( "Copy", translations),
+            "published_time": _( "Published Time:", translations),
+            "source": _( "Source:", translations),
             # Add any additional translations used in your frontend here
         }
 

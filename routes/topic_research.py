@@ -26,7 +26,7 @@ LANGUAGE_MAP = {
     'spanish': 'es'
 }
 
-# Supported languages should be defined or imported
+# Supported languages
 SUPPORTED_LANGUAGES = ['en', 'pt', 'es']
 
 def get_locale_from_request(request: Request) -> str:
@@ -83,7 +83,7 @@ async def topic_research_report(request: Request):
     """
     data = await request.json()
     topic = data.get('topic', '').strip()
-    url = data.get('url', '').strip()
+    focus = data.get('focus', '').strip()  # Assuming there is a 'focus' parameter
 
     # Retrieve language from cookie
     language_input = get_locale_from_request(request)
@@ -96,11 +96,7 @@ async def topic_research_report(request: Request):
 
     if not topic:
         logger.error("Empty topic received.")
-        return JSONResponse({"error": "Error: Empty topic received."})
-    
-    if not url:
-        logger.error("Empty URL received.")
-        return JSONResponse({"error": "Error: Empty URL received."})
+        return JSONResponse({"error": "Error: 'topic' must be provided."})
 
     try:
         # Prepare the subprocess environment
@@ -116,19 +112,25 @@ async def topic_research_report(request: Request):
 
         # Define function to run the script using subprocess
         def run_script():
+            command = [
+                sys.executable,
+                script_path,
+                '--topic', topic,
+                '--language', language  # Pass the language parameter
+            ]
+            if focus:
+                command.extend(['--focus', focus])
+            logger.debug(f"Running script with command: {' '.join(command)}")
             result = subprocess.run(
-                [
-                    sys.executable,
-                    script_path,
-                    '--topic', topic,
-                    '--language', language,  # Added language parameter
-                    '--url', url
-                ],
+                command,
                 capture_output=True,
                 text=True,
                 encoding='utf-8',  # Specify the encoding
                 env=env
             )
+            if result.returncode != 0:
+                logger.error(f"Subprocess error: {result.stderr}")
+                raise subprocess.CalledProcessError(result.returncode, result.args, output=result.stdout, stderr=result.stderr)
             return result.stdout
 
         # Use ThreadPoolExecutor to run the blocking subprocess call
@@ -159,8 +161,9 @@ async def topic_research_report(request: Request):
         else:
             logger.error("No JSON output found after '## Final Answer'.")
             return JSONResponse({"error": "Error: No JSON output found after '## Final Answer'."})
+    except subprocess.CalledProcessError as e:
+        logger.exception("Subprocess failed:")
+        return JSONResponse({"error": f"Subprocess failed with error: {e.stderr.strip()}"})
     except Exception as e:
         logger.exception("Error in topic research report process:")
         return JSONResponse({"error": f"Error: {str(e)}"})
-
-# Ensure that `SUPPORTED_LANGUAGES` is defined or imported as shown above.

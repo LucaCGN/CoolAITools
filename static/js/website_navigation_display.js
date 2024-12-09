@@ -18,6 +18,8 @@ const WebsiteNavigationDisplayModule = (function() {
     // State variable to store JSON data
     window.websiteNavigationReportData = null;
 
+    const translations = window.translations || {};
+
     runButton.addEventListener('click', handleRunButtonClick);
 
     function handleRunButtonClick() {
@@ -29,12 +31,12 @@ const WebsiteNavigationDisplayModule = (function() {
         const focusInput = document.getElementById('website_navigation_focus').value.trim();
 
         if (!urlInput) {
-            alert("Please enter a URL to navigate.");
+            alert(translations.error_empty_url || "Please enter a URL to navigate.");
             return;
         }
 
         transitionState(STATES.PREPARING_CREW);
-        showSpinner("Preparing crew...");
+        showSpinner(translations.preparing_crew || "Preparing crew...");
 
         const language = getCurrentLanguage(); // Get current language
 
@@ -59,7 +61,7 @@ const WebsiteNavigationDisplayModule = (function() {
         })
         .catch(error => {
             console.error('Error:', error);
-            transitionState(STATES.ERROR, "An error occurred while preparing the crew.");
+            transitionState(STATES.ERROR, translations.error_preparing_crew || "An error occurred while preparing the crew.");
         });
     }
 
@@ -95,10 +97,10 @@ const WebsiteNavigationDisplayModule = (function() {
             if (index >= planningTexts.length) {
                 // All cards added, prepare report
                 transitionState(STATES.PREPARING_REPORT);
-                showSpinner("Preparing report...");
+                showSpinner(translations.preparing_report || "Preparing report...");
                 setTimeout(() => {
                     fetchReport();
-                }, 3000); // Adjust the delay as needed
+                }, 3000);
                 return;
             }
 
@@ -116,7 +118,7 @@ const WebsiteNavigationDisplayModule = (function() {
             previousCurrentCard = card;
 
             index++;
-            setTimeout(addNextCard, 3000); // Adjust the delay as needed
+            setTimeout(addNextCard, 3000);
         }
 
         addNextCard();
@@ -162,7 +164,7 @@ const WebsiteNavigationDisplayModule = (function() {
         })
         .catch(error => {
             console.error('Error:', error);
-            transitionState(STATES.ERROR, "An error occurred while preparing the report.");
+            transitionState(STATES.ERROR, translations.error_preparing_report || "An error occurred while preparing the report.");
         });
     }
 
@@ -180,7 +182,7 @@ const WebsiteNavigationDisplayModule = (function() {
 
         const topicTitle = document.createElement('h1');
         topicTitle.classList.add('topic-title');
-        topicTitle.textContent = data.topic || 'Report';
+        topicTitle.textContent = data.topic || translations.report || 'Report';
 
         const reportUrl = document.createElement('a');
         reportUrl.href = data.url;
@@ -221,10 +223,10 @@ const WebsiteNavigationDisplayModule = (function() {
 
         // Sections to render
         const sectionsToRender = {
-            'detailed_content_summary': 'Detailed Content Summary',
-            'detailed_analysis': 'Detailed Analysis',
-            'references': 'References',
-            'conclusion': 'Conclusion'
+            'detailed_content_summary': translations.detailed_content_summary || 'Detailed Content Summary',
+            'detailed_analysis': translations.detailed_analysis || 'Detailed Analysis',
+            'references': translations.references || 'References',
+            'conclusion': translations.conclusion || 'Conclusion'
         };
 
         for (let key in sectionsToRender) {
@@ -268,14 +270,14 @@ const WebsiteNavigationDisplayModule = (function() {
 
             const extractedLinksTab = document.createElement('div');
             extractedLinksTab.classList.add('tab');
-            extractedLinksTab.textContent = 'Extracted Links';
+            extractedLinksTab.textContent = translations.extracted_links || 'Extracted Links';
             extractedLinksTab.dataset.tab = 'extracted-links';
             tabsHeader.appendChild(extractedLinksTab);
 
             if (data.fetched_links_content && data.fetched_links_content.length > 0) {
                 const fetchedLinksTab = document.createElement('div');
                 fetchedLinksTab.classList.add('tab');
-                fetchedLinksTab.textContent = 'Fetched Links Content';
+                fetchedLinksTab.textContent = translations.fetched_links_content || 'Fetched Links Content';
                 fetchedLinksTab.dataset.tab = 'fetched-links-content';
                 tabsHeader.appendChild(fetchedLinksTab);
             }
@@ -344,10 +346,10 @@ const WebsiteNavigationDisplayModule = (function() {
                     detailsDiv.style.display = 'none';
 
                     const contentSummaryPara = document.createElement('p');
-                    contentSummaryPara.textContent = `Summary: ${linkContent.content_summary}`;
+                    contentSummaryPara.textContent = `${translations.summary_colon || 'Summary:'} ${linkContent.content_summary}`;
 
                     const keyInsightsHeader = document.createElement('p');
-                    keyInsightsHeader.textContent = 'Key Insights:';
+                    keyInsightsHeader.textContent = translations.key_insights || 'Key Insights:';
 
                     const keyInsightsList = document.createElement('ul');
                     keyInsightsList.classList.add('key-insights-list');
@@ -387,7 +389,7 @@ const WebsiteNavigationDisplayModule = (function() {
 
         const downloadButton = document.createElement('button');
         downloadButton.classList.add('download-button');
-        downloadButton.textContent = 'Download Report';
+        downloadButton.textContent = translations.download_report || 'Download Report';
         downloadButton.addEventListener('click', () => {
             if (typeof downloadWebsiteNavigationReport === 'function') {
                 downloadWebsiteNavigationReport();
@@ -398,7 +400,7 @@ const WebsiteNavigationDisplayModule = (function() {
 
         const copyButton = document.createElement('button');
         copyButton.classList.add('copy-button');
-        copyButton.textContent = 'Copy to Clipboard';
+        copyButton.textContent = translations.copy_to_clipboard || 'Copy to Clipboard';
         copyButton.addEventListener('click', () => {
             if (typeof copyWebsiteNavigationReport === 'function') {
                 copyWebsiteNavigationReport();
@@ -417,8 +419,6 @@ const WebsiteNavigationDisplayModule = (function() {
         initializeCollapsibleSections();
     }
 
-    // Function definitions outside of displayReport
-
     function generateContentSummary(contentData) {
         let content = '';
 
@@ -426,14 +426,16 @@ const WebsiteNavigationDisplayModule = (function() {
         if (contentData.introduction) {
             content += `
                 <div class="sub-section">
-                    <h3>Introduction</h3>
+                    <h3>${translations.introduction || 'Introduction'}</h3>
                     <p>${contentData.introduction}</p>
                 </div>
             `;
         }
 
-        // Main Sections (without titles)
+        // Main Sections
         if (contentData.main_sections) {
+            const mainSectionsTitle = translations.main_sections || 'Main Sections';
+            content += `<h3>${mainSectionsTitle}</h3>`;
             for (let key in contentData.main_sections) {
                 if (contentData.main_sections.hasOwnProperty(key)) {
                     content += `
@@ -449,7 +451,7 @@ const WebsiteNavigationDisplayModule = (function() {
         if (contentData.key_points && contentData.key_points.length > 0) {
             content += `
                 <div class="sub-section">
-                    <h3>Key Points</h3>
+                    <h3>${translations.key_points || 'Key Points'}</h3>
                     ${createList(contentData.key_points)}
                 </div>
             `;
@@ -537,6 +539,26 @@ const WebsiteNavigationDisplayModule = (function() {
                 const activeContent = tabsContainer.querySelector(`#${tab.dataset.tab}`);
                 if (activeContent) {
                     activeContent.classList.add('active');
+                }
+            });
+        });
+    }
+
+    function initializeCollapsibleSections() {
+        const headers = outputContainer.querySelectorAll('.collapsible-header');
+        headers.forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                const toggleIcon = header.querySelector('.toggle-icon');
+
+                if (content.style.maxHeight) {
+                    // Collapse
+                    content.style.maxHeight = null;
+                    toggleIcon.textContent = "➕";
+                } else {
+                    // Expand
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    toggleIcon.textContent = "➖";
                 }
             });
         });
